@@ -1,0 +1,1387 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:ignore="UselessParent"
+    android:orientation="vertical"
+    tools:context=".StockEntryViewData">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold|italic|normal"
+                android:textColor="@color/teal_700"
+                android:textSize="20sp"
+                android:text="DETAILS"
+                android:layout_marginTop="20sp"
+                android:layout_gravity="center"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10sp"
+                android:layout_marginStart="10sp"
+                android:layout_marginEnd="10sp"
+                android:background="@drawable/border_box"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10sp"
+                    android:layout_marginStart="20sp"
+                    android:layout_marginEnd="20sp"
+                    android:layout_marginBottom="5sp">
+                    <TextView
+                        android:layout_width="150sp"
+                        android:layout_height="wrap_content"
+                        android:text="Date : "
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black" />
+                    <TextView
+                        android:id="@+id/dateTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Date : "
+                        android:layout_marginStart="9sp"
+                        android:textSize="15sp"
+                        android:textColor="@color/black"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10sp"
+                    android:layout_marginStart="20sp"
+                    android:layout_marginEnd="20sp"
+                    android:layout_marginBottom="5sp">
+                    <TextView
+                        android:layout_width="150sp"
+                        android:layout_height="wrap_content"
+                        android:text="Supplier Name : "
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black" />
+                    <TextView
+                        android:id="@+id/supplierName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Supplier Name"
+                        android:textSize="15sp"
+                        android:layout_marginStart="9sp"
+                        android:textColor="@color/black"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10sp"
+                    android:layout_marginStart="20sp"
+                    android:layout_marginEnd="20sp"
+                    android:layout_marginBottom="5sp">
+                    <TextView
+                        android:layout_width="150sp"
+                        android:layout_height="wrap_content"
+                        android:text="Supplier Address : "
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:layout_gravity="center"
+                        android:textColor="@color/black" />
+                    <TextView
+                        android:id="@+id/supplierAddress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Supplier Address"
+                        android:layout_marginStart="9sp"
+                        android:textSize="15sp"
+                        android:textColor="@color/black"/>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10sp"
+                    android:layout_marginStart="20sp"
+                    android:layout_marginEnd="20sp"
+                    android:layout_marginBottom="5sp">
+                    <TextView
+                        android:layout_width="150sp"
+                        android:layout_height="wrap_content"
+                        android:text="Store : "
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black" />
+                    <TextView
+                        android:id="@+id/store"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Date : "
+                        android:layout_marginStart="9sp"
+                        android:textSize="15sp"
+                        android:textColor="@color/black"/>
+
+                </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10sp"
+                    android:layout_marginStart="20sp"
+                    android:layout_marginEnd="20sp"
+                    android:layout_marginBottom="5sp">
+                    <TextView
+                        android:layout_width="150sp"
+                        android:layout_height="wrap_content"
+                        android:text="Driver Name : "
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black" />
+                    <TextView
+                        android:id="@+id/driverNameTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Driver Name : "
+                        android:layout_marginStart="9sp"
+                        android:textSize="15sp"
+                        android:textColor="@color/black"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10sp"
+                    android:layout_marginStart="20sp"
+                    android:layout_marginEnd="20sp"
+                    android:layout_marginBottom="5sp">
+                    <TextView
+                        android:layout_width="150sp"
+                        android:layout_height="wrap_content"
+                        android:text="Vehical Details : "
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black" />
+                    <TextView
+                        android:id="@+id/vehicalNameTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Vehical Details : "
+                        android:textSize="15sp"
+                        android:layout_marginStart="9sp"
+                        android:textColor="@color/black"/>
+
+                </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10sp"
+                    android:layout_marginStart="20sp"
+                    android:layout_marginEnd="20sp"
+                    android:layout_marginBottom="5sp">
+                    <TextView
+                        android:layout_width="150sp"
+                        android:layout_height="wrap_content"
+                        android:text="Material Receiver Name : "
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black" />
+                    <TextView
+                        android:id="@+id/materialReceiverNameTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Material Receiver Name : "
+                        android:layout_marginStart="9sp"
+                        android:textSize="15sp"
+                        android:textColor="@color/black"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold|italic|normal"
+                android:textColor="@color/teal_700"
+                android:textSize="20sp"
+                android:text="MATERIAL LIST"
+                android:layout_marginTop="20sp"
+                android:layout_gravity="center"/>
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10sp"
+                android:layout_marginStart="10sp"
+                android:layout_marginEnd="10sp"
+                android:background="@drawable/border_box"
+                android:orientation="vertical">
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <!--Material List Title-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="10sp"
+                                android:layout_marginStart="8sp"
+                                android:layout_marginEnd="10sp"
+                                android:layout_marginBottom="5sp">
+                                <TextView
+                                    android:layout_width="200sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Material"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:layout_width="30sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Unit"
+                                    android:textSize="15sp"
+                                    android:layout_marginStart="10sp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:layout_width="60sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Quantity"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold"
+                                    android:layout_marginStart="10sp"
+                                    android:textColor="@color/black" />
+
+                            </LinearLayout>
+
+
+                            <!--Material List ... -->
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="10sp"
+                                android:layout_marginStart="8sp"
+                                android:layout_marginEnd="10sp"
+                                android:layout_marginBottom="5sp">
+                                <TextView
+                                    android:id="@+id/material1"
+                                    android:layout_width="200sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Material : "
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/unit1"
+                                    android:layout_width="30sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Unit : "
+                                    android:textSize="15sp"
+                                    android:layout_marginStart="10sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/quantity1"
+                                    android:layout_width="60sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Quantity : "
+                                    android:gravity="center"
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="10sp"
+                                android:layout_marginStart="8sp"
+                                android:layout_marginEnd="10sp"
+                                android:layout_marginBottom="5sp">
+                                <TextView
+                                    android:id="@+id/material2"
+                                    android:layout_width="200sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Material : "
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/unit2"
+                                    android:layout_width="30sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Unit : "
+                                    android:textSize="15sp"
+                                    android:layout_marginStart="10sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/quantity2"
+                                    android:layout_width="60sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Quantity : "
+                                    android:gravity="center"
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="10sp"
+                                android:layout_marginStart="8sp"
+                                android:layout_marginEnd="10sp"
+                                android:layout_marginBottom="5sp">
+                                <TextView
+                                    android:id="@+id/material3"
+                                    android:layout_width="200sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Material : "
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/unit3"
+                                    android:layout_width="30sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Unit : "
+                                    android:textSize="15sp"
+                                    android:layout_marginStart="10sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/quantity3"
+                                    android:layout_width="60sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Quantity : "
+                                    android:gravity="center"
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="10sp"
+                                android:layout_marginStart="8sp"
+                                android:layout_marginEnd="10sp"
+                                android:layout_marginBottom="5sp">
+                                <TextView
+                                    android:id="@+id/material4"
+                                    android:layout_width="200sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Material : "
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/unit4"
+                                    android:layout_width="30sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Unit : "
+                                    android:textSize="15sp"
+                                    android:layout_marginStart="10sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/quantity4"
+                                    android:layout_width="60sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Quantity : "
+                                    android:gravity="center"
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="10sp"
+                                android:layout_marginStart="8sp"
+                                android:layout_marginEnd="10sp"
+                                android:layout_marginBottom="5sp">
+                                <TextView
+                                    android:id="@+id/material5"
+                                    android:layout_width="200sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Material : "
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/unit5"
+                                    android:layout_width="30sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Unit : "
+
+                                    android:textSize="15sp"
+                                    android:layout_marginStart="10sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/quantity5"
+                                    android:layout_width="60sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Quantity : "
+                                    android:gravity="center"
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="10sp"
+                                android:layout_marginStart="8sp"
+                                android:layout_marginEnd="10sp"
+                                android:layout_marginBottom="5sp">
+                                <TextView
+                                    android:id="@+id/material6"
+                                    android:layout_width="200sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Material : "
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/unit6"
+                                    android:layout_width="30sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Unit : "
+                                    android:textSize="15sp"
+                                    android:layout_marginStart="10sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/quantity6"
+                                    android:layout_width="60sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Quantity : "
+                                    android:gravity="center"
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="10sp"
+                                android:layout_marginStart="8sp"
+                                android:layout_marginEnd="10sp"
+                                android:layout_marginBottom="5sp">
+                                <TextView
+                                    android:id="@+id/material7"
+                                    android:layout_width="200sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Material : "
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/unit7"
+                                    android:layout_width="30sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Unit : "
+                                    android:textSize="15sp"
+                                    android:layout_marginStart="10sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/quantity7"
+                                    android:layout_width="60sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Quantity : "
+                                    android:gravity="center"
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="10sp"
+                                android:layout_marginStart="8sp"
+                                android:layout_marginEnd="10sp"
+                                android:layout_marginBottom="5sp">
+                                <TextView
+                                    android:id="@+id/material8"
+                                    android:layout_width="200sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Material : "
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/unit8"
+                                    android:layout_width="30sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Unit : "
+                                    android:textSize="15sp"
+                                    android:layout_marginStart="10sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/quantity8"
+                                    android:layout_width="60sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Quantity : "
+                                    android:gravity="center"
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="10sp"
+                                android:layout_marginStart="8sp"
+                                android:layout_marginEnd="10sp"
+                                android:layout_marginBottom="5sp">
+                                <TextView
+                                    android:id="@+id/material9"
+                                    android:layout_width="200sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Material : "
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/unit9"
+                                    android:layout_width="30sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Unit : "
+                                    android:textSize="15sp"
+                                    android:layout_marginStart="10sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/quantity9"
+                                    android:layout_width="60sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Quantity : "
+                                    android:gravity="center"
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="10sp"
+                                android:layout_marginStart="8sp"
+                                android:layout_marginEnd="10sp"
+                                android:layout_marginBottom="5sp">
+                                <TextView
+                                    android:id="@+id/material10"
+                                    android:layout_width="200sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Material : "
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/unit10"
+                                    android:layout_width="30sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Unit : "
+
+                                    android:textSize="15sp"
+                                    android:layout_marginStart="10sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/quantity10"
+                                    android:layout_width="60sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Quantity : "
+                                    android:gravity="center"
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                            </LinearLayout>
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="10sp"
+                                android:layout_marginStart="8sp"
+                                android:layout_marginEnd="10sp"
+                                android:layout_marginBottom="5sp">
+                                <TextView
+                                    android:id="@+id/material11"
+                                    android:layout_width="200sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Material : "
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/unit11"
+                                    android:layout_width="30sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Unit : "
+                                    android:textSize="15sp"
+                                    android:layout_marginStart="10sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/quantity11t"
+                                    android:layout_width="60sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Quantity : "
+                                    android:gravity="center"
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="10sp"
+                                android:layout_marginStart="8sp"
+                                android:layout_marginEnd="10sp"
+                                android:layout_marginBottom="5sp">
+                                <TextView
+                                    android:id="@+id/material12"
+                                    android:layout_width="200sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Material : "
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/unit12"
+                                    android:layout_width="30sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Unit : "
+                                    android:textSize="15sp"
+                                    android:layout_marginStart="10sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/quantity12"
+                                    android:layout_width="60sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Quantity : "
+                                    android:gravity="center"
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="10sp"
+                                android:layout_marginStart="8sp"
+                                android:layout_marginEnd="10sp"
+                                android:layout_marginBottom="5sp">
+                                <TextView
+                                    android:id="@+id/material13"
+                                    android:layout_width="200sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Material : "
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/unit13"
+                                    android:layout_width="30sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Unit : "
+                                    android:textSize="15sp"
+                                    android:layout_marginStart="10sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/quantity13"
+                                    android:layout_width="60sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Quantity : "
+                                    android:gravity="center"
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="10sp"
+                                android:layout_marginStart="8sp"
+                                android:layout_marginEnd="10sp"
+                                android:layout_marginBottom="5sp">
+                                <TextView
+                                    android:id="@+id/material14"
+                                    android:layout_width="200sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Material : "
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/unit14"
+                                    android:layout_width="30sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Unit : "
+                                    android:textSize="15sp"
+                                    android:layout_marginStart="10sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/quantity14"
+                                    android:layout_width="60sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Quantity : "
+                                    android:gravity="center"
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="10sp"
+                                android:layout_marginStart="8sp"
+                                android:layout_marginEnd="10sp"
+                                android:layout_marginBottom="5sp">
+                                <TextView
+                                    android:id="@+id/material15"
+                                    android:layout_width="200sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Material : "
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/unit15"
+                                    android:layout_width="30sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Unit : "
+
+                                    android:textSize="15sp"
+                                    android:layout_marginStart="10sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/quantity15"
+                                    android:layout_width="60sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Quantity : "
+                                    android:gravity="center"
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="10sp"
+                                android:layout_marginStart="8sp"
+                                android:layout_marginEnd="10sp"
+                                android:layout_marginBottom="5sp">
+                                <TextView
+                                    android:id="@+id/material16"
+                                    android:layout_width="200sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Material : "
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/unit16"
+                                    android:layout_width="30sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Unit : "
+                                    android:textSize="15sp"
+                                    android:layout_marginStart="10sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/quantity16"
+                                    android:layout_width="60sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Quantity : "
+                                    android:gravity="center"
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="10sp"
+                                android:layout_marginStart="8sp"
+                                android:layout_marginEnd="10sp"
+                                android:layout_marginBottom="5sp">
+                                <TextView
+                                    android:id="@+id/material17"
+                                    android:layout_width="200sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Material : "
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/unit17"
+                                    android:layout_width="30sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Unit : "
+                                    android:textSize="15sp"
+                                    android:layout_marginStart="10sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/quantity17"
+                                    android:layout_width="60sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Quantity : "
+                                    android:gravity="center"
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="10sp"
+                                android:layout_marginStart="8sp"
+                                android:layout_marginEnd="10sp"
+                                android:layout_marginBottom="5sp">
+                                <TextView
+                                    android:id="@+id/material18"
+                                    android:layout_width="200sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Material : "
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/unit18"
+                                    android:layout_width="30sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Unit : "
+                                    android:textSize="15sp"
+                                    android:layout_marginStart="10sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/quantity18"
+                                    android:layout_width="60sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Quantity : "
+                                    android:gravity="center"
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="10sp"
+                                android:layout_marginStart="8sp"
+                                android:layout_marginEnd="10sp"
+                                android:layout_marginBottom="5sp">
+                                <TextView
+                                    android:id="@+id/material19"
+                                    android:layout_width="200sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Material : "
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/unit19"
+                                    android:layout_width="30sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Unit : "
+                                    android:textSize="15sp"
+                                    android:layout_marginStart="10sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/quantity19"
+                                    android:layout_width="60sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Quantity : "
+                                    android:gravity="center"
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="10sp"
+                                android:layout_marginStart="8sp"
+                                android:layout_marginEnd="10sp"
+                                android:layout_marginBottom="5sp">
+                                <TextView
+                                    android:id="@+id/material20"
+                                    android:layout_width="200sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Material : "
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/unit20"
+                                    android:layout_width="30sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Unit : "
+
+                                    android:textSize="15sp"
+                                    android:layout_marginStart="10sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/quantity20"
+                                    android:layout_width="60sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Quantity : "
+                                    android:gravity="center"
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                            </LinearLayout>
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="10sp"
+                                android:layout_marginStart="8sp"
+                                android:layout_marginEnd="10sp"
+                                android:layout_marginBottom="5sp">
+                                <TextView
+                                    android:id="@+id/material21"
+                                    android:layout_width="200sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Material : "
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/unit21"
+                                    android:layout_width="30sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Unit : "
+                                    android:textSize="15sp"
+                                    android:layout_marginStart="10sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/quantity21"
+                                    android:layout_width="60sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Quantity : "
+                                    android:gravity="center"
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="10sp"
+                                android:layout_marginStart="8sp"
+                                android:layout_marginEnd="10sp"
+                                android:layout_marginBottom="5sp">
+                                <TextView
+                                    android:id="@+id/material22"
+                                    android:layout_width="200sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Material : "
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/unit22"
+                                    android:layout_width="30sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Unit : "
+                                    android:textSize="15sp"
+                                    android:layout_marginStart="10sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/quantity22"
+                                    android:layout_width="60sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Quantity : "
+                                    android:gravity="center"
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="10sp"
+                                android:layout_marginStart="8sp"
+                                android:layout_marginEnd="10sp"
+                                android:layout_marginBottom="5sp">
+                                <TextView
+                                    android:id="@+id/material23"
+                                    android:layout_width="200sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Material : "
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/unit23"
+                                    android:layout_width="30sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Unit : "
+                                    android:textSize="15sp"
+                                    android:layout_marginStart="10sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/quantity23"
+                                    android:layout_width="60sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Quantity : "
+                                    android:gravity="center"
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="10sp"
+                                android:layout_marginStart="8sp"
+                                android:layout_marginEnd="10sp"
+                                android:layout_marginBottom="5sp">
+                                <TextView
+                                    android:id="@+id/material24"
+                                    android:layout_width="200sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Material : "
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/unit24"
+                                    android:layout_width="30sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Unit : "
+                                    android:textSize="15sp"
+                                    android:layout_marginStart="10sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/quantity24"
+                                    android:layout_width="60sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Quantity : "
+                                    android:gravity="center"
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="10sp"
+                                android:layout_marginStart="8sp"
+                                android:layout_marginEnd="10sp"
+                                android:layout_marginBottom="5sp">
+                                <TextView
+                                    android:id="@+id/material25"
+                                    android:layout_width="200sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Material : "
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/unit25"
+                                    android:layout_width="30sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Unit : "
+
+                                    android:textSize="15sp"
+                                    android:layout_marginStart="10sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/quantity25"
+                                    android:layout_width="60sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Quantity : "
+                                    android:gravity="center"
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="10sp"
+                                android:layout_marginStart="8sp"
+                                android:layout_marginEnd="10sp"
+                                android:layout_marginBottom="5sp">
+                                <TextView
+                                    android:id="@+id/material26"
+                                    android:layout_width="200sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Material : "
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/unit26"
+                                    android:layout_width="30sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Unit : "
+                                    android:textSize="15sp"
+                                    android:layout_marginStart="10sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/quantity26"
+                                    android:layout_width="60sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Quantity : "
+                                    android:gravity="center"
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="10sp"
+                                android:layout_marginStart="8sp"
+                                android:layout_marginEnd="10sp"
+                                android:layout_marginBottom="5sp">
+                                <TextView
+                                    android:id="@+id/material27"
+                                    android:layout_width="200sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Material : "
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/unit27"
+                                    android:layout_width="30sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Unit : "
+                                    android:textSize="15sp"
+                                    android:layout_marginStart="10sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/quantity27"
+                                    android:layout_width="60sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Quantity : "
+                                    android:gravity="center"
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="10sp"
+                                android:layout_marginStart="8sp"
+                                android:layout_marginEnd="10sp"
+                                android:layout_marginBottom="5sp">
+                                <TextView
+                                    android:id="@+id/material28"
+                                    android:layout_width="200sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Material : "
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/unit28"
+                                    android:layout_width="30sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Unit : "
+                                    android:textSize="15sp"
+                                    android:layout_marginStart="10sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/quantity28"
+                                    android:layout_width="60sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Quantity : "
+                                    android:gravity="center"
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="10sp"
+                                android:layout_marginStart="8sp"
+                                android:layout_marginEnd="10sp"
+                                android:layout_marginBottom="5sp">
+                                <TextView
+                                    android:id="@+id/material29"
+                                    android:layout_width="200sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Material : "
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/unit29"
+                                    android:layout_width="30sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Unit : "
+                                    android:textSize="15sp"
+                                    android:layout_marginStart="10sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/quantity29"
+                                    android:layout_width="60sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Quantity : "
+                                    android:gravity="center"
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="10sp"
+                                android:layout_marginStart="8sp"
+                                android:layout_marginEnd="10sp"
+                                android:layout_marginBottom="5sp">
+                                <TextView
+                                    android:id="@+id/material30"
+                                    android:layout_width="200sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Material : "
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/unit30"
+                                    android:layout_width="30sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Unit : "
+                                    android:textSize="15sp"
+                                    android:layout_marginStart="10sp"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/quantity30"
+                                    android:layout_width="60sp"
+                                    android:layout_height="wrap_content"
+                                    android:text="Quantity : "
+                                    android:gravity="center"
+                                    android:textSize="15sp"
+                                    android:textColor="@color/black" />
+
+                            </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                </HorizontalScrollView>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

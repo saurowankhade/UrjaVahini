@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".HelpPdf">
+
+    <com.github.barteksc.pdfviewer.PDFView
+        android:id="@+id/pdfView"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20sp"
+        android:layout_marginEnd="20sp"
+        android:layout_marginTop="70sp"
+        android:text="1. Go to file Manager\n
+       \n2. Go to storage\n
+       \n3. Check Download Flooder and open this flooder\n
+       \n4. CheckElectrical Contractors Material WorkBook Flooder and open this flooder\n\n5. In this flooder you can see excel file which is export though UrjaVahini App \n\n"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
+</LinearLayout>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="MissingConstraints"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".Animation">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center">
+
+    <ImageView
+        android:id="@+id/background"
+        android:layout_width="120sp"
+        android:layout_height="120sp"
+        android:background="@drawable/bacground_of_animation" />
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="120sp"
+        android:layout_height="120sp"
+        android:src="@drawable/urjavahinilogo" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/app_name_and_sub_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        tools:ignore="MissingClass">
+
+
+
+
+
+
+        <TextView
+            android:id="@+id/app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20sp"
+            android:text="@string/app_name"
+            android:textColor="@color/purple_700"
+            android:fontFamily="@font/aclonica"
+            android:layout_gravity="center"
+            android:textSize="30sp" />
+        <TextView
+            android:id="@+id/sub_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="20sp"
+            android:layout_marginTop="15sp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:layout_marginEnd="5sp"
+            android:textColor="@color/black"
+            android:layout_marginBottom="10sp"
+            android:text="@string/sub_title"/>
+
+    </LinearLayout>
+
+    </LinearLayout>
+
+    <pl.droidsonroids.gif.GifImageView
+        android:layout_width ="match_parent"
+        android:layout_height="match_parent"
+        android:src="@raw/urjavahini"/>
+
+
+
+
+</LinearLayout>

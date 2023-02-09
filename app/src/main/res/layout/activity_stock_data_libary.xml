@@ -1,0 +1,514 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F4F4E7"
+    android:id="@+id/reload"
+    android:orientation="vertical"
+    tools:context=".StockDataLibary">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30sp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/all"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:id="@+id/supplierLL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="30sp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="200sp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20sp"
+                        android:textColorHint="@color/black"
+                        app:hintTextColor="@color/black"
+                        android:background="@drawable/border_box"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                        android:hint="Supplier">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/supplierName"
+                            android:layout_width="200sp"
+                            android:layout_height="wrap_content"
+                            android:textColorHint="@color/black"
+                            android:textColor="@color/black"
+                            android:background="@drawable/border_box"
+                            android:layout_weight="1"/>
+
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <TextView
+                        android:id="@+id/addSupplier"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border_box"
+                        android:layout_marginStart="12sp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="@color/purple_700"
+                        android:text="Add"/>
+                    <TextView
+                        android:id="@+id/deleteSupplier"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border_box"
+                        android:layout_marginStart="12sp"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:textColor="@color/purple_700"
+                        android:text="Delete"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/addSupplierLL"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="30sp"
+                    android:layout_marginRight="30sp"
+                    android:layout_marginTop="30sp">
+                    <EditText
+                        android:id="@+id/supplierETAdd"
+                        android:layout_width="250sp"
+                        android:layout_height="wrap_content"
+                        android:hint="Supplier Name"
+                        android:textColorHint="@color/black"
+                        android:textColor="@color/black"
+                        android:background="@drawable/border_box"
+                        android:textSize="19sp"
+                        android:layout_marginBottom="20sp"/>
+
+                    <Button
+                        android:id="@+id/supplierBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textColor="@color/black"
+                        android:text="Add"/>
+                    <TextView
+                        android:id="@+id/viewSupplier"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="View"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="@color/purple_700"
+                        android:layout_marginTop="20sp"
+                        android:textSize="17sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/supplierAddressLL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="30sp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="200sp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20sp"
+                        android:textColorHint="@color/black"
+                        app:hintTextColor="@color/black"
+                        android:background="@drawable/border_box"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                        android:hint="Supplier Address">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/supplierAddress"
+                            android:layout_width="200sp"
+                            android:layout_height="wrap_content"
+                            android:textColorHint="@color/black"
+                            android:textColor="@color/black"
+                            android:background="@drawable/border_box"
+                            android:layout_weight="1"/>
+
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <TextView
+                        android:id="@+id/addSupplierAddress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border_box"
+                        android:layout_marginStart="12sp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="@color/purple_700"
+                        android:text="Add"/>
+                    <TextView
+                        android:id="@+id/deleteSupplierAddress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border_box"
+                        android:layout_marginStart="12sp"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:textColor="@color/purple_700"
+                        android:text="Delete"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/addSupplierAddressLL"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="30sp"
+                    android:layout_marginRight="30sp"
+                    android:layout_marginTop="30sp">
+                    <EditText
+                        android:id="@+id/supplierAddressETAdd"
+                        android:layout_width="250sp"
+                        android:layout_height="wrap_content"
+                        android:hint="Supplier Address"
+                        android:textColorHint="@color/black"
+                        android:textColor="@color/black"
+                        android:background="@drawable/border_box"
+                        android:textSize="19sp"
+                        android:layout_marginBottom="20sp"/>
+
+                    <Button
+                        android:id="@+id/supplierAddressBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textColor="@color/black"
+                        android:text="Add"/>
+                    <TextView
+                        android:id="@+id/viewSupplierAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="View"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="@color/purple_700"
+                        android:layout_marginTop="20sp"
+                        android:textSize="17sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/storeLL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="30sp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="200sp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20sp"
+                        android:textColorHint="@color/black"
+                        app:hintTextColor="@color/black"
+                        android:background="@drawable/border_box"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                        android:hint="Store">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/store"
+                            android:layout_width="200sp"
+                            android:layout_height="wrap_content"
+                            android:textColorHint="@color/black"
+                            android:textColor="@color/black"
+                            android:background="@drawable/border_box"
+                            android:layout_weight="1"/>
+
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <TextView
+                        android:id="@+id/addStore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border_box"
+                        android:layout_marginStart="12sp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="@color/purple_700"
+                        android:text="Add"/>
+                    <TextView
+                        android:id="@+id/deleteStore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border_box"
+                        android:layout_marginStart="12sp"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:textColor="@color/purple_700"
+                        android:text="Delete"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/addStoreLL"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="30sp"
+                    android:layout_marginRight="30sp"
+                    android:layout_marginTop="30sp">
+                    <EditText
+                        android:id="@+id/storeETAdd"
+                        android:layout_width="250sp"
+                        android:layout_height="wrap_content"
+                        android:hint="Store"
+                        android:textColorHint="@color/black"
+                        android:textColor="@color/black"
+                        android:background="@drawable/border_box"
+                        android:textSize="19sp"
+                        android:layout_marginBottom="20sp"/>
+
+                    <Button
+                        android:id="@+id/storeBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textColor="@color/black"
+                        android:text="Add"/>
+                    <TextView
+                        android:id="@+id/viewStore"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="View"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="@color/purple_700"
+                        android:layout_marginTop="20sp"
+                        android:textSize="17sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/vehicalLL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="30sp"
+                    tools:ignore="DuplicateIds">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="200sp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20sp"
+                        android:textColorHint="@color/black"
+                        app:hintTextColor="@color/black"
+                        android:background="@drawable/border_box"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                        android:hint="Vehical Details">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/vehical"
+                            android:layout_width="200sp"
+                            android:layout_height="wrap_content"
+                            android:textColorHint="@color/black"
+                            android:textColor="@color/black"
+                            android:background="@drawable/border_box"
+                            android:layout_weight="1"/>
+
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <TextView
+                        android:id="@+id/addVehical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border_box"
+                        android:layout_marginStart="12sp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="@color/purple_700"
+                        android:text="Add"/>
+                    <TextView
+                        android:id="@+id/deleteVehical1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border_box"
+                        android:layout_marginStart="12sp"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:textColor="@color/purple_700"
+                        android:text="Delete"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/addVehicalLL"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="30sp"
+                    android:layout_marginRight="30sp"
+                    android:layout_marginTop="30sp"
+                    tools:ignore="DuplicateIds">
+                    <EditText
+                        android:id="@+id/vehicalETAdd"
+                        android:layout_width="250sp"
+                        android:layout_height="wrap_content"
+                        android:hint="Vehical Details"
+                        android:textColorHint="@color/black"
+                        android:textColor="@color/black"
+                        android:background="@drawable/border_box"
+                        android:textSize="19sp"
+                        android:layout_marginBottom="20sp"/>
+
+                    <Button
+                        android:id="@+id/vehicalBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textColor="@color/black"
+                        android:text="Add"/>
+                    <TextView
+                        android:id="@+id/viewVehical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="View"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="@color/purple_700"
+                        android:layout_marginTop="20sp"
+                        android:textSize="17sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/driverLL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="30sp"
+                    tools:ignore="DuplicateIds">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="200sp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20sp"
+                        android:textColorHint="@color/black"
+                        app:hintTextColor="@color/black"
+                        android:background="@drawable/border_box"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                        android:hint="Driver Name">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/driver"
+                            android:layout_width="200sp"
+                            android:layout_height="wrap_content"
+                            android:textColorHint="@color/black"
+                            android:textColor="@color/black"
+                            android:background="@drawable/border_box"
+                            android:layout_weight="1"/>
+
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <TextView
+                        android:id="@+id/addDriver"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border_box"
+                        android:layout_marginStart="12sp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="@color/purple_700"
+                        android:text="Add"/>
+                    <TextView
+                        android:id="@+id/deleteVehical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border_box"
+                        android:layout_marginStart="12sp"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:textColor="@color/purple_700"
+                        android:text="Delete"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/addDriverLL"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="30sp"
+                    android:layout_marginRight="30sp"
+                    android:layout_marginTop="30sp"
+                    tools:ignore="DuplicateIds">
+                    <EditText
+                        android:id="@+id/driverETAdd"
+                        android:layout_width="250sp"
+                        android:layout_height="wrap_content"
+                        android:hint="Driver Name"
+                        android:textColorHint="@color/black"
+                        android:textColor="@color/black"
+                        android:background="@drawable/border_box"
+                        android:textSize="19sp"
+                        android:layout_marginBottom="20sp"/>
+
+                    <Button
+                        android:id="@+id/driverBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textColor="@color/black"
+                        android:text="Add"/>
+                    <TextView
+                        android:id="@+id/viewDriver"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="View"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="@color/purple_700"
+                        android:layout_marginTop="20sp"
+                        android:textSize="17sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

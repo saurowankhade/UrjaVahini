@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.electricalmaterial.ui.home.AdminHomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_admin_home" >
+    </fragment>
+
+    <activity
+        android:id="@+id/nav_gallery"
+        android:name="com.example.electricalmaterial.Help"
+        android:label="@string/menu_gallery"
+        tools:layout="@layout/activity_help" />
+
+    <activity
+        android:id="@+id/nav_slideshow"
+        android:name="com.example.electricalmaterial.ContactUs"
+        android:label="@string/menu_slideshow"
+        tools:layout="@layout/activity_contact_us" />
+
+    <activity
+        android:id="@+id/nav_share"
+        android:name="com.example.electricalmaterial.Share"
+        android:label="@string/menu_share"
+        tools:layout="@layout/activity_share" />
+
+    <activity
+        android:id="@+id/nav_rate"
+        android:name="com.example.electricalmaterial.RateThisApp"
+        android:label="@string/menu_rateUs"
+        tools:layout="@layout/activity_rate_this_app" />
+
+    <activity
+        android:id="@+id/nav_privacy"
+        android:name="com.example.electricalmaterial.PrivacyPolicy"
+        android:label="@string/menu_Privacy"
+        tools:layout="@layout/activity_privacy_policy" />
+
+</navigation>
