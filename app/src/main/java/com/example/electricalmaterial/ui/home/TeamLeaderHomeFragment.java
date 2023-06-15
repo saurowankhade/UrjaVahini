@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -21,7 +20,6 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
-import com.example.electricalmaterial.BuildConfig;
 import com.example.electricalmaterial.CalculaterInApp;
 import com.example.electricalmaterial.R;
 import com.example.electricalmaterial.SupervisorUsedData;
@@ -107,15 +105,7 @@ public class TeamLeaderHomeFragment extends Fragment {
                     }
                 });
 
-                updateLink.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String appLink = "https://play.google.com/store/apps/details?="+BuildConfig.APPLICATION_ID;
-                        Uri uri = Uri.parse(appLink);
-                        startActivity(new Intent(Intent.ACTION_VIEW,uri));
 
-                    }
-                });
 
             }
         });

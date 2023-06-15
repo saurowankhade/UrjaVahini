@@ -7,7 +7,6 @@ import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -20,7 +19,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.ImageView;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -168,7 +166,9 @@ public class AdminViewMaterial extends AppCompatActivity {
     String [] arr;
     String [] ma;
 
-    SearchView searchView;
+    androidx.appcompat.widget.SearchView searchView;
+
+
 
 
     @SuppressLint("SourceLockedOrientationActivity")
@@ -177,7 +177,7 @@ public class AdminViewMaterial extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_view_material);
 
-        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
@@ -270,7 +270,8 @@ public class AdminViewMaterial extends AppCompatActivity {
 
 
         searchView = findViewById(R.id.searchView);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+        searchView.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 return false;
@@ -278,7 +279,6 @@ public class AdminViewMaterial extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String s) {
-
                 ArrayList<AdminModel> models = new ArrayList<>();
                 for (AdminModel model : modelList){
                     if (model.getDate().toLowerCase().contains(s.toLowerCase())){
@@ -307,9 +307,6 @@ public class AdminViewMaterial extends AppCompatActivity {
                 return true;
             }
         });
-
-
-
 
 
         recycler = findViewById(R.id.recycler);

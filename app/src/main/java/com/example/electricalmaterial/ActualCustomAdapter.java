@@ -16,12 +16,19 @@ import java.util.List;
 public class ActualCustomAdapter extends RecyclerView.Adapter<RemainingMaterialViewHolder>{
 
     ViewActualMaterial adminViewMaterial;
-    List<ReaminingMaterialModel> modelList;
+    List<ActualMaterialModel> modelList;
 
-    public ActualCustomAdapter(ViewActualMaterial adminViewMaterial, List<ReaminingMaterialModel> modelList) {
+    public ActualCustomAdapter(ViewActualMaterial adminViewMaterial, List<ActualMaterialModel> modelList) {
         this.adminViewMaterial = adminViewMaterial;
         this.modelList = modelList;
     }
+
+
+    public ActualCustomAdapter( List<ActualMaterialModel> modelList) {
+        this.modelList = modelList;
+    }
+
+
 
 
     @NonNull
@@ -177,7 +184,9 @@ public class ActualCustomAdapter extends RecyclerView.Adapter<RemainingMaterialV
                 intent.putExtra("Consumer Name",consumerName);
                 intent.putExtra("Site",site);
                 intent.putExtra("Material Receiver Name",materialReceiverName);
-                intent.putExtra("Material1",material1);
+
+                intent.putExtra("Material1", material1);
+
                 intent.putExtra("Unit1",unit1);
                 intent.putExtra("Quantity1",quantity1);
 
@@ -459,7 +468,9 @@ public class ActualCustomAdapter extends RecyclerView.Adapter<RemainingMaterialV
                             intent.putExtra("Consumer Name",consumerName);
                             intent.putExtra("Site",site);
                             intent.putExtra("Material Receiver Name",materialReceiverName);
-                            intent.putExtra("Material1",material1);
+
+                            intent.putExtra("Material1", material1);
+
                             intent.putExtra("Unit1",unit1);
                             intent.putExtra("Quantity1",quantity1);
 
@@ -615,6 +626,9 @@ public class ActualCustomAdapter extends RecyclerView.Adapter<RemainingMaterialV
 
     @Override
     public void onBindViewHolder(@NonNull RemainingMaterialViewHolder viewHolder, int i) {
+
+
+
         viewHolder.mDate.setText(modelList.get(i).getDate());
         viewHolder.mTeamName.setText(modelList.get(i).getTeamName());
         viewHolder.mTender.setText(modelList.get(i).getTender());

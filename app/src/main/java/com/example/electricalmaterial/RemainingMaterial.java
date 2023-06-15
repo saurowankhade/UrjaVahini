@@ -145,6 +145,8 @@ public class RemainingMaterial extends AppCompatActivity {
 
     MaterialButton con;
 
+    String []a;
+
     @SuppressLint({"SourceLockedOrientationActivity", "MissingInflatedId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,6 +182,8 @@ public class RemainingMaterial extends AppCompatActivity {
         mAddBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
 
                 arr = new String[list.size()];
                 AlertDialog.Builder builder = new AlertDialog.Builder(RemainingMaterial.this);

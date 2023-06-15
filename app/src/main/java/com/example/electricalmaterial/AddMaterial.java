@@ -30,6 +30,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -44,6 +45,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
@@ -54,7 +56,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Timer;
 import java.util.UUID;
 
 public class AddMaterial extends AppCompatActivity {
@@ -240,8 +241,7 @@ public class AddMaterial extends AppCompatActivity {
     String material30S,unit30S,quantity30S;
     String centerSet,villageSet;
 
-      Timer time;
-//    ProgressDialog pd;
+
 
     MediaPlayer mediaPlayer;
 
@@ -261,9 +261,53 @@ public class AddMaterial extends AppCompatActivity {
     RecyclerView.LayoutManager layoutManagerKN;
     AdminKgToNoAdapter adapterStockKN;
 
+
+    //Total Material Taken
+    List<AddTotalMaterialTakenModel> modelListTMT = new ArrayList<>();
+    RecyclerView recyclerViewTMT;
+    RecyclerView.LayoutManager layoutManagerTMT;
+    AddTotalMaterialTakenAdapter adapterStockTMT;
+
+
+    //Add Data
+    List<AdminModel> modelListAddData = new ArrayList<>();
+    RecyclerView recycleAddData;
+    RecyclerView.LayoutManager layoutManagerAddData;
+    ShowDataAdminCustomAdapter adapterStockAddData;
+
 //    SwipeRefreshLayout refreshLayout;
 
 
+    int a1 = 0;
+    int a2 = 0;
+    int a3 = 0;
+    int a4 = 0;
+    int a5 = 0;
+    int a6 = 0;
+    int a7 = 0;
+    int a8 = 0;
+    int a9 = 0;
+    int a10 = 0;
+    int a11 = 0;
+    int a12 = 0;
+    int a13 = 0;
+    int a14 = 0;
+    int a15 = 0;
+    int a16 = 0;
+    int a17 = 0;
+    int a18 = 0;
+    int a19 = 0;
+    int a20 = 0;
+    int a21 = 0;
+    int a22 = 0;
+    int a23 = 0;
+    int a24 = 0;
+    int a25 = 0;
+    int a26 = 0;
+    int a27 = 0;
+    int a28 = 0;
+    int a29 = 0;
+    int a30 = 0;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -491,36 +535,56 @@ public class AddMaterial extends AppCompatActivity {
         site = findViewById(R.id.siteName);
         passReceiver = findViewById(R.id.pass);
 
-        DocumentReference documentReference = fStore.collection("Users")
-                .document(userId);
-        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+
+            DocumentReference documentReference = fStore.collection("Users")
+            .document(userId);
+            documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+        @Override
+        public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+
 
                 companyEmail = value.getString("companyEmail");
                 cmp = companyEmail;
-                companyEmail = companyEmail.replace("@","");
-                companyEmail = companyEmail.replace(".","");
+                companyEmail = companyEmail.replace("@", "");
+                companyEmail = companyEmail.replace(".", "");
 
-                //Stock Material
-                recyclerView = findViewById(R.id.recyclerAM);
-                recyclerView.setHasFixedSize(true);
-                layoutManager = new LinearLayoutManager(AddMaterial.this);
-                recyclerView.setLayoutManager(layoutManager);
-                modelList.clear();
-                showData(cmp);
+            //Stock Material
+            recyclerView = findViewById(R.id.recyclerAM);
+            recyclerView.setHasFixedSize(true);
+            layoutManager = new LinearLayoutManager(AddMaterial.this);
+            recyclerView.setLayoutManager(layoutManager);
+            modelList.clear();
+            showData(cmp);
 
-                //Stock Material
-                recyclerViewKN = findViewById(R.id.recyclerKN);
-                recyclerViewKN.setHasFixedSize(true);
-                layoutManagerKN = new LinearLayoutManager(AddMaterial.this);
-                recyclerViewKN.setLayoutManager(layoutManagerKN);
-                modelListKN.clear();
-                showDataKN(cmp);
 
-                ActionBar bar = getSupportActionBar();
-                assert bar != null;
-                bar.setTitle("MATERIAL DELIVERY");
+            //Stock Material
+            recyclerViewTMT = findViewById(R.id.recyclerATMT);
+            recyclerViewTMT.setHasFixedSize(true);
+            layoutManagerTMT = new LinearLayoutManager(AddMaterial.this);
+            recyclerViewTMT.setLayoutManager(layoutManagerTMT);
+            modelListTMT.clear();
+
+
+            //Add Data
+            recycleAddData = findViewById(R.id.recycleAddData);
+            recycleAddData.setHasFixedSize(true);
+            layoutManagerAddData = new LinearLayoutManager(AddMaterial.this);
+            recycleAddData.setLayoutManager(layoutManagerAddData);
+            modelListAddData.clear();
+            showAddData(cmp);
+
+
+            //Stock Material
+            recyclerViewKN = findViewById(R.id.recyclerKN);
+            recyclerViewKN.setHasFixedSize(true);
+            layoutManagerKN = new LinearLayoutManager(AddMaterial.this);
+            recyclerViewKN.setLayoutManager(layoutManagerKN);
+            modelListKN.clear();
+            showDataKN(cmp);
+
+            ActionBar bar = getSupportActionBar();
+            assert bar != null;
+            bar.setTitle("MATERIAL DELIVERY");
 
 //                Finding Error
 //                refreshLayout = findViewById(R.id.refresh);
@@ -533,731 +597,903 @@ public class AddMaterial extends AppCompatActivity {
 //                    }
 //                });
 
-                Bundle bundle = getIntent().getExtras();
+            Bundle bundle = getIntent().getExtras();
 
-                if (bundle!=null){
-                    idS = bundle.getString("Id");
-                    dateS = bundle.getString("Date");
-                    teamNameS = bundle.getString("TeamName");
-                    lineS = bundle.getString("Line");
-                    tenderS = bundle.getString("Tender");
-                    driverNameS = bundle.getString("Driver Name");
-                    vehicalNameS = bundle.getString("Vehical Name");
-                    consumerNameS = bundle.getString("Consumer Name");
-                    siteNameS = bundle.getString("Site");
+            if (bundle != null) {
+                idS = bundle.getString("Id");
+                dateS = bundle.getString("Date");
+                teamNameS = bundle.getString("TeamName");
+                lineS = bundle.getString("Line");
+                tenderS = bundle.getString("Tender");
+                driverNameS = bundle.getString("Driver Name");
+                vehicalNameS = bundle.getString("Vehical Name");
+                consumerNameS = bundle.getString("Consumer Name");
+                siteNameS = bundle.getString("Site");
 
-                    //material
-                    material1S = bundle.getString("Material1");
-                    unit1S = bundle.getString("Unit1");
-                    quantity1S = bundle.getString("Quantity1");
+                //material
+                material1S = bundle.getString("Material1");
+                unit1S = bundle.getString("Unit1");
+                quantity1S = bundle.getString("Quantity1");
 
-                    material2S = bundle.getString("Material2");
-                    unit2S = bundle.getString("Unit2");
-                    quantity2S = bundle.getString("Quantity2");
+                material2S = bundle.getString("Material2");
+                unit2S = bundle.getString("Unit2");
+                quantity2S = bundle.getString("Quantity2");
 
-                    material3S = bundle.getString("Material3");
-                    unit3S = bundle.getString("Unit3");
-                    quantity3S = bundle.getString("Quantity3");
+                material3S = bundle.getString("Material3");
+                unit3S = bundle.getString("Unit3");
+                quantity3S = bundle.getString("Quantity3");
 
-                    material4S = bundle.getString("Material4");
-                    unit4S = bundle.getString("Unit4");
-                    quantity4S = bundle.getString("Quantity4");
+                material4S = bundle.getString("Material4");
+                unit4S = bundle.getString("Unit4");
+                quantity4S = bundle.getString("Quantity4");
 
-                    material5S = bundle.getString("Material5");
-                    unit5S = bundle.getString("Unit5");
-                    quantity5S = bundle.getString("Quantity5");
+                material5S = bundle.getString("Material5");
+                unit5S = bundle.getString("Unit5");
+                quantity5S = bundle.getString("Quantity5");
 
-                    material6S = bundle.getString("Material6");
-                    unit6S = bundle.getString("Unit6");
-                    quantity6S = bundle.getString("Quantity6");
+                material6S = bundle.getString("Material6");
+                unit6S = bundle.getString("Unit6");
+                quantity6S = bundle.getString("Quantity6");
 
-                    material7S = bundle.getString("Material7");
-                    unit7S = bundle.getString("Unit7");
-                    quantity7S = bundle.getString("Quantity7");
+                material7S = bundle.getString("Material7");
+                unit7S = bundle.getString("Unit7");
+                quantity7S = bundle.getString("Quantity7");
 
-                    material8S = bundle.getString("Material8");
-                    unit8S = bundle.getString("Unit8");
-                    quantity8S = bundle.getString("Quantity8");
+                material8S = bundle.getString("Material8");
+                unit8S = bundle.getString("Unit8");
+                quantity8S = bundle.getString("Quantity8");
 
-                    material9S = bundle.getString("Material9");
-                    unit9S = bundle.getString("Unit9");
-                    quantity9S = bundle.getString("Quantity9");
+                material9S = bundle.getString("Material9");
+                unit9S = bundle.getString("Unit9");
+                quantity9S = bundle.getString("Quantity9");
 
-                    material10S = bundle.getString("Material10");
-                    unit10S = bundle.getString("Unit10");
-                    quantity10S = bundle.getString("Quantity10");
+                material10S = bundle.getString("Material10");
+                unit10S = bundle.getString("Unit10");
+                quantity10S = bundle.getString("Quantity10");
 
-                    material11S = bundle.getString("Material11");
-                    unit11S = bundle.getString("Unit11");
-                    quantity11S = bundle.getString("Quantity11");
+                material11S = bundle.getString("Material11");
+                unit11S = bundle.getString("Unit11");
+                quantity11S = bundle.getString("Quantity11");
 
-                    material12S = bundle.getString("Material12");
-                    unit12S = bundle.getString("Unit12");
-                    quantity12S = bundle.getString("Quantity12");
+                material12S = bundle.getString("Material12");
+                unit12S = bundle.getString("Unit12");
+                quantity12S = bundle.getString("Quantity12");
 
-                    material13S = bundle.getString("Material13");
-                    unit13S = bundle.getString("Unit13");
-                    quantity13S = bundle.getString("Quantity13");
+                material13S = bundle.getString("Material13");
+                unit13S = bundle.getString("Unit13");
+                quantity13S = bundle.getString("Quantity13");
 
-                    material14S = bundle.getString("Material14");
-                    unit14S = bundle.getString("Unit14");
-                    quantity14S = bundle.getString("Quantity14");
+                material14S = bundle.getString("Material14");
+                unit14S = bundle.getString("Unit14");
+                quantity14S = bundle.getString("Quantity14");
 
-                    material15S = bundle.getString("Material15");
-                    unit15S = bundle.getString("Unit15");
-                    quantity15S = bundle.getString("Quantity15");
+                material15S = bundle.getString("Material15");
+                unit15S = bundle.getString("Unit15");
+                quantity15S = bundle.getString("Quantity15");
 
-                    material16S = bundle.getString("Material16");
-                    unit16S = bundle.getString("Unit16");
-                    quantity16S = bundle.getString("Quantity16");
+                material16S = bundle.getString("Material16");
+                unit16S = bundle.getString("Unit16");
+                quantity16S = bundle.getString("Quantity16");
 
-                    material17S = bundle.getString("Material17");
-                    unit17S = bundle.getString("Unit17");
-                    quantity17S = bundle.getString("Quantity17");
+                material17S = bundle.getString("Material17");
+                unit17S = bundle.getString("Unit17");
+                quantity17S = bundle.getString("Quantity17");
 
-                    material18S = bundle.getString("Material18");
-                    unit18S = bundle.getString("Unit18");
-                    quantity18S = bundle.getString("Quantity18");
+                material18S = bundle.getString("Material18");
+                unit18S = bundle.getString("Unit18");
+                quantity18S = bundle.getString("Quantity18");
 
-                    material19S = bundle.getString("Material19");
-                    unit19S = bundle.getString("Unit19");
-                    quantity19S = bundle.getString("Quantity19");
+                material19S = bundle.getString("Material19");
+                unit19S = bundle.getString("Unit19");
+                quantity19S = bundle.getString("Quantity19");
 
-                    material20S = bundle.getString("Material20");
-                    unit20S = bundle.getString("Unit20");
-                    quantity20S = bundle.getString("Quantity20");
+                material20S = bundle.getString("Material20");
+                unit20S = bundle.getString("Unit20");
+                quantity20S = bundle.getString("Quantity20");
 
-                    material21S = bundle.getString("Material21");
-                    unit21S = bundle.getString("Unit21");
-                    quantity21S = bundle.getString("Quantity21");
+                material21S = bundle.getString("Material21");
+                unit21S = bundle.getString("Unit21");
+                quantity21S = bundle.getString("Quantity21");
 
-                    material22S = bundle.getString("Material22");
-                    unit22S = bundle.getString("Unit22");
-                    quantity22S = bundle.getString("Quantity22");
+                material22S = bundle.getString("Material22");
+                unit22S = bundle.getString("Unit22");
+                quantity22S = bundle.getString("Quantity22");
 
-                    material23S = bundle.getString("Material23");
-                    unit23S = bundle.getString("Unit23");
-                    quantity23S = bundle.getString("Quantity23");
+                material23S = bundle.getString("Material23");
+                unit23S = bundle.getString("Unit23");
+                quantity23S = bundle.getString("Quantity23");
 
-                    material24S = bundle.getString("Material24");
-                    unit24S = bundle.getString("Unit24");
-                    quantity24S = bundle.getString("Quantity24");
+                material24S = bundle.getString("Material24");
+                unit24S = bundle.getString("Unit24");
+                quantity24S = bundle.getString("Quantity24");
 
-                    material25S = bundle.getString("Material25");
-                    unit25S = bundle.getString("Unit25");
-                    quantity25S = bundle.getString("Quantity25");
+                material25S = bundle.getString("Material25");
+                unit25S = bundle.getString("Unit25");
+                quantity25S = bundle.getString("Quantity25");
 
-                    material26S = bundle.getString("Material26");
-                    unit26S = bundle.getString("Unit26");
-                    quantity26S = bundle.getString("Quantity26");
+                material26S = bundle.getString("Material26");
+                unit26S = bundle.getString("Unit26");
+                quantity26S = bundle.getString("Quantity26");
 
-                    material27S = bundle.getString("Material27");
-                    unit27S = bundle.getString("Unit27");
-                    quantity27S = bundle.getString("Quantity27");
+                material27S = bundle.getString("Material27");
+                unit27S = bundle.getString("Unit27");
+                quantity27S = bundle.getString("Quantity27");
 
-                    material28S = bundle.getString("Material28");
-                    unit28S = bundle.getString("Unit28");
-                    quantity28S = bundle.getString("Quantity28");
+                material28S = bundle.getString("Material28");
+                unit28S = bundle.getString("Unit28");
+                quantity28S = bundle.getString("Quantity28");
 
-                    material29S = bundle.getString("Material29");
-                    unit29S = bundle.getString("Unit29");
-                    quantity29S = bundle.getString("Quantity29");
+                material29S = bundle.getString("Material29");
+                unit29S = bundle.getString("Unit29");
+                quantity29S = bundle.getString("Quantity29");
 
-                    material30S = bundle.getString("Material30");
-                    unit30S = bundle.getString("Unit30");
-                    quantity30S = bundle.getString("Quantity30");
+                material30S = bundle.getString("Material30");
+                unit30S = bundle.getString("Unit30");
+                quantity30S = bundle.getString("Quantity30");
 
-                    centerSet = bundle.getString("Center");
-                    villageSet = bundle.getString("Village");
+                centerSet = bundle.getString("Center");
+                villageSet = bundle.getString("Village");
 
-                    mReceiver = bundle.getString("Material Receiver Name");
+                mReceiver = bundle.getString("Material Receiver Name");
 
-                    receiver.setText(mReceiver);
+                receiver.setText(mReceiver);
 
-                    mDateFormate.setText(dateS);
-                    teamName.setText(teamNameS);
-                    line.setText(lineS);
-                    tender.setText(tenderS);
-                    driver.setText(driverNameS);
-                    vehical.setText(vehicalNameS);
-                    consumer.setText(consumerNameS);
-                    site.setText(siteNameS);
+                mDateFormate.setText(dateS);
+                teamName.setText(teamNameS);
+                line.setText(lineS);
+                tender.setText(tenderS);
+                driver.setText(driverNameS);
+                vehical.setText(vehicalNameS);
+                consumer.setText(consumerNameS);
+                site.setText(siteNameS);
 
-                    center.setText(centerSet);
-                    village.setText(villageSet);
+                center.setText(centerSet);
+                village.setText(villageSet);
 
-                    material1.setText(material1S);
-                    material2.setText(material2S);
-                    material3.setText(material3S);
-                    material4.setText(material4S);
-                    material5.setText(material5S);
-                    material6.setText(material6S);
-                    material7.setText(material7S);
-                    material8.setText(material8S);
-                    material9.setText(material9S);
-                    material10.setText(material10S);
-                    material11.setText(material11S);
-                    material12.setText(material12S);
-                    material13.setText(material13S);
-                    material14.setText(material14S);
-                    material15.setText(material15S);
-                    material16.setText(material16S);
-                    material17.setText(material17S);
-                    material18.setText(material18S);
-                    material19.setText(material19S);
-                    material20.setText(material20S);
-                    material21.setText(material21S);
-                    material22.setText(material22S);
-                    material23.setText(material23S);
-                    material24.setText(material24S);
-                    material25.setText(material25S);
-                    material26.setText(material26S);
-                    material27.setText(material27S);
-                    material28.setText(material28S);
-                    material29.setText(material29S);
-                    material30.setText(material30S);
-                    quantity1.setText(quantity1S);
-                    quantity2.setText(quantity2S);
-                    quantity3.setText(quantity3S);
-                    quantity4.setText(quantity4S);
-                    quantity5.setText(quantity5S);
-                    quantity6.setText(quantity6S);
-                    quantity7.setText(quantity7S);
-                    quantity8.setText(quantity8S);
-                    quantity9.setText(quantity9S);
-                    quantity10.setText(quantity10S);
-                    quantity11.setText(quantity11S);
-                    quantity12.setText(quantity12S);
-                    quantity13.setText(quantity13S);
-                    quantity14.setText(quantity14S);
-                    quantity15.setText(quantity15S);
-                    quantity16.setText(quantity16S);
-                    quantity17.setText(quantity17S);
-                    quantity18.setText(quantity18S);
-                    quantity19.setText(quantity19S);
-                    quantity20.setText(quantity20S);
-                    quantity21.setText(quantity21S);
-                    quantity22.setText(quantity22S);
-                    quantity23.setText(quantity23S);
-                    quantity24.setText(quantity24S);
-                    quantity25.setText(quantity25S);
-                    quantity26.setText(quantity26S);
-                    quantity27.setText(quantity27S);
-                    quantity28.setText(quantity28S);
-                    quantity29.setText(quantity29S);
-                    quantity30.setText(quantity30S);
-                    unit1.setText(unit1S);
-                    unit2.setText(unit2S);
-                    unit3.setText(unit3S);
-                    unit4.setText(unit4S);
-                    unit5.setText(unit5S);
-                    unit6.setText(unit6S);
-                    unit7.setText(unit7S);
-                    unit8.setText(unit8S);
-                    unit9.setText(unit9S);
-                    unit10.setText(unit10S);
-                    unit11.setText(unit11S);
-                    unit12.setText(unit12S);
-                    unit13.setText(unit13S);
-                    unit14.setText(unit14S);
-                    unit15.setText(unit15S);
-                    unit16.setText(unit16S);
-                    unit17.setText(unit17S);
-                    unit18.setText(unit18S);
-                    unit19.setText(unit19S);
-                    unit20.setText(unit20S);
-                    unit21.setText(unit21S);
-                    unit22.setText(unit22S);
-                    unit23.setText(unit23S);
-                    unit24.setText(unit24S);
-                    unit25.setText(unit25S);
-                    unit26.setText(unit26S);
-                    unit27.setText(unit27S);
-                    unit28.setText(unit28S);
-                    unit29.setText(unit29S);
-                    unit30.setText(unit30S);
+                material1.setText(material1S);
+                material2.setText(material2S);
+                material3.setText(material3S);
+                material4.setText(material4S);
+                material5.setText(material5S);
+                material6.setText(material6S);
+                material7.setText(material7S);
+                material8.setText(material8S);
+                material9.setText(material9S);
+                material10.setText(material10S);
+                material11.setText(material11S);
+                material12.setText(material12S);
+                material13.setText(material13S);
+                material14.setText(material14S);
+                material15.setText(material15S);
+                material16.setText(material16S);
+                material17.setText(material17S);
+                material18.setText(material18S);
+                material19.setText(material19S);
+                material20.setText(material20S);
+                material21.setText(material21S);
+                material22.setText(material22S);
+                material23.setText(material23S);
+                material24.setText(material24S);
+                material25.setText(material25S);
+                material26.setText(material26S);
+                material27.setText(material27S);
+                material28.setText(material28S);
+                material29.setText(material29S);
+                material30.setText(material30S);
+                quantity1.setText(quantity1S);
+                quantity2.setText(quantity2S);
+                quantity3.setText(quantity3S);
+                quantity4.setText(quantity4S);
+                quantity5.setText(quantity5S);
+                quantity6.setText(quantity6S);
+                quantity7.setText(quantity7S);
+                quantity8.setText(quantity8S);
+                quantity9.setText(quantity9S);
+                quantity10.setText(quantity10S);
+                quantity11.setText(quantity11S);
+                quantity12.setText(quantity12S);
+                quantity13.setText(quantity13S);
+                quantity14.setText(quantity14S);
+                quantity15.setText(quantity15S);
+                quantity16.setText(quantity16S);
+                quantity17.setText(quantity17S);
+                quantity18.setText(quantity18S);
+                quantity19.setText(quantity19S);
+                quantity20.setText(quantity20S);
+                quantity21.setText(quantity21S);
+                quantity22.setText(quantity22S);
+                quantity23.setText(quantity23S);
+                quantity24.setText(quantity24S);
+                quantity25.setText(quantity25S);
+                quantity26.setText(quantity26S);
+                quantity27.setText(quantity27S);
+                quantity28.setText(quantity28S);
+                quantity29.setText(quantity29S);
+                quantity30.setText(quantity30S);
+                unit1.setText(unit1S);
+                unit2.setText(unit2S);
+                unit3.setText(unit3S);
+                unit4.setText(unit4S);
+                unit5.setText(unit5S);
+                unit6.setText(unit6S);
+                unit7.setText(unit7S);
+                unit8.setText(unit8S);
+                unit9.setText(unit9S);
+                unit10.setText(unit10S);
+                unit11.setText(unit11S);
+                unit12.setText(unit12S);
+                unit13.setText(unit13S);
+                unit14.setText(unit14S);
+                unit15.setText(unit15S);
+                unit16.setText(unit16S);
+                unit17.setText(unit17S);
+                unit18.setText(unit18S);
+                unit19.setText(unit19S);
+                unit20.setText(unit20S);
+                unit21.setText(unit21S);
+                unit22.setText(unit22S);
+                unit23.setText(unit23S);
+                unit24.setText(unit24S);
+                unit25.setText(unit25S);
+                unit26.setText(unit26S);
+                unit27.setText(unit27S);
+                unit28.setText(unit28S);
+                unit29.setText(unit29S);
+                unit30.setText(unit30S);
+
+            }
+            //State
+            databaseReferenceState = FirebaseDatabase.getInstance().getReference(companyEmail + " State");
+            spinnerDataListState = new ArrayList<>();
+            adapterState = new ArrayAdapter<String>(AddMaterial.this, R.layout.support_simple_spinner_dropdown_item, spinnerDataListState);
+            state.setAdapter(adapterState);
+            retrieveDataState();
+            //District
+            databaseReferenceDistrict = FirebaseDatabase.getInstance().getReference(companyEmail + " District");
+            spinnerDataListDistrict = new ArrayList<>();
+            adapterDistrict = new ArrayAdapter<String>(AddMaterial.this, R.layout.support_simple_spinner_dropdown_item, spinnerDataListDistrict);
+            district.setAdapter(adapterDistrict);
+            retrieveDataDistrict();
+
+
+            //Taluka
+            databaseReferenceTaluka = FirebaseDatabase.getInstance().getReference(companyEmail + " Taluka");
+            spinnerDataListTaluka = new ArrayList<>();
+            adapterTaluka = new ArrayAdapter<String>(AddMaterial.this, R.layout.support_simple_spinner_dropdown_item, spinnerDataListTaluka);
+            taluka.setAdapter(adapterTaluka);
+            retrieveDataTaluka();
+
+            //Team Name
+            databaseReference = FirebaseDatabase.getInstance().getReference(companyEmail + " teamName");
+            spinnerDataList = new ArrayList<>();
+            adapter = new ArrayAdapter<String>(AddMaterial.this, R.layout.support_simple_spinner_dropdown_item, spinnerDataList);
+            teamName.setAdapter(adapter);
+            retrieveData();
+
+            //Line
+            databaseReferenceLine = FirebaseDatabase.getInstance().getReference(companyEmail + " Line");
+            spinnerDataListLine = new ArrayList<>();
+            adapterLine = new ArrayAdapter<String>(AddMaterial.this, R.layout.support_simple_spinner_dropdown_item, spinnerDataListLine);
+            line.setAdapter(adapterLine);
+            retrieveDataLine();
+
+            //Tender
+            databaseReferenceTender = FirebaseDatabase.getInstance().getReference(companyEmail + " Tender");
+            spinnerDataListTender = new ArrayList<>();
+            adapterTender = new ArrayAdapter<String>(AddMaterial.this, R.layout.support_simple_spinner_dropdown_item, spinnerDataListTender);
+            tender.setAdapter(adapterTender);
+            retrieveDataTender();
+
+            //Driver
+            databaseReferenceDriver = FirebaseDatabase.getInstance().getReference(companyEmail + " Driver");
+            spinnerDataListDriver = new ArrayList<>();
+            adapterDriver = new ArrayAdapter<String>(AddMaterial.this, R.layout.support_simple_spinner_dropdown_item, spinnerDataListDriver);
+            driver.setAdapter(adapterDriver);
+            retrieveDataDriver();
+
+            //Vehical
+            databaseReferenceVehical = FirebaseDatabase.getInstance().getReference(companyEmail + " Vehical");
+            spinnerDataListVehical = new ArrayList<>();
+            adapterVehical = new ArrayAdapter<String>(AddMaterial.this, R.layout.support_simple_spinner_dropdown_item, spinnerDataListVehical);
+            vehical.setAdapter(adapterVehical);
+            retrieveDataVehical();
+
+            //Center
+            databaseReferenceCenter = FirebaseDatabase.getInstance().getReference(companyEmail + " Center");
+            spinnerDataListCenter = new ArrayList<>();
+            adapterCenter = new ArrayAdapter<String>(AddMaterial.this, R.layout.support_simple_spinner_dropdown_item, spinnerDataListCenter);
+            center.setAdapter(adapterCenter);
+            retrieveDataCenter();
+
+            //Village
+            databaseReferenceVillage = FirebaseDatabase.getInstance().getReference(companyEmail + " Village");
+            spinnerDataListVillage = new ArrayList<>();
+            adapterVillage = new ArrayAdapter<String>(AddMaterial.this, R.layout.support_simple_spinner_dropdown_item, spinnerDataListVillage);
+            village.setAdapter(adapterVillage);
+            retrieveDataVillage();
+
+            //Material
+            databaseReferenceMaterial = FirebaseDatabase.getInstance().getReference(companyEmail + " Material");
+            spinnerDataListMaterial = new ArrayList<>();
+            adapterMaterial = new ArrayAdapter<String>(AddMaterial.this, R.layout.support_simple_spinner_dropdown_item, spinnerDataListMaterial);
+            material1.setAdapter(adapterMaterial);
+            material2.setAdapter(adapterMaterial);
+            material3.setAdapter(adapterMaterial);
+            material4.setAdapter(adapterMaterial);
+            material5.setAdapter(adapterMaterial);
+            material6.setAdapter(adapterMaterial);
+            material6.setAdapter(adapterMaterial);
+            material7.setAdapter(adapterMaterial);
+            material8.setAdapter(adapterMaterial);
+            material9.setAdapter(adapterMaterial);
+            material10.setAdapter(adapterMaterial);
+            material11.setAdapter(adapterMaterial);
+            material12.setAdapter(adapterMaterial);
+            material13.setAdapter(adapterMaterial);
+            material14.setAdapter(adapterMaterial);
+            material15.setAdapter(adapterMaterial);
+            material16.setAdapter(adapterMaterial);
+            material16.setAdapter(adapterMaterial);
+            material17.setAdapter(adapterMaterial);
+            material18.setAdapter(adapterMaterial);
+            material19.setAdapter(adapterMaterial);
+            material20.setAdapter(adapterMaterial);
+            material21.setAdapter(adapterMaterial);
+            material22.setAdapter(adapterMaterial);
+            material23.setAdapter(adapterMaterial);
+            material24.setAdapter(adapterMaterial);
+            material25.setAdapter(adapterMaterial);
+            material26.setAdapter(adapterMaterial);
+            material26.setAdapter(adapterMaterial);
+            material27.setAdapter(adapterMaterial);
+            material28.setAdapter(adapterMaterial);
+            material29.setAdapter(adapterMaterial);
+            material30.setAdapter(adapterMaterial);
+            retrieveDataMaterial();
+
+            //Unit
+            databaseReferenceUnit = FirebaseDatabase.getInstance().getReference(companyEmail + " Unit");
+            spinnerDataListUnit = new ArrayList<>();
+            adapterUnit = new ArrayAdapter<String>(AddMaterial.this, R.layout.support_simple_spinner_dropdown_item, spinnerDataListUnit);
+            unit1.setAdapter(adapterUnit);
+            unit2.setAdapter(adapterUnit);
+            unit3.setAdapter(adapterUnit);
+            unit4.setAdapter(adapterUnit);
+            unit5.setAdapter(adapterUnit);
+            unit6.setAdapter(adapterUnit);
+            unit7.setAdapter(adapterUnit);
+            unit8.setAdapter(adapterUnit);
+            unit9.setAdapter(adapterUnit);
+            unit10.setAdapter(adapterUnit);
+            unit11.setAdapter(adapterUnit);
+            unit12.setAdapter(adapterUnit);
+            unit13.setAdapter(adapterUnit);
+            unit14.setAdapter(adapterUnit);
+            unit15.setAdapter(adapterUnit);
+            unit16.setAdapter(adapterUnit);
+            unit17.setAdapter(adapterUnit);
+            unit18.setAdapter(adapterUnit);
+            unit19.setAdapter(adapterUnit);
+            unit20.setAdapter(adapterUnit);
+            unit21.setAdapter(adapterUnit);
+            unit22.setAdapter(adapterUnit);
+            unit23.setAdapter(adapterUnit);
+            unit24.setAdapter(adapterUnit);
+            unit25.setAdapter(adapterUnit);
+            unit26.setAdapter(adapterUnit);
+            unit27.setAdapter(adapterUnit);
+            unit28.setAdapter(adapterUnit);
+            unit29.setAdapter(adapterUnit);
+            unit30.setAdapter(adapterUnit);
+            retrieveDataUnit();
+
+            //Receiver
+            databaseReferenceReceiver = FirebaseDatabase.getInstance().getReference(companyEmail + " Receiver");
+            spinnerDataListReceiver = new ArrayList<>();
+            adapterReceiver = new ArrayAdapter<String>(AddMaterial.this, R.layout.support_simple_spinner_dropdown_item, spinnerDataListReceiver);
+            receiver.setAdapter(adapterReceiver);
+            retrieveDataReceiver();
+
+
+            //Material Add Btn
+            addIV1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    //Materials
+                    String uMaterial1 = material1.getText().toString().trim();
+                    String uQuantity1 = quantity1.getText().toString().trim();
+                    String uUnit1 = unit1.getText().toString().trim();
+
+                    String uMaterial2 = material2.getText().toString().trim();
+                    String uQuantity2 = quantity2.getText().toString().trim();
+                    String uUnit2 = unit2.getText().toString().trim();
+
+                    String uMaterial3 = material3.getText().toString().trim();
+                    String uQuantity3 = quantity3.getText().toString().trim();
+                    String uUnit3 = unit3.getText().toString().trim();
+
+                    String uMaterial4 = material4.getText().toString().trim();
+                    String uQuantity4 = quantity4.getText().toString().trim();
+                    String uUnit4 = unit4.getText().toString().trim();
+
+                    String uMaterial5 = material5.getText().toString().trim();
+                    String uQuantity5 = quantity5.getText().toString().trim();
+                    String uUnit5 = unit5.getText().toString().trim();
+
+
+                    if (uMaterial1.isEmpty() || uQuantity1.isEmpty() || uUnit1.isEmpty() || uMaterial2.isEmpty() || uQuantity2.isEmpty() || uUnit2.isEmpty() ||
+                            uMaterial3.isEmpty() || uQuantity3.isEmpty() || uUnit3.isEmpty() || uMaterial4.isEmpty() || uQuantity4.isEmpty() || uUnit4.isEmpty() ||
+                            uMaterial5.isEmpty() || uQuantity5.isEmpty() || uUnit5.isEmpty()) {
+                        showMessage("Fill above information first");
+                    } else {
+                        addIV1.setVisibility(View.GONE);
+                        addMaterialLL2.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
+
+            addIV2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    //Materials
+                    String uMaterial6 = material6.getText().toString().trim();
+                    String uQuantity6 = quantity6.getText().toString().trim();
+                    String uUnit6 = unit6.getText().toString().trim();
+
+                    String uMaterial7 = material7.getText().toString().trim();
+                    String uQuantity7 = quantity7.getText().toString().trim();
+                    String uUnit7 = unit7.getText().toString().trim();
+
+                    String uMaterial8 = material8.getText().toString().trim();
+                    String uQuantity8 = quantity8.getText().toString().trim();
+                    String uUnit8 = unit8.getText().toString().trim();
+
+                    String uMaterial9 = material9.getText().toString().trim();
+                    String uQuantity9 = quantity9.getText().toString().trim();
+                    String uUnit9 = unit9.getText().toString().trim();
+
+                    String uMaterial10 = material10.getText().toString().trim();
+                    String uQuantity10 = quantity10.getText().toString().trim();
+                    String uUnit10 = unit10.getText().toString().trim();
+
+
+                    if (uMaterial6.isEmpty() || uQuantity6.isEmpty() || uUnit6.isEmpty() || uMaterial7.isEmpty() || uQuantity7.isEmpty() || uUnit7.isEmpty() ||
+                            uMaterial8.isEmpty() || uQuantity8.isEmpty() || uUnit8.isEmpty() || uMaterial9.isEmpty() || uQuantity9.isEmpty() || uUnit9.isEmpty() ||
+                            uMaterial10.isEmpty() || uQuantity10.isEmpty() || uUnit10.isEmpty()) {
+                        showMessage("Fill above information first");
+                    } else {
+                        addIV2.setVisibility(View.GONE);
+                        addMaterialLL3.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
+
+            addIV3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    //Materials
+                    String uMaterial11 = material11.getText().toString().trim();
+                    String uQuantity11 = quantity11.getText().toString().trim();
+                    String uUnit11 = unit11.getText().toString().trim();
+
+                    String uMaterial12 = material12.getText().toString().trim();
+                    String uQuantity12 = quantity12.getText().toString().trim();
+                    String uUnit12 = unit12.getText().toString().trim();
+
+                    String uMaterial13 = material13.getText().toString().trim();
+                    String uQuantity13 = quantity13.getText().toString().trim();
+                    String uUnit13 = unit13.getText().toString().trim();
+
+                    String uMaterial14 = material4.getText().toString().trim();
+                    String uQuantity14 = quantity14.getText().toString().trim();
+                    String uUnit14 = unit14.getText().toString().trim();
+
+                    String uMaterial15 = material15.getText().toString().trim();
+                    String uQuantity15 = quantity15.getText().toString().trim();
+                    String uUnit15 = unit15.getText().toString().trim();
+
+
+                    if (uMaterial11.isEmpty() || uQuantity11.isEmpty() || uUnit11.isEmpty() || uMaterial12.isEmpty() || uQuantity12.isEmpty() || uUnit12.isEmpty() ||
+                            uMaterial13.isEmpty() || uQuantity13.isEmpty() || uUnit13.isEmpty() || uMaterial14.isEmpty() || uQuantity14.isEmpty() || uUnit14.isEmpty() ||
+                            uMaterial15.isEmpty() || uQuantity15.isEmpty() || uUnit15.isEmpty()) {
+                        showMessage("Fill above information first");
+                    } else {
+                        addIV3.setVisibility(View.GONE);
+                        addMaterialLL4.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
+
+            addIV4.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    //Materials
+                    String uMaterial16 = material16.getText().toString().trim();
+                    String uQuantity16 = quantity16.getText().toString().trim();
+                    String uUnit16 = unit16.getText().toString().trim();
+
+                    String uMaterial17 = material17.getText().toString().trim();
+                    String uQuantity17 = quantity17.getText().toString().trim();
+                    String uUnit17 = unit17.getText().toString().trim();
+
+                    String uMaterial18 = material18.getText().toString().trim();
+                    String uQuantity18 = quantity18.getText().toString().trim();
+                    String uUnit18 = unit18.getText().toString().trim();
+
+                    String uMaterial19 = material19.getText().toString().trim();
+                    String uQuantity19 = quantity19.getText().toString().trim();
+                    String uUnit19 = unit19.getText().toString().trim();
+
+                    String uMaterial20 = material20.getText().toString().trim();
+                    String uQuantity20 = quantity20.getText().toString().trim();
+                    String uUnit20 = unit20.getText().toString().trim();
+
+                    if (uMaterial16.isEmpty() || uQuantity16.isEmpty() || uUnit16.isEmpty() || uMaterial17.isEmpty() || uQuantity17.isEmpty() || uUnit17.isEmpty() ||
+                            uMaterial18.isEmpty() || uQuantity18.isEmpty() || uUnit18.isEmpty() || uMaterial19.isEmpty() || uQuantity19.isEmpty() || uUnit19.isEmpty() ||
+                            uMaterial20.isEmpty() || uQuantity20.isEmpty() || uUnit20.isEmpty()) {
+                        showMessage("Fill above information first");
+                    } else {
+                        addIV4.setVisibility(View.GONE);
+                        addMaterialLL5.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
+
+            addIV5.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    //Materials
+                    String uMaterial21 = material21.getText().toString().trim();
+                    String uQuantity21 = quantity21.getText().toString().trim();
+                    String uUnit21 = unit21.getText().toString().trim();
+
+                    String uMaterial22 = material22.getText().toString().trim();
+                    String uQuantity22 = quantity22.getText().toString().trim();
+                    String uUnit22 = unit22.getText().toString().trim();
+
+                    String uMaterial23 = material23.getText().toString().trim();
+                    String uQuantity23 = quantity23.getText().toString().trim();
+                    String uUnit23 = unit23.getText().toString().trim();
+
+                    String uMaterial24 = material4.getText().toString().trim();
+                    String uQuantity24 = quantity24.getText().toString().trim();
+                    String uUnit24 = unit24.getText().toString().trim();
+
+                    String uMaterial25 = material25.getText().toString().trim();
+                    String uQuantity25 = quantity25.getText().toString().trim();
+                    String uUnit25 = unit25.getText().toString().trim();
+
+
+                    if (uMaterial21.isEmpty() || uQuantity21.isEmpty() || uUnit21.isEmpty() || uMaterial22.isEmpty() || uQuantity22.isEmpty() || uUnit22.isEmpty() ||
+                            uMaterial23.isEmpty() || uQuantity23.isEmpty() || uUnit23.isEmpty() || uMaterial24.isEmpty() || uQuantity24.isEmpty() || uUnit24.isEmpty() ||
+                            uMaterial25.isEmpty() || uQuantity25.isEmpty() || uUnit25.isEmpty()) {
+                        showMessage("Fill above information first");
+                    } else {
+                        addIV5.setVisibility(View.GONE);
+                        addMaterialLL6.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
+
+
+            //HomeBtn
+            homeNextBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String team = teamName.getText().toString().trim();
+                    String lineS = line.getText().toString().trim();
+                    String tenderS = tender.getText().toString().trim();
+                    String driverS = driver.getText().toString().trim();
+                    String vehicalS = vehical.getText().toString().trim();
+                    String dateS = mDateFormate.getText().toString().trim();
+
+                    if (dateS.isEmpty()) {
+                        mDateFormate.setError(r);
+                        mDateFormate.requestFocus();
+                    } else if (team.isEmpty()) {
+                        teamName.setError(r);
+                        teamName.requestFocus();
+                    } else if (lineS.isEmpty()) {
+                        line.setError(r);
+                        line.requestFocus();
+                    } else if (tenderS.isEmpty()) {
+                        tender.setError(r);
+                        tender.requestFocus();
+                    } else if (driverS.isEmpty()) {
+                        driver.setError(r);
+                        driver.requestFocus();
+                    } else if (vehicalS.isEmpty()) {
+                        vehical.setError(r);
+                        vehical.requestFocus();
+                    } else {
+                        homeLL.setVisibility(View.GONE);
+                        middleLL.setVisibility(View.VISIBLE);
+                        pair(cmp, tenderS);
+                    }
 
                 }
-                //State
-                databaseReferenceState = FirebaseDatabase.getInstance().getReference(companyEmail+" State");
-                spinnerDataListState = new ArrayList<>();
-                adapterState = new ArrayAdapter<String>(AddMaterial.this,R.layout.support_simple_spinner_dropdown_item,spinnerDataListState);
-                state.setAdapter(adapterState);
-                retrieveDataState();
-                //District
-                databaseReferenceDistrict = FirebaseDatabase.getInstance().getReference(companyEmail+" District");
-                spinnerDataListDistrict = new ArrayList<>();
-                adapterDistrict = new ArrayAdapter<String>(AddMaterial.this,R.layout.support_simple_spinner_dropdown_item,spinnerDataListDistrict);
-                district.setAdapter(adapterDistrict);
-                retrieveDataDistrict();
+            });
+
+            //Home Back
+            homeBackBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    homeLL.setVisibility(View.VISIBLE);
+                    middleLL.setVisibility(View.GONE);
+                }
+            });
+
+            //Middle Next
+            middleNextBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String consumerName = consumer.getText().toString().trim();
+                    String siteName = site.getText().toString().trim();
+                    String stateS = state.getText().toString().trim();
+                    String dis = district.getText().toString().trim();
+                    String talukaS = taluka.getText().toString().trim();
+                    String centerS = center.getText().toString().trim();
+                    String villageS = village.getText().toString().trim();
+
+                    if (consumerName.isEmpty()) {
+                        consumer.setError(r);
+                        consumer.requestFocus();
+                    } else if (stateS.isEmpty()) {
+                        state.setError(r);
+                        state.requestFocus();
+                    } else if (dis.isEmpty()) {
+                        district.setError(r);
+                        district.requestFocus();
+                    } else if (talukaS.isEmpty()) {
+                        taluka.setError(r);
+                        taluka.requestFocus();
+                    } else if (centerS.isEmpty()) {
+                        center.setError(r);
+                        center.requestFocus();
+                    } else if (villageS.isEmpty()) {
+                        village.setError(r);
+                        village.requestFocus();
+                    } else if (siteName.isEmpty()) {
+                        site.setError(r);
+                        site.requestFocus();
+                    } else {
+                        middleLL.setVisibility(View.GONE);
+                        lastOneLL.setVisibility(View.VISIBLE);
+
+                    }
+                }
+            });
+
+            //Middle Back
+            middleBackBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    middleLL.setVisibility(View.VISIBLE);
+                    lastOneLL.setVisibility(View.GONE);
+                }
+            });
+
+            //NextLastTwo
+            nextLastTwo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    lastOneLL.setVisibility(View.GONE);
+                    lastLL.setVisibility(View.VISIBLE);
+                }
+            });
+
+            lastBackBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    lastOneLL.setVisibility(View.VISIBLE);
+                    lastLL.setVisibility(View.GONE);
+                }
+            });
+
+            doneBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String pass = passReceiver.getText().toString().trim();
+
+                    //Home
+                    String uDate = mDateFormate.getText().toString().trim();
+                    String uTeamName = teamName.getText().toString().trim();
+                    String uLine = line.getText().toString().trim();
+                    String uTender = tender.getText().toString().trim();
+                    String uDriverName = driver.getText().toString().trim();
+                    String uVehicalName = vehical.getText().toString().trim();
+
+                    //Site
+                    String uConsumerName = consumer.getText().toString().trim();
+                    String uSite = (site.getText().toString().trim()) + "  " + (taluka.getText().toString().trim()) + "  " + (district.getText().toString().trim()) + "  " + (state.getText().toString().trim());
 
 
-                //Taluka
-                databaseReferenceTaluka = FirebaseDatabase.getInstance().getReference(companyEmail+" Taluka");
-                spinnerDataListTaluka = new ArrayList<>();
-                adapterTaluka = new ArrayAdapter<String>(AddMaterial.this,R.layout.support_simple_spinner_dropdown_item,spinnerDataListTaluka);
-                taluka.setAdapter(adapterTaluka);
-                retrieveDataTaluka();
+                    showTotalMaterialTaken(cmp,uConsumerName);
 
-                //Team Name
-                databaseReference = FirebaseDatabase.getInstance().getReference(companyEmail+" teamName");
-                spinnerDataList = new ArrayList<>();
-                adapter = new ArrayAdapter<String>(AddMaterial.this,R.layout.support_simple_spinner_dropdown_item,spinnerDataList);
-                teamName.setAdapter(adapter);
-                retrieveData();
 
-                //Line
-                databaseReferenceLine = FirebaseDatabase.getInstance().getReference(companyEmail+" Line");
-                spinnerDataListLine = new ArrayList<>();
-                adapterLine = new ArrayAdapter<String>(AddMaterial.this,R.layout.support_simple_spinner_dropdown_item,spinnerDataListLine);
-                line.setAdapter(adapterLine);
-                retrieveDataLine();
+                    //Material
+                    String uMaterial1 = material1.getText().toString().trim();
+                    String uQuantity1 = quantity1.getText().toString().trim();
+                    String uUnit1 = unit1.getText().toString().trim();
 
-                //Tender
-                databaseReferenceTender = FirebaseDatabase.getInstance().getReference(companyEmail+" Tender");
-                spinnerDataListTender = new ArrayList<>();
-                adapterTender = new ArrayAdapter<String>(AddMaterial.this,R.layout.support_simple_spinner_dropdown_item,spinnerDataListTender);
-                tender.setAdapter(adapterTender);
-                retrieveDataTender();
+                    String uMaterial2 = material2.getText().toString().trim();
+                    String uQuantity2 = quantity2.getText().toString().trim();
+                    String uUnit2 = unit2.getText().toString().trim();
 
-                //Driver
-                databaseReferenceDriver = FirebaseDatabase.getInstance().getReference(companyEmail+" Driver");
-                spinnerDataListDriver = new ArrayList<>();
-                adapterDriver = new ArrayAdapter<String>(AddMaterial.this,R.layout.support_simple_spinner_dropdown_item,spinnerDataListDriver);
-                driver.setAdapter(adapterDriver);
-                retrieveDataDriver();
+                    String uMaterial3 = material3.getText().toString().trim();
+                    String uQuantity3 = quantity3.getText().toString().trim();
+                    String uUnit3 = unit3.getText().toString().trim();
 
-                //Vehical
-                databaseReferenceVehical = FirebaseDatabase.getInstance().getReference(companyEmail+" Vehical");
-                spinnerDataListVehical = new ArrayList<>();
-                adapterVehical = new ArrayAdapter<String>(AddMaterial.this,R.layout.support_simple_spinner_dropdown_item,spinnerDataListVehical);
-                vehical.setAdapter(adapterVehical);
-                retrieveDataVehical();
+                    String uMaterial4 = material4.getText().toString().trim();
+                    String uQuantity4 = quantity4.getText().toString().trim();
+                    String uUnit4 = unit4.getText().toString().trim();
 
-                //Center
-                databaseReferenceCenter = FirebaseDatabase.getInstance().getReference(companyEmail+" Center");
-                spinnerDataListCenter = new ArrayList<>();
-                adapterCenter = new ArrayAdapter<String>(AddMaterial.this,R.layout.support_simple_spinner_dropdown_item,spinnerDataListCenter);
-                center.setAdapter(adapterCenter);
-                retrieveDataCenter();
+                    String uMaterial5 = material5.getText().toString().trim();
+                    String uQuantity5 = quantity5.getText().toString().trim();
+                    String uUnit5 = unit5.getText().toString().trim();
 
-                //Village
-                databaseReferenceVillage = FirebaseDatabase.getInstance().getReference(companyEmail+" Village");
-                spinnerDataListVillage = new ArrayList<>();
-                adapterVillage = new ArrayAdapter<String>(AddMaterial.this,R.layout.support_simple_spinner_dropdown_item,spinnerDataListVillage);
-                village.setAdapter(adapterVillage);
-                retrieveDataVillage();
+                    String uMaterial6 = material6.getText().toString().trim();
+                    String uQuantity6 = quantity6.getText().toString().trim();
+                    String uUnit6 = unit6.getText().toString().trim();
 
-                //Material
-                databaseReferenceMaterial = FirebaseDatabase.getInstance().getReference(companyEmail+" Material");
-                spinnerDataListMaterial = new ArrayList<>();
-                adapterMaterial = new ArrayAdapter<String>(AddMaterial.this,R.layout.support_simple_spinner_dropdown_item,spinnerDataListMaterial);
-                material1.setAdapter(adapterMaterial);
-                material2.setAdapter(adapterMaterial);
-                material3.setAdapter(adapterMaterial);
-                material4.setAdapter(adapterMaterial);
-                material5.setAdapter(adapterMaterial);
-                material6.setAdapter(adapterMaterial);
-                material6.setAdapter(adapterMaterial);
-                material7.setAdapter(adapterMaterial);
-                material8.setAdapter(adapterMaterial);
-                material9.setAdapter(adapterMaterial);
-                material10.setAdapter(adapterMaterial);
-                material11.setAdapter(adapterMaterial);
-                material12.setAdapter(adapterMaterial);
-                material13.setAdapter(adapterMaterial);
-                material14.setAdapter(adapterMaterial);
-                material15.setAdapter(adapterMaterial);
-                material16.setAdapter(adapterMaterial);
-                material16.setAdapter(adapterMaterial);
-                material17.setAdapter(adapterMaterial);
-                material18.setAdapter(adapterMaterial);
-                material19.setAdapter(adapterMaterial);
-                material20.setAdapter(adapterMaterial);
-                material21.setAdapter(adapterMaterial);
-                material22.setAdapter(adapterMaterial);
-                material23.setAdapter(adapterMaterial);
-                material24.setAdapter(adapterMaterial);
-                material25.setAdapter(adapterMaterial);
-                material26.setAdapter(adapterMaterial);
-                material26.setAdapter(adapterMaterial);
-                material27.setAdapter(adapterMaterial);
-                material28.setAdapter(adapterMaterial);
-                material29.setAdapter(adapterMaterial);
-                material30.setAdapter(adapterMaterial);
-                retrieveDataMaterial();
+                    String uMaterial7 = material7.getText().toString().trim();
+                    String uQuantity7 = quantity7.getText().toString().trim();
+                    String uUnit7 = unit7.getText().toString().trim();
 
-                //Unit
-                databaseReferenceUnit = FirebaseDatabase.getInstance().getReference(companyEmail+" Unit");
-                spinnerDataListUnit = new ArrayList<>();
-                adapterUnit = new ArrayAdapter<String>(AddMaterial.this,R.layout.support_simple_spinner_dropdown_item,spinnerDataListUnit);
-                unit1.setAdapter(adapterUnit);
-                unit2.setAdapter(adapterUnit);
-                unit3.setAdapter(adapterUnit);
-                unit4.setAdapter(adapterUnit);
-                unit5.setAdapter(adapterUnit);
-                unit6.setAdapter(adapterUnit);
-                unit7.setAdapter(adapterUnit);
-                unit8.setAdapter(adapterUnit);
-                unit9.setAdapter(adapterUnit);
-                unit10.setAdapter(adapterUnit);
-                unit11.setAdapter(adapterUnit);
-                unit12.setAdapter(adapterUnit);
-                unit13.setAdapter(adapterUnit);
-                unit14.setAdapter(adapterUnit);
-                unit15.setAdapter(adapterUnit);
-                unit16.setAdapter(adapterUnit);
-                unit17.setAdapter(adapterUnit);
-                unit18.setAdapter(adapterUnit);
-                unit19.setAdapter(adapterUnit);
-                unit20.setAdapter(adapterUnit);
-                unit21.setAdapter(adapterUnit);
-                unit22.setAdapter(adapterUnit);
-                unit23.setAdapter(adapterUnit);
-                unit24.setAdapter(adapterUnit);
-                unit25.setAdapter(adapterUnit);
-                unit26.setAdapter(adapterUnit);
-                unit27.setAdapter(adapterUnit);
-                unit28.setAdapter(adapterUnit);
-                unit29.setAdapter(adapterUnit);
-                unit30.setAdapter(adapterUnit);
-                retrieveDataUnit();
+                    String uMaterial8 = material8.getText().toString().trim();
+                    String uQuantity8 = quantity8.getText().toString().trim();
+                    String uUnit8 = unit8.getText().toString().trim();
+
+                    String uMaterial9 = material9.getText().toString().trim();
+                    String uQuantity9 = quantity9.getText().toString().trim();
+                    String uUnit9 = unit9.getText().toString().trim();
+
+                    String uMaterial10 = material10.getText().toString().trim();
+                    String uQuantity10 = quantity10.getText().toString().trim();
+                    String uUnit10 = unit10.getText().toString().trim();
+
+                    String uMaterial11 = material11.getText().toString().trim();
+                    String uQuantity11 = quantity11.getText().toString().trim();
+                    String uUnit11 = unit11.getText().toString().trim();
+
+                    String uMaterial12 = material12.getText().toString().trim();
+                    String uQuantity12 = quantity12.getText().toString().trim();
+                    String uUnit12 = unit12.getText().toString().trim();
+
+                    String uMaterial13 = material13.getText().toString().trim();
+                    String uQuantity13 = quantity13.getText().toString().trim();
+                    String uUnit13 = unit13.getText().toString().trim();
+
+                    String uMaterial14 = material14.getText().toString().trim();
+                    String uQuantity14 = quantity14.getText().toString().trim();
+                    String uUnit14 = unit14.getText().toString().trim();
+
+                    String uMaterial15 = material15.getText().toString().trim();
+                    String uQuantity15 = quantity15.getText().toString().trim();
+                    String uUnit15 = unit15.getText().toString().trim();
+
+                    String uMaterial16 = material16.getText().toString().trim();
+                    String uQuantity16 = quantity16.getText().toString().trim();
+                    String uUnit16 = unit16.getText().toString().trim();
+
+                    String uMaterial17 = material17.getText().toString().trim();
+                    String uQuantity17 = quantity17.getText().toString().trim();
+                    String uUnit17 = unit17.getText().toString().trim();
+
+                    String uMaterial18 = material18.getText().toString().trim();
+                    String uQuantity18 = quantity18.getText().toString().trim();
+                    String uUnit18 = unit18.getText().toString().trim();
+
+                    String uMaterial19 = material19.getText().toString().trim();
+                    String uQuantity19 = quantity19.getText().toString().trim();
+                    String uUnit19 = unit19.getText().toString().trim();
+
+                    String uMaterial20 = material20.getText().toString().trim();
+                    String uQuantity20 = quantity20.getText().toString().trim();
+                    String uUnit20 = unit20.getText().toString().trim();
+
+                    String uMaterial21 = material21.getText().toString().trim();
+                    String uQuantity21 = quantity21.getText().toString().trim();
+                    String uUnit21 = unit21.getText().toString().trim();
+
+                    String uMaterial22 = material22.getText().toString().trim();
+                    String uQuantity22 = quantity22.getText().toString().trim();
+                    String uUnit22 = unit22.getText().toString().trim();
+
+                    String uMaterial23 = material23.getText().toString().trim();
+                    String uQuantity23 = quantity23.getText().toString().trim();
+                    String uUnit23 = unit23.getText().toString().trim();
+
+                    String uMaterial24 = material24.getText().toString().trim();
+                    String uQuantity24 = quantity24.getText().toString().trim();
+                    String uUnit24 = unit24.getText().toString().trim();
+
+                    String uMaterial25 = material25.getText().toString().trim();
+                    String uQuantity25 = quantity25.getText().toString().trim();
+                    String uUnit25 = unit25.getText().toString().trim();
+
+                    String uMaterial26 = material26.getText().toString().trim();
+                    String uQuantity26 = quantity26.getText().toString().trim();
+                    String uUnit26 = unit26.getText().toString().trim();
+
+                    String uMaterial27 = material27.getText().toString().trim();
+                    String uQuantity27 = quantity27.getText().toString().trim();
+                    String uUnit27 = unit27.getText().toString().trim();
+
+                    String uMaterial28 = material28.getText().toString().trim();
+                    String uQuantity28 = quantity28.getText().toString().trim();
+                    String uUnit28 = unit28.getText().toString().trim();
+
+                    String uMaterial29 = material29.getText().toString().trim();
+                    String uQuantity29 = quantity29.getText().toString().trim();
+                    String uUnit29 = unit19.getText().toString().trim();
+
+                    String uMaterial30 = material30.getText().toString().trim();
+                    String uQuantity30 = quantity30.getText().toString().trim();
+                    String uUnit30 = unit30.getText().toString().trim();
+
+
+                    //Receiver
+                    String materialReceiver = receiver.getText().toString().trim();
+
+                    String centerS = center.getText().toString().trim();
+                    String villageS = village.getText().toString().trim();
+
+
+                    if (materialReceiver.isEmpty()) {
+                        receiver.setError(r);
+                        receiver.requestFocus();
+                    } else if (pass.isEmpty()) {
+                        passReceiver.setError(r);
+                        passReceiver.requestFocus();
+                    } else if (bundle != null) {
+
+                    } else {
+                        verifyPassReceiver(materialReceiver, pass, cmp, uDate, uTeamName, uLine, uTender, uDriverName, uVehicalName, uConsumerName, uSite
+                                , uMaterial1, uQuantity1, uMaterial2, uQuantity2, uMaterial3, uQuantity3, uMaterial4, uQuantity4, uMaterial5, uQuantity5,
+                                uMaterial6, uQuantity6, uMaterial7, uQuantity7, uMaterial8, uQuantity8, uMaterial9, uQuantity9, uMaterial10, uQuantity10
+                                , uQuantity11, uMaterial12, uQuantity12, uMaterial13, uQuantity13, uMaterial14, uQuantity14, uMaterial15, uQuantity15,
+                                uMaterial16, uQuantity16, uMaterial17, uQuantity17, uMaterial18, uQuantity18, uMaterial19, uQuantity19, uMaterial20, uQuantity20
+                                , uUnit1, uUnit2, uUnit3, uUnit4, uUnit5, uUnit6, uUnit7, uUnit8, uUnit9, uUnit10
+                                , uUnit11, uUnit12, uUnit13, uUnit14, uUnit15, uUnit16, uUnit17, uUnit18, uUnit19, uUnit20, uMaterial11
+                                , uMaterial21, uQuantity21, uMaterial22, uQuantity22, uMaterial23, uQuantity23, uMaterial24, uQuantity24, uMaterial25, uQuantity25,
+                                uMaterial26, uQuantity26, uMaterial27, uQuantity27, uMaterial28, uQuantity28, uMaterial29, uQuantity29, uMaterial30, uQuantity30
+                                , uUnit21, uUnit22, uUnit23, uUnit24, uUnit25, uUnit26, uUnit27, uUnit28, uUnit29, uUnit30,
+                                centerS, villageS);
+
+                    }
+                }
+            });
+
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    doneAll.setEnabled(true);
+                }
+            }, 1500);
+            doneAll.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(getApplicationContext(), Admin.class));
+                    finish();
+                }
+            });
+
+            if (bundle != null) {
+
 
                 //Receiver
-                databaseReferenceReceiver = FirebaseDatabase.getInstance().getReference(companyEmail+" Receiver");
-                spinnerDataListReceiver = new ArrayList<>();
-                adapterReceiver = new ArrayAdapter<String>(AddMaterial.this,R.layout.support_simple_spinner_dropdown_item,spinnerDataListReceiver);
-                receiver.setAdapter(adapterReceiver);
-                retrieveDataReceiver();
-
-
-
-
-
-
-                //Material Add Btn
-                addIV1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        //Materials
-                        String uMaterial1 = material1.getText().toString().trim();
-                        String uQuantity1 = quantity1.getText().toString().trim();
-                        String uUnit1 = unit1.getText().toString().trim();
-
-                        String uMaterial2 = material2.getText().toString().trim();
-                        String uQuantity2 = quantity2.getText().toString().trim();
-                        String uUnit2 = unit2.getText().toString().trim();
-
-                        String uMaterial3 = material3.getText().toString().trim();
-                        String uQuantity3 = quantity3.getText().toString().trim();
-                        String uUnit3 = unit3.getText().toString().trim();
-
-                        String uMaterial4 = material4.getText().toString().trim();
-                        String uQuantity4 = quantity4.getText().toString().trim();
-                        String uUnit4 = unit4.getText().toString().trim();
-
-                        String uMaterial5 = material5.getText().toString().trim();
-                        String uQuantity5 = quantity5.getText().toString().trim();
-                        String uUnit5 = unit5.getText().toString().trim();
-
-
-                        if (uMaterial1.isEmpty()||uQuantity1.isEmpty()||uUnit1.isEmpty()||uMaterial2.isEmpty()||uQuantity2.isEmpty()||uUnit2.isEmpty()||
-                                uMaterial3.isEmpty()||uQuantity3.isEmpty()||uUnit3.isEmpty()||uMaterial4.isEmpty()||uQuantity4.isEmpty()||uUnit4.isEmpty()||
-                                uMaterial5.isEmpty()||uQuantity5.isEmpty()||uUnit5.isEmpty()){
-                            showMessage("Fill above information first");
-                        }
-                        else {
-                            addIV1.setVisibility(View.GONE);
-                            addMaterialLL2.setVisibility(View.VISIBLE);
-                        }
-                    }
-                });
-
-                addIV2.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        //Materials
-                        String uMaterial6 = material6.getText().toString().trim();
-                        String uQuantity6 = quantity6.getText().toString().trim();
-                        String uUnit6 = unit6.getText().toString().trim();
-
-                        String uMaterial7 = material7.getText().toString().trim();
-                        String uQuantity7 = quantity7.getText().toString().trim();
-                        String uUnit7 = unit7.getText().toString().trim();
-
-                        String uMaterial8 = material8.getText().toString().trim();
-                        String uQuantity8 = quantity8.getText().toString().trim();
-                        String uUnit8 = unit8.getText().toString().trim();
-
-                        String uMaterial9 = material9.getText().toString().trim();
-                        String uQuantity9 = quantity9.getText().toString().trim();
-                        String uUnit9 = unit9.getText().toString().trim();
-
-                        String uMaterial10 = material10.getText().toString().trim();
-                        String uQuantity10 = quantity10.getText().toString().trim();
-                        String uUnit10 = unit10.getText().toString().trim();
-
-
-                        if (uMaterial6.isEmpty()||uQuantity6.isEmpty()||uUnit6.isEmpty()||uMaterial7.isEmpty()||uQuantity7.isEmpty()||uUnit7.isEmpty()||
-                                uMaterial8.isEmpty()||uQuantity8.isEmpty()||uUnit8.isEmpty()||uMaterial9.isEmpty()||uQuantity9.isEmpty()||uUnit9.isEmpty()||
-                                uMaterial10.isEmpty()||uQuantity10.isEmpty()||uUnit10.isEmpty()){
-                            showMessage("Fill above information first");
-                        }
-                        else {
-                            addIV2.setVisibility(View.GONE);
-                            addMaterialLL3.setVisibility(View.VISIBLE);
-                        }
-                    }
-                });
-
-                addIV3.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        //Materials
-                        String uMaterial11 = material11.getText().toString().trim();
-                        String uQuantity11 = quantity11.getText().toString().trim();
-                        String uUnit11 = unit11.getText().toString().trim();
-
-                        String uMaterial12 = material12.getText().toString().trim();
-                        String uQuantity12 = quantity12.getText().toString().trim();
-                        String uUnit12 = unit12.getText().toString().trim();
-
-                        String uMaterial13 = material13.getText().toString().trim();
-                        String uQuantity13 = quantity13.getText().toString().trim();
-                        String uUnit13 = unit13.getText().toString().trim();
-
-                        String uMaterial14 = material4.getText().toString().trim();
-                        String uQuantity14 = quantity14.getText().toString().trim();
-                        String uUnit14 = unit14.getText().toString().trim();
-
-                        String uMaterial15 = material15.getText().toString().trim();
-                        String uQuantity15 = quantity15.getText().toString().trim();
-                        String uUnit15 = unit15.getText().toString().trim();
-
-
-                        if (uMaterial11.isEmpty()||uQuantity11.isEmpty()||uUnit11.isEmpty()||uMaterial12.isEmpty()||uQuantity12.isEmpty()||uUnit12.isEmpty()||
-                                uMaterial13.isEmpty()||uQuantity13.isEmpty()||uUnit13.isEmpty()||uMaterial14.isEmpty()||uQuantity14.isEmpty()||uUnit14.isEmpty()||
-                                uMaterial15.isEmpty()||uQuantity15.isEmpty()||uUnit15.isEmpty()){
-                            showMessage("Fill above information first");
-                        }
-                        else {
-                            addIV3.setVisibility(View.GONE);
-                            addMaterialLL4.setVisibility(View.VISIBLE);
-                        }
-                    }
-                });
-
-                addIV4.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        //Materials
-                        String uMaterial16 = material16.getText().toString().trim();
-                        String uQuantity16 = quantity16.getText().toString().trim();
-                        String uUnit16 = unit16.getText().toString().trim();
-
-                        String uMaterial17 = material17.getText().toString().trim();
-                        String uQuantity17 = quantity17.getText().toString().trim();
-                        String uUnit17 = unit17.getText().toString().trim();
-
-                        String uMaterial18 = material18.getText().toString().trim();
-                        String uQuantity18 = quantity18.getText().toString().trim();
-                        String uUnit18 = unit18.getText().toString().trim();
-
-                        String uMaterial19 = material19.getText().toString().trim();
-                        String uQuantity19 = quantity19.getText().toString().trim();
-                        String uUnit19 = unit19.getText().toString().trim();
-
-                        String uMaterial20 = material20.getText().toString().trim();
-                        String uQuantity20 = quantity20.getText().toString().trim();
-                        String uUnit20 = unit20.getText().toString().trim();
-
-                        if (uMaterial16.isEmpty()||uQuantity16.isEmpty()||uUnit16.isEmpty()||uMaterial17.isEmpty()||uQuantity17.isEmpty()||uUnit17.isEmpty()||
-                                uMaterial18.isEmpty()||uQuantity18.isEmpty()||uUnit18.isEmpty()||uMaterial19.isEmpty()||uQuantity19.isEmpty()||uUnit19.isEmpty()||
-                                uMaterial20.isEmpty()||uQuantity20.isEmpty()||uUnit20.isEmpty()){
-                            showMessage("Fill above information first");
-                        }
-                        else {
-                            addIV4.setVisibility(View.GONE);
-                            addMaterialLL5.setVisibility(View.VISIBLE);
-                        }
-                    }
-                });
-
-                addIV5.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        //Materials
-                        String uMaterial21 = material21.getText().toString().trim();
-                        String uQuantity21 = quantity21.getText().toString().trim();
-                        String uUnit21 = unit21.getText().toString().trim();
-
-                        String uMaterial22 = material22.getText().toString().trim();
-                        String uQuantity22 = quantity22.getText().toString().trim();
-                        String uUnit22 = unit22.getText().toString().trim();
-
-                        String uMaterial23 = material23.getText().toString().trim();
-                        String uQuantity23 = quantity23.getText().toString().trim();
-                        String uUnit23 = unit23.getText().toString().trim();
-
-                        String uMaterial24 = material4.getText().toString().trim();
-                        String uQuantity24 = quantity24.getText().toString().trim();
-                        String uUnit24 = unit24.getText().toString().trim();
-
-                        String uMaterial25 = material25.getText().toString().trim();
-                        String uQuantity25 = quantity25.getText().toString().trim();
-                        String uUnit25 = unit25.getText().toString().trim();
-
-
-
-                        if (uMaterial21.isEmpty()||uQuantity21.isEmpty()||uUnit21.isEmpty()||uMaterial22.isEmpty()||uQuantity22.isEmpty()||uUnit22.isEmpty()||
-                                uMaterial23.isEmpty()||uQuantity23.isEmpty()||uUnit23.isEmpty()||uMaterial24.isEmpty()||uQuantity24.isEmpty()||uUnit24.isEmpty()||
-                                uMaterial25.isEmpty()||uQuantity25.isEmpty()||uUnit25.isEmpty()){
-                            showMessage("Fill above information first");
-                        }
-                        else {
-                            addIV5.setVisibility(View.GONE);
-                            addMaterialLL6.setVisibility(View.VISIBLE);
-                        }
-                    }
-                });
-
-
-                //HomeBtn
-                homeNextBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String team = teamName.getText().toString().trim();
-                        String lineS = line.getText().toString().trim();
-                        String tenderS = tender.getText().toString().trim();
-                        String driverS = driver.getText().toString().trim();
-                        String vehicalS = vehical.getText().toString().trim();
-                        String dateS = mDateFormate.getText().toString().trim();
-
-
-                        if (dateS.isEmpty()){
-                            mDateFormate.setError(r);
-                            mDateFormate.requestFocus();
-                        }
-                        else if (team.isEmpty()){
-                            teamName.setError(r);
-                            teamName.requestFocus();
-                        }
-                        else if (lineS.isEmpty()){
-                            line.setError(r);
-                            line.requestFocus();
-                        }
-                        else if (tenderS.isEmpty()){
-                            tender.setError(r);
-                            tender.requestFocus();
-                        }
-                        else if (driverS.isEmpty()){
-                            driver.setError(r);
-                            driver.requestFocus();
-                        }
-                        else if (vehicalS.isEmpty()){
-                            vehical.setError(r);
-                            vehical.requestFocus();
-                        }
-                        else {
-                            homeLL.setVisibility(View.GONE);
-                            middleLL.setVisibility(View.VISIBLE);
-                            pair(cmp,tenderS);
-                        }
-
-                    }
-                });
-
-                //Home Back
-                homeBackBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        homeLL.setVisibility(View.VISIBLE);
-                        middleLL.setVisibility(View.GONE);
-                    }
-                });
-
-                //Middle Next
-                middleNextBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String consumerName = consumer.getText().toString().trim();
-                        String siteName = site.getText().toString().trim();
-                        String stateS = state.getText().toString().trim();
-                        String dis = district.getText().toString().trim();
-                        String talukaS = taluka.getText().toString().trim();
-                        String centerS = center.getText().toString().trim();
-                        String villageS = village.getText().toString().trim();
-                        if (consumerName.isEmpty()){
-                            consumer.setError(r);
-                            consumer.requestFocus();
-                        }
-                        else if (stateS.isEmpty()){
-                            state.setError(r);
-                            state.requestFocus();
-                        }
-                        else if (dis.isEmpty()){
-                            district.setError(r);
-                            district.requestFocus();
-                        }
-                        else if (talukaS.isEmpty()){
-                            taluka.setError(r);
-                            taluka.requestFocus();
-                        }
-                        else if (centerS.isEmpty()){
-                            center.setError(r);
-                            center.requestFocus();
-                        }
-                        else if (villageS.isEmpty()){
-                            village.setError(r);
-                            village.requestFocus();
-                        }
-
-                        else if (siteName.isEmpty()){
-                            site.setError(r);
-                            site.requestFocus();
-                        }
-                        else {
-                            middleLL.setVisibility(View.GONE);
-                            lastOneLL.setVisibility(View.VISIBLE);
-                        }
-                    }
-                });
-
-                //Middle Back
-                middleBackBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        middleLL.setVisibility(View.VISIBLE);
-                        lastOneLL.setVisibility(View.GONE);
-                    }
-                });
-
+                String materialReceiver = receiver.getText().toString().trim();
                 //NextLastTwo
                 nextLastTwo.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        lastOneLL.setVisibility(View.GONE);
-                        lastLL.setVisibility(View.VISIBLE);
-                    }
-                });
-
-                lastBackBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        lastOneLL.setVisibility(View.VISIBLE);
-                        lastLL.setVisibility(View.GONE);
-                    }
-                });
-
-                doneBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String pass = passReceiver.getText().toString().trim();
 
                         //Home
                         String uDate = mDateFormate.getText().toString().trim();
@@ -1269,7 +1505,7 @@ public class AddMaterial extends AppCompatActivity {
 
                         //Site
                         String uConsumerName = consumer.getText().toString().trim();
-                        String uSite = (site.getText().toString().trim())+"  "+(taluka.getText().toString().trim())+"  "+(district.getText().toString().trim())+"  "+(state.getText().toString().trim());
+                        String uSite = (site.getText().toString().trim()) + "  " + (taluka.getText().toString().trim()) + "  " + (district.getText().toString().trim()) + "  " + (state.getText().toString().trim());
 
                         //Material
                         String uMaterial1 = material1.getText().toString().trim();
@@ -1386,230 +1622,189 @@ public class AddMaterial extends AppCompatActivity {
 
                         String uMaterial29 = material29.getText().toString().trim();
                         String uQuantity29 = quantity29.getText().toString().trim();
-                        String uUnit29 = unit19.getText().toString().trim();
+                        String uUnit29 = unit29.getText().toString().trim();
 
                         String uMaterial30 = material30.getText().toString().trim();
                         String uQuantity30 = quantity30.getText().toString().trim();
                         String uUnit30 = unit30.getText().toString().trim();
 
 
-                        //Receiver
-                        String materialReceiver = receiver.getText().toString().trim();
-
                         String centerS = center.getText().toString().trim();
                         String villageS = village.getText().toString().trim();
-
-
-                        if (materialReceiver.isEmpty()){
-                            receiver.setError(r);
-                            receiver.requestFocus();
-                        }
-                        else if (pass.isEmpty()){
-                            passReceiver.setError(r);
-                            passReceiver.requestFocus();
-                        }
-                        else if (bundle!=null){
-
-                        }
-                        else {
-                            verifyPassReceiver(materialReceiver,pass,cmp,uDate,uTeamName,uLine,uTender,uDriverName,uVehicalName,uConsumerName,uSite
-                                    ,uMaterial1,uQuantity1,uMaterial2,uQuantity2,uMaterial3,uQuantity3,uMaterial4,uQuantity4,uMaterial5,uQuantity5,
-                                    uMaterial6,uQuantity6,uMaterial7,uQuantity7,uMaterial8,uQuantity8,uMaterial9,uQuantity9,uMaterial10,uQuantity10
-                                    ,uQuantity11,uMaterial12,uQuantity12,uMaterial13,uQuantity13,uMaterial14,uQuantity14,uMaterial15,uQuantity15,
-                                    uMaterial16,uQuantity16,uMaterial17,uQuantity17,uMaterial18,uQuantity18,uMaterial19,uQuantity19,uMaterial20,uQuantity20
-                                    ,uUnit1,uUnit2,uUnit3,uUnit4,uUnit5,uUnit6,uUnit7,uUnit8,uUnit9,uUnit10
-                                    ,uUnit11,uUnit12,uUnit13,uUnit14,uUnit15,uUnit16,uUnit17,uUnit18,uUnit19,uUnit20,uMaterial11
-                                    ,uMaterial21,uQuantity21,uMaterial22,uQuantity22,uMaterial23,uQuantity23,uMaterial24,uQuantity24,uMaterial25,uQuantity25,
-                                    uMaterial26,uQuantity26,uMaterial27,uQuantity27,uMaterial28,uQuantity28,uMaterial29,uQuantity29,uMaterial30,uQuantity30
-                                    ,uUnit21,uUnit22,uUnit23,uUnit24,uUnit25,uUnit26,uUnit27,uUnit28,uUnit29,uUnit30,
-                                    centerS,villageS);
-
-                        }
+                        lastOneLL.setVisibility(View.GONE);
+                        lastLL.setVisibility(View.GONE);
+                        update(cmp, uDate, uTeamName, uLine, uTender, uDriverName, uVehicalName, uConsumerName, uSite, uMaterial1, uQuantity1, uMaterial2, uQuantity2,
+                                uMaterial3, uQuantity3, uMaterial4, uQuantity4, uMaterial5,
+                                uQuantity5, uMaterial6, uQuantity6, uMaterial7, uQuantity7, uMaterial8, uQuantity8, uMaterial9, uQuantity9, uMaterial10, uQuantity10,
+                                uQuantity11, uMaterial12, uQuantity12, uMaterial13, uQuantity13, uMaterial14, uQuantity14, uMaterial15, uQuantity15, uMaterial16, uQuantity16,
+                                uMaterial17, uQuantity17, uMaterial18, uQuantity18, uMaterial19, uQuantity19, uMaterial20, uQuantity20, uUnit1, uUnit2, uUnit3, uUnit4, uUnit5, uUnit6, uUnit7, uUnit8, uUnit9,
+                                uUnit10, uUnit11, uUnit12, uUnit13, uUnit14, uUnit15, uUnit16, uUnit17, uUnit18, uUnit19, uUnit20, uMaterial11, uMaterial21, uQuantity21, uMaterial22, uQuantity22,
+                                uMaterial23, uQuantity23, uMaterial24, uQuantity24, uMaterial25, uQuantity25, uMaterial26, uQuantity26, uMaterial27, uQuantity27, uMaterial28,
+                                uQuantity28, uMaterial29, uQuantity29, uMaterial30, uQuantity30, uUnit21, uUnit22, uUnit23, uUnit24, uUnit25, uUnit26, uUnit27, uUnit28, uUnit29,
+                                uUnit30, materialReceiver, centerS, villageS);
                     }
                 });
 
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
+            }
+
+        }
+    });
+
+    }
+
+    private void showAddData(String cmp) {
+        fStore.collection(cmp + " RemainingMaterial").orderBy("Date", Query.Direction.DESCENDING).get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
-                    public void run() {
-                        doneAll.setEnabled(true);
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        modelList.clear();
+                        for (DocumentSnapshot doc : queryDocumentSnapshots) {
+                            AdminModel model = new AdminModel(
+                                    doc.getString("id"),
+                                    doc.getString("Date"),
+                                    doc.getString("Team Name"),
+                                    doc.getString("Line"),
+                                    doc.getString("Tender"),
+                                    doc.getString("Driver Name"),
+                                    doc.getString("Vehical Name"),
+                                    doc.getString("Consumer Name"),
+                                    doc.getString("Site Name"),
+                                    doc.getString("Material 1"),
+                                    doc.getString("Unit 1"),
+                                    doc.getString("Quantity 1"),
+                                    doc.getString("Material 2"),
+                                    doc.getString("Unit 2"),
+                                    doc.getString("Quantity 2"),
+                                    doc.getString("Material 3"),
+                                    doc.getString("Unit 3"),
+                                    doc.getString("Quantity 3"),
+                                    doc.getString("Material 4"),
+                                    doc.getString("Unit 4"),
+                                    doc.getString("Quantity 4"),
+                                    doc.getString("Material 5"),
+                                    doc.getString("Unit 5"),
+                                    doc.getString("Quantity 5"),
+                                    doc.getString("Material 6"),
+                                    doc.getString("Unit 6"),
+                                    doc.getString("Quantity 6"),
+                                    doc.getString("Material 7"),
+                                    doc.getString("Unit 7"),
+                                    doc.getString("Quantity 7"),
+                                    doc.getString("Material 8"),
+                                    doc.getString("Unit 8"),
+                                    doc.getString("Quantity 8"),
+                                    doc.getString("Material 9"),
+                                    doc.getString("Unit 9"),
+                                    doc.getString("Quantity 9"),
+                                    doc.getString("Material 10"),
+                                    doc.getString("Unit 10"),
+                                    doc.getString("Quantity 10"),
+                                    doc.getString("Material 11"),
+                                    doc.getString("Unit 11"),
+                                    doc.getString("Quantity 11"),
+                                    doc.getString("Material 12"),
+                                    doc.getString("Unit 12"),
+                                    doc.getString("Quantity 12"),
+                                    doc.getString("Material 13"),
+                                    doc.getString("Unit 13"),
+                                    doc.getString("Quantity 13"),
+                                    doc.getString("Material 14"),
+                                    doc.getString("Unit 14"),
+                                    doc.getString("Quantity 14"),
+                                    doc.getString("Material 15"),
+                                    doc.getString("Unit 15"),
+                                    doc.getString("Quantity 15"),
+                                    doc.getString("Material 16"),
+                                    doc.getString("Unit 16"),
+                                    doc.getString("Quantity 16"),
+                                    doc.getString("Material 17"),
+                                    doc.getString("Unit 17"),
+                                    doc.getString("Quantity 17"),
+                                    doc.getString("Material 18"),
+                                    doc.getString("Unit 18"),
+                                    doc.getString("Quantity 18"),
+                                    doc.getString("Material 19"),
+                                    doc.getString("Unit 19"),
+                                    doc.getString("Quantity 19"),
+                                    doc.getString("Material 20"),
+                                    doc.getString("Unit 20"),
+                                    doc.getString("Quantity 20"),
+                                    doc.getString("Material 21"),
+                                    doc.getString("Unit 21"),
+                                    doc.getString("Quantity 21"),
+                                    doc.getString("Material 22"),
+                                    doc.getString("Unit 22"),
+                                    doc.getString("Quantity 22"),
+                                    doc.getString("Material 23"),
+                                    doc.getString("Unit 23"),
+                                    doc.getString("Quantity 23"),
+                                    doc.getString("Material 24"),
+                                    doc.getString("Unit 24"),
+                                    doc.getString("Quantity 24"),
+                                    doc.getString("Material 25"),
+                                    doc.getString("Unit 25"),
+                                    doc.getString("Quantity 25"),
+                                    doc.getString("Material 26"),
+                                    doc.getString("Unit 26"),
+                                    doc.getString("Quantity 26"),
+                                    doc.getString("Material 27"),
+                                    doc.getString("Unit 27"),
+                                    doc.getString("Quantity 27"),
+                                    doc.getString("Material 28"),
+                                    doc.getString("Unit 28"),
+                                    doc.getString("Quantity 28"),
+                                    doc.getString("Material 29"),
+                                    doc.getString("Unit 29"),
+                                    doc.getString("Quantity 29"),
+                                    doc.getString("Material 30"),
+                                    doc.getString("Unit 30"),
+                                    doc.getString("Quantity 30"),
+                                    doc.getString("Material Receiver Name"),
+                                    doc.getString("Center"),
+                                    doc.getString("Village")
+                            );
+
+                            modelListAddData.add(model);
+                        }
+                        adapterStockAddData = new ShowDataAdminCustomAdapter(AddMaterial.this, modelListAddData);
+                        recycleAddData.setAdapter(adapterStockAddData);
                     }
-                },1500);
-                doneAll.setOnClickListener(new View.OnClickListener() {
+                })
+                .addOnFailureListener(new OnFailureListener() {
                     @Override
-                    public void onClick(View v) {
-                        startActivity(new Intent(getApplicationContext(),Admin.class));
-                        finish();
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
 
-                if (bundle!=null){
+    private void showTotalMaterialTaken(String cmp, String consumerName) {
 
-
-
-                    //Receiver
-                    String materialReceiver = receiver.getText().toString().trim();
-                    //NextLastTwo
-                    nextLastTwo.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-
-                            //Home
-                            String uDate = mDateFormate.getText().toString().trim();
-                            String uTeamName = teamName.getText().toString().trim();
-                            String uLine = line.getText().toString().trim();
-                            String uTender = tender.getText().toString().trim();
-                            String uDriverName = driver.getText().toString().trim();
-                            String uVehicalName = vehical.getText().toString().trim();
-
-                            //Site
-                            String uConsumerName = consumer.getText().toString().trim();
-                            String uSite = (site.getText().toString().trim())+"  "+(taluka.getText().toString().trim())+"  "+(district.getText().toString().trim())+"  "+(state.getText().toString().trim());
-
-                            //Material
-                            String uMaterial1 = material1.getText().toString().trim();
-                            String uQuantity1 = quantity1.getText().toString().trim();
-                            String uUnit1 = unit1.getText().toString().trim();
-
-                            String uMaterial2 = material2.getText().toString().trim();
-                            String uQuantity2 = quantity2.getText().toString().trim();
-                            String uUnit2 = unit2.getText().toString().trim();
-
-                            String uMaterial3 = material3.getText().toString().trim();
-                            String uQuantity3 = quantity3.getText().toString().trim();
-                            String uUnit3 = unit3.getText().toString().trim();
-
-                            String uMaterial4 = material4.getText().toString().trim();
-                            String uQuantity4 = quantity4.getText().toString().trim();
-                            String uUnit4 = unit4.getText().toString().trim();
-
-                            String uMaterial5 = material5.getText().toString().trim();
-                            String uQuantity5 = quantity5.getText().toString().trim();
-                            String uUnit5 = unit5.getText().toString().trim();
-
-                            String uMaterial6 = material6.getText().toString().trim();
-                            String uQuantity6 = quantity6.getText().toString().trim();
-                            String uUnit6 = unit6.getText().toString().trim();
-
-                            String uMaterial7 = material7.getText().toString().trim();
-                            String uQuantity7 = quantity7.getText().toString().trim();
-                            String uUnit7 = unit7.getText().toString().trim();
-
-                            String uMaterial8 = material8.getText().toString().trim();
-                            String uQuantity8 = quantity8.getText().toString().trim();
-                            String uUnit8 = unit8.getText().toString().trim();
-
-                            String uMaterial9 = material9.getText().toString().trim();
-                            String uQuantity9 = quantity9.getText().toString().trim();
-                            String uUnit9 = unit9.getText().toString().trim();
-
-                            String uMaterial10 = material10.getText().toString().trim();
-                            String uQuantity10 = quantity10.getText().toString().trim();
-                            String uUnit10 = unit10.getText().toString().trim();
-
-                            String uMaterial11 = material11.getText().toString().trim();
-                            String uQuantity11 = quantity11.getText().toString().trim();
-                            String uUnit11 = unit11.getText().toString().trim();
-
-                            String uMaterial12 = material12.getText().toString().trim();
-                            String uQuantity12 = quantity12.getText().toString().trim();
-                            String uUnit12 = unit12.getText().toString().trim();
-
-                            String uMaterial13 = material13.getText().toString().trim();
-                            String uQuantity13 = quantity13.getText().toString().trim();
-                            String uUnit13 = unit13.getText().toString().trim();
-
-                            String uMaterial14 = material14.getText().toString().trim();
-                            String uQuantity14 = quantity14.getText().toString().trim();
-                            String uUnit14 = unit14.getText().toString().trim();
-
-                            String uMaterial15 = material15.getText().toString().trim();
-                            String uQuantity15 = quantity15.getText().toString().trim();
-                            String uUnit15 = unit15.getText().toString().trim();
-
-                            String uMaterial16 = material16.getText().toString().trim();
-                            String uQuantity16 = quantity16.getText().toString().trim();
-                            String uUnit16 = unit16.getText().toString().trim();
-
-                            String uMaterial17 = material17.getText().toString().trim();
-                            String uQuantity17 = quantity17.getText().toString().trim();
-                            String uUnit17 = unit17.getText().toString().trim();
-
-                            String uMaterial18 = material18.getText().toString().trim();
-                            String uQuantity18 = quantity18.getText().toString().trim();
-                            String uUnit18 = unit18.getText().toString().trim();
-
-                            String uMaterial19 = material19.getText().toString().trim();
-                            String uQuantity19 = quantity19.getText().toString().trim();
-                            String uUnit19 = unit19.getText().toString().trim();
-
-                            String uMaterial20 = material20.getText().toString().trim();
-                            String uQuantity20 = quantity20.getText().toString().trim();
-                            String uUnit20 = unit20.getText().toString().trim();
-
-                            String uMaterial21 = material21.getText().toString().trim();
-                            String uQuantity21 = quantity21.getText().toString().trim();
-                            String uUnit21 = unit21.getText().toString().trim();
-
-                            String uMaterial22 = material22.getText().toString().trim();
-                            String uQuantity22 = quantity22.getText().toString().trim();
-                            String uUnit22 = unit22.getText().toString().trim();
-
-                            String uMaterial23 = material23.getText().toString().trim();
-                            String uQuantity23 = quantity23.getText().toString().trim();
-                            String uUnit23 = unit23.getText().toString().trim();
-
-                            String uMaterial24 = material24.getText().toString().trim();
-                            String uQuantity24 = quantity24.getText().toString().trim();
-                            String uUnit24 = unit24.getText().toString().trim();
-
-                            String uMaterial25 = material25.getText().toString().trim();
-                            String uQuantity25 = quantity25.getText().toString().trim();
-                            String uUnit25 = unit25.getText().toString().trim();
-
-                            String uMaterial26 = material26.getText().toString().trim();
-                            String uQuantity26 = quantity26.getText().toString().trim();
-                            String uUnit26 = unit26.getText().toString().trim();
-
-                            String uMaterial27 = material27.getText().toString().trim();
-                            String uQuantity27 = quantity27.getText().toString().trim();
-                            String uUnit27 = unit27.getText().toString().trim();
-
-                            String uMaterial28 = material28.getText().toString().trim();
-                            String uQuantity28 = quantity28.getText().toString().trim();
-                            String uUnit28 = unit28.getText().toString().trim();
-
-                            String uMaterial29 = material29.getText().toString().trim();
-                            String uQuantity29 = quantity29.getText().toString().trim();
-                            String uUnit29 = unit29.getText().toString().trim();
-
-                            String uMaterial30 = material30.getText().toString().trim();
-                            String uQuantity30 = quantity30.getText().toString().trim();
-                            String uUnit30 = unit30.getText().toString().trim();
-
-
-                            String centerS = center.getText().toString().trim();
-                            String villageS = village.getText().toString().trim();
-                            lastOneLL.setVisibility(View.GONE);
-                            lastLL.setVisibility(View.GONE);
-                            update(cmp, uDate, uTeamName, uLine, uTender, uDriverName, uVehicalName, uConsumerName, uSite, uMaterial1, uQuantity1, uMaterial2, uQuantity2,
-                                    uMaterial3, uQuantity3, uMaterial4, uQuantity4, uMaterial5,
-                                    uQuantity5, uMaterial6, uQuantity6, uMaterial7, uQuantity7, uMaterial8, uQuantity8, uMaterial9, uQuantity9, uMaterial10, uQuantity10,
-                                    uQuantity11, uMaterial12, uQuantity12, uMaterial13, uQuantity13, uMaterial14, uQuantity14, uMaterial15, uQuantity15, uMaterial16, uQuantity16,
-                                    uMaterial17, uQuantity17, uMaterial18, uQuantity18, uMaterial19, uQuantity19, uMaterial20, uQuantity20, uUnit1, uUnit2, uUnit3, uUnit4, uUnit5, uUnit6, uUnit7, uUnit8, uUnit9,
-                                    uUnit10, uUnit11, uUnit12, uUnit13, uUnit14, uUnit15, uUnit16, uUnit17, uUnit18, uUnit19, uUnit20, uMaterial11, uMaterial21, uQuantity21, uMaterial22, uQuantity22,
-                                    uMaterial23, uQuantity23, uMaterial24, uQuantity24, uMaterial25, uQuantity25, uMaterial26, uQuantity26, uMaterial27, uQuantity27, uMaterial28,
-                                    uQuantity28, uMaterial29, uQuantity29, uMaterial30, uQuantity30, uUnit21, uUnit22, uUnit23, uUnit24, uUnit25, uUnit26, uUnit27, uUnit28, uUnit29,
-                                    uUnit30, materialReceiver, centerS, villageS);
-                        }
-                    });
-
+        fStore.collection(cmp+" "+consumerName).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                modelListTMT.clear();
+                for (DocumentSnapshot doc : task.getResult()){
+                    AddTotalMaterialTakenModel model = new AddTotalMaterialTakenModel(
+                            doc.getString("Id"),
+                            doc.getString("Material"),
+                            doc.getString("Unit"),
+                            doc.getString("Quantity")
+                    );
+                    modelListTMT.add(model);
                 }
-
+                adapterStockTMT = new AddTotalMaterialTakenAdapter(AddMaterial.this,modelListTMT);
+                recyclerViewTMT.setAdapter(adapterStockTMT);
+            }}).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(AddMaterial.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
+
     }
+
     private void showData(String cmp) {
         fStore.collection(cmp+" AddStock").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -1712,6 +1907,7 @@ public class AddMaterial extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
 
         Map<String, Object> doc = new HashMap<>();
+
 
         doc.put("id", id);
         doc.put("Date",uDate);
@@ -2018,6 +2214,19 @@ public class AddMaterial extends AppCompatActivity {
 
         Map<String, Object> doc = new HashMap<>();
 
+        for (int i=0;i<modelListAddData.size();i++){
+            if (modelListAddData.get(i).getConsumerName().equalsIgnoreCase(uConsumerName)){
+                id = modelListAddData.get(i).getId();
+                if (!modelListAddData.get(i).getTeamName().equalsIgnoreCase(uTeamName)){
+                    uTeamName = uTeamName + "," + modelListAddData.get(i).getTeamName();
+                }
+                if (!modelListAddData.get(i).getDate().equalsIgnoreCase(uDate)){
+                    uDate = uDate + "," + modelListAddData.get(i).getDate();
+                }
+            }
+        }
+
+
         doc.put("id", id);
         doc.put("Date",uDate);
         doc.put("SearchDate",uDate.toLowerCase());
@@ -2153,6 +2362,19 @@ public class AddMaterial extends AppCompatActivity {
                         ,uMaterial21,uQuantity21,uMaterial22,uQuantity22,uMaterial23,uQuantity23,uMaterial24,uQuantity24,uMaterial25,uQuantity25,
                         uMaterial26,uQuantity26,uMaterial27,uQuantity27,uMaterial28,uQuantity28,uMaterial29,uQuantity29,uMaterial30,uQuantity30
                         ,uUnit21,uUnit22,uUnit23,uUnit24,uUnit25,uUnit26,uUnit27,uUnit28,uUnit29,uUnit30);
+
+                addTotalMaterialTaken(cmp,uConsumerName,uMaterial1,uQuantity1,uMaterial2,uQuantity2,uMaterial3,uQuantity3,uMaterial4,uQuantity4,uMaterial5,uQuantity5,
+                        uMaterial6,uQuantity6,uMaterial7,uQuantity7,uMaterial8,uQuantity8,uMaterial9,uQuantity9,uMaterial10,uQuantity10
+                        ,uQuantity11,uMaterial12,uQuantity12,uMaterial13,uQuantity13,uMaterial14,uQuantity14,uMaterial15,uQuantity15,
+                        uMaterial16,uQuantity16,uMaterial17,uQuantity17,uMaterial18,uQuantity18,uMaterial19,uQuantity19,uMaterial20,uQuantity20
+                        ,uUnit1,uUnit2,uUnit3,uUnit4,uUnit5,uUnit6,uUnit7,uUnit8,uUnit9,uUnit10
+                        ,uUnit11,uUnit12,uUnit13,uUnit14,uUnit15,uUnit16,uUnit17,uUnit18,uUnit19,uUnit20,uMaterial11
+                        ,uMaterial21,uQuantity21,uMaterial22,uQuantity22,uMaterial23,uQuantity23,uMaterial24,uQuantity24,uMaterial25,uQuantity25,
+                        uMaterial26,uQuantity26,uMaterial27,uQuantity27,uMaterial28,uQuantity28,uMaterial29,uQuantity29,uMaterial30,uQuantity30
+                        ,uUnit21,uUnit22,uUnit23,uUnit24,uUnit25,uUnit26,uUnit27,uUnit28,uUnit29,uUnit30);
+                
+                
+                
             }
         }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -2166,6 +2388,530 @@ public class AddMaterial extends AppCompatActivity {
 
 
     }
+
+    private void addTotalMaterialTaken(String cmp,String consumerName, String uMaterial1, String uQuantity1, String uMaterial2, String uQuantity2, String uMaterial3, String uQuantity3, String uMaterial4, String uQuantity4, String uMaterial5, String uQuantity5, String uMaterial6, String uQuantity6, String uMaterial7, String uQuantity7, String uMaterial8, String uQuantity8, String uMaterial9, String uQuantity9, String uMaterial10, String uQuantity10, String uQuantity11, String uMaterial12, String uQuantity12, String uMaterial13, String uQuantity13, String uMaterial14, String uQuantity14, String uMaterial15, String uQuantity15, String uMaterial16, String uQuantity16, String uMaterial17, String uQuantity17, String uMaterial18, String uQuantity18, String uMaterial19, String uQuantity19, String uMaterial20, String uQuantity20, String uUnit1, String uUnit2, String uUnit3, String uUnit4, String uUnit5, String uUnit6, String uUnit7, String uUnit8, String uUnit9, String uUnit10, String uUnit11, String uUnit12, String uUnit13, String uUnit14, String uUnit15, String uUnit16, String uUnit17, String uUnit18, String uUnit19, String uUnit20, String uMaterial11, String uMaterial21, String uQuantity21, String uMaterial22, String uQuantity22, String uMaterial23, String uQuantity23, String uMaterial24, String uQuantity24, String uMaterial25, String uQuantity25, String uMaterial26, String uQuantity26, String uMaterial27, String uQuantity27, String uMaterial28, String uQuantity28, String uMaterial29, String uQuantity29, String uMaterial30, String uQuantity30, String uUnit21, String uUnit22, String uUnit23, String uUnit24, String uUnit25, String uUnit26, String uUnit27, String uUnit28, String uUnit29, String uUnit30) {
+
+
+        if (modelListTMT.size()!=0){
+            for (int i=0;i<modelListTMT.size();i++){
+
+                if (!uMaterial1.equals("")){
+                    if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial1)){
+                        float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity1);
+                        addTotalMaterialTakenSpecific(uMaterial1,cmp,consumerName,String.valueOf(q),uUnit1);
+                        a1=1;
+                    }
+                }
+
+                if (!uMaterial2.equals("")){
+                    if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial2)){
+                        float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity2);
+                        addTotalMaterialTakenSpecific(uMaterial2,cmp,consumerName,String.valueOf(q),uUnit2);
+                        a2=1;
+                    }
+                }
+
+                if (!uMaterial3.equals("")){
+                    if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial3)){
+                        float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity3);
+                        addTotalMaterialTakenSpecific(uMaterial3,cmp,consumerName,String.valueOf(q),uUnit3);
+                        a3=1;
+                    }
+
+                }
+
+                if (!uMaterial4.equals("")){
+                    if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial4)){
+                        float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity4);
+                        addTotalMaterialTakenSpecific(uMaterial4,cmp,consumerName,String.valueOf(q),uUnit4);
+                        a4=1;
+                    }
+
+                }
+
+                if (!uMaterial5.equals("")){
+                    if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial5)){
+                        float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity5);
+                        addTotalMaterialTakenSpecific(uMaterial5,cmp,consumerName,String.valueOf(q),uUnit5);
+                        a5=1;
+                    }
+
+                }
+
+                if (!uMaterial6.equals("")){
+                    if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial6)){
+                        float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity6);
+                        addTotalMaterialTakenSpecific(uMaterial6,cmp,consumerName,String.valueOf(q),uUnit6);
+                        a6=1;
+                    }
+
+                }
+
+                if (!uMaterial7.equals("")){
+                    if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial7)){
+                        float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity7);
+                        addTotalMaterialTakenSpecific(uMaterial7,cmp,consumerName,String.valueOf(q),uUnit7);
+                        a7=1;
+                    }
+
+                }
+
+                if (!uMaterial8.equals("")){
+                    if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial8)){
+                        float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity8);
+                        addTotalMaterialTakenSpecific(uMaterial8,cmp,consumerName,String.valueOf(q),uUnit8);
+                        a8=1;
+                    }
+
+                }
+
+                if (!uMaterial9.equals("")){
+                    if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial9)){
+                        float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity9);
+                        addTotalMaterialTakenSpecific(uMaterial9,cmp,consumerName,String.valueOf(q),uUnit9);
+                        a9=1;
+                    }
+
+                }
+
+                if (!uMaterial10.equals("")){
+                    if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial10)){
+                        float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity10);
+                        addTotalMaterialTakenSpecific(uMaterial10,cmp,consumerName,String.valueOf(q),uUnit10);
+                        a10=1;
+                    }
+
+                }
+
+                if (!uMaterial11.equals("")){
+                    if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial11)){
+                        float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity11);
+                        addTotalMaterialTakenSpecific(uMaterial11,cmp,consumerName,String.valueOf(q),uUnit11);
+                        a11=1;
+                    }
+
+                }
+
+                if (!uMaterial12.equals("")){
+                    if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial12)){
+                        float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity12);
+                        addTotalMaterialTakenSpecific(uMaterial12,cmp,consumerName,String.valueOf(q),uUnit12);
+                        a12=1;
+                    }
+
+                }
+
+                if (!uMaterial13.equals("")){
+                    if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial13)){
+                        float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity13);
+                        addTotalMaterialTakenSpecific(uMaterial13,cmp,consumerName,String.valueOf(q),uUnit13);
+                        a13=1;
+                    }
+
+                }
+
+                if (!uMaterial14.equals("")){
+                    if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial14)){
+                        float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity14);
+                        addTotalMaterialTakenSpecific(uMaterial14,cmp,consumerName,String.valueOf(q),uUnit14);
+                        a14=1;
+                    }
+
+                }
+
+                if (!uMaterial15.equals("")){
+                    if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial15)){
+                        float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity15);
+                        addTotalMaterialTakenSpecific(uMaterial15,cmp,consumerName,String.valueOf(q),uUnit15);
+                        a15=1;
+                    }
+
+                }
+
+                if (!uMaterial16.equals("")){
+                    if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial16)){
+                        float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity16);
+                        addTotalMaterialTakenSpecific(uMaterial16,cmp,consumerName,String.valueOf(q),uUnit16);
+                        a16=1;
+                    }
+
+                }
+
+                if (!uMaterial17.equals("")){
+                    if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial17)){
+                        float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity17);
+                        addTotalMaterialTakenSpecific(uMaterial17,cmp,consumerName,String.valueOf(q),uUnit17);
+                        a17=1;
+                    }
+
+                }
+
+                if (!uMaterial18.equals("")){
+                    if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial18)){
+                        float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity18);
+                        addTotalMaterialTakenSpecific(uMaterial18,cmp,consumerName,String.valueOf(q),uUnit18);
+                        a18=1;
+                    }
+
+                }
+
+                if (!uMaterial19.equals("")){
+                    if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial19)){
+                        float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity19);
+                        addTotalMaterialTakenSpecific(uMaterial19,cmp,consumerName,String.valueOf(q),uUnit19);
+                        a19=1;
+                    }
+
+                }
+
+                if (!uMaterial20.equals("")){
+                    if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial20)){
+                        float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity20);
+                        addTotalMaterialTakenSpecific(uMaterial20,cmp,consumerName,String.valueOf(q),uUnit20);
+                        a20=1;
+                    }
+
+                }
+
+                if (!uMaterial21.equals("")){
+                    if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial21)){
+                        float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity21);
+                        addTotalMaterialTakenSpecific(uMaterial21,cmp,consumerName,String.valueOf(q),uUnit21);
+                        a21=1;
+                    }
+
+                }
+
+                if (!uMaterial22.equals("")){
+                    if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial22)){
+                        float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity22);
+                        addTotalMaterialTakenSpecific(uMaterial22,cmp,consumerName,String.valueOf(q),uUnit22);
+                        a22=1;
+                    }
+
+                }
+
+                if (!uMaterial23.equals("")){
+                    if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial23)){
+                        float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity23);
+                        addTotalMaterialTakenSpecific(uMaterial23,cmp,consumerName,String.valueOf(q),uUnit23);
+                        a23=1;
+                    }
+
+                }
+
+                if (!uMaterial24.equals("")){
+                    if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial24)){
+                        float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity24);
+                        addTotalMaterialTakenSpecific(uMaterial24,cmp,consumerName,String.valueOf(q),uUnit24);
+                        a24=1;
+                    }
+
+                }
+
+                if (!uMaterial25.equals("")){
+                    if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial25)){
+                        float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity25);
+                        addTotalMaterialTakenSpecific(uMaterial25,cmp,consumerName,String.valueOf(q),uUnit25);
+                        a25=1;
+                    }
+
+                }
+
+                if (!uMaterial26.equals("")){
+                    if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial26)){
+                        float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity26);
+                        addTotalMaterialTakenSpecific(uMaterial26,cmp,consumerName,String.valueOf(q),uUnit26);
+                        a26=1;
+                    }
+
+                }
+
+                if (!uMaterial27.equals("")){
+                    if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial27)){
+                        float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity27);
+                        addTotalMaterialTakenSpecific(uMaterial27,cmp,consumerName,String.valueOf(q),uUnit27);
+                        a27=1;
+                    }
+
+                }
+
+                if (!uMaterial28.equals("")){
+                    if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial28)){
+                        float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity28);
+                        addTotalMaterialTakenSpecific(uMaterial28,cmp,consumerName,String.valueOf(q),uUnit28);
+                        a28=1;
+                    }
+
+                }
+
+                if (!uMaterial29.equals("")){
+                    if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial29)){
+                        float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity29);
+                        addTotalMaterialTakenSpecific(uMaterial29,cmp,consumerName,String.valueOf(q),uUnit29);
+                        a29=1;
+                    }
+
+                }
+
+                if (!uMaterial30.equals("")){
+                    if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial30)){
+                        float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity30);
+                        addTotalMaterialTakenSpecific(uMaterial30,cmp,consumerName,String.valueOf(q),uUnit30);
+                        a30=1;
+                    }
+
+                }
+
+
+            }
+
+            if (a1==0 && !uMaterial1.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial1,cmp,consumerName,uQuantity1,uUnit1);
+            }
+
+            if (a2==0 && !uMaterial2.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial2,cmp,consumerName,uQuantity2,uUnit2);
+            }
+            if (a3==0 && !uMaterial3.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial3,cmp,consumerName,uQuantity3,uUnit3);
+            }
+
+            if (a4==0 && !uMaterial4.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial4,cmp,consumerName,uQuantity4,uUnit4);
+            }
+
+            if (a5==0 && !uMaterial5.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial5,cmp,consumerName,uQuantity5,uUnit5);
+            }
+
+            if (a6==0 && !uMaterial6.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial6,cmp,consumerName,uQuantity6,uUnit6);
+            }
+
+            if (a7==0 && !uMaterial7.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial7,cmp,consumerName,uQuantity7,uUnit7);
+            }
+
+            if (a8==0 && !uMaterial8.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial8,cmp,consumerName,uQuantity8,uUnit8);
+            }
+
+            if (a9==0 && !uMaterial9.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial9,cmp,consumerName,uQuantity9,uUnit9);
+            }
+
+            if (a10==0 && !uMaterial10.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial10,cmp,consumerName,uQuantity10,uUnit10);
+            }
+
+            if (a11==0 && !uMaterial11.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial11,cmp,consumerName,uQuantity11,uUnit11);
+            }
+
+            if (a12==0 && !uMaterial12.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial12,cmp,consumerName,uQuantity12,uUnit12);
+            }
+
+            if (a13==0 && !uMaterial13.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial13,cmp,consumerName,uQuantity13,uUnit13);
+            }
+
+            if (a14==0 && !uMaterial14.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial14,cmp,consumerName,uQuantity14,uUnit14);
+            }
+
+            if (a15==0 && !uMaterial15.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial15,cmp,consumerName,uQuantity15,uUnit15);
+            }
+
+            if (a16==0 && !uMaterial16.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial16,cmp,consumerName,uQuantity16,uUnit16);
+            }
+
+            if (a17==0 && !uMaterial17.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial17,cmp,consumerName,uQuantity17,uUnit17);
+            }
+
+            if (a18==0 && !uMaterial18.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial18,cmp,consumerName,uQuantity18,uUnit18);
+            }
+
+            if (a19==0 && !uMaterial19.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial19,cmp,consumerName,uQuantity19,uUnit19);
+            }
+
+            if (a20==0 && !uMaterial20.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial20,cmp,consumerName,uQuantity20,uUnit20);
+            }
+
+            if (a21==0 && !uMaterial21.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial21,cmp,consumerName,uQuantity21,uUnit21);
+            }
+
+            if (a22==0 && !uMaterial22.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial22,cmp,consumerName,uQuantity22,uUnit22);
+            }
+
+            if (a23==0 && !uMaterial23.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial23,cmp,consumerName,uQuantity23,uUnit23);
+            }
+
+            if (a24==0 && !uMaterial24.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial24,cmp,consumerName,uQuantity24,uUnit24);
+            }
+
+            if (a25==0 && !uMaterial25.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial25,cmp,consumerName,uQuantity25,uUnit25);
+            }
+
+            if (a26==0 && !uMaterial26.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial26,cmp,consumerName,uQuantity26,uUnit26);
+            }
+
+            if (a27==0 && !uMaterial27.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial27,cmp,consumerName,uQuantity27,uUnit27);
+            }
+
+            if (a28==0 && !uMaterial28.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial28,cmp,consumerName,uQuantity28,uUnit28);
+            }
+
+            if (a29==0 && !uMaterial29.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial29,cmp,consumerName,uQuantity29,uUnit29);
+            }
+
+            if (a30==0 && !uMaterial30.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial30,cmp,consumerName,uQuantity30,uUnit30);
+            }
+
+        }
+        else{
+
+            if (!uMaterial1.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial1,cmp,consumerName,uQuantity1,uUnit1);
+            }
+            if (!uMaterial2.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial2,cmp,consumerName,uQuantity2,uUnit2);
+            }
+            if (!uMaterial3.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial3,cmp,consumerName,uQuantity3,uUnit3);
+            }
+            if (!uMaterial4.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial4,cmp,consumerName,uQuantity4,uUnit4);
+            }
+            if (!uMaterial5.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial5,cmp,consumerName,uQuantity5,uUnit5);
+            }
+            if (!uMaterial6.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial6,cmp,consumerName,uQuantity6,uUnit6);
+            }
+            if (!uMaterial7.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial7,cmp,consumerName,uQuantity7,uUnit7);
+            }
+            if (!uMaterial8.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial8,cmp,consumerName,uQuantity8,uUnit8);
+            }
+            if (!uMaterial9.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial9,cmp,consumerName,uQuantity9,uUnit9);
+            }
+            if (!uMaterial10.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial10,cmp,consumerName,uQuantity10,uUnit10);
+            }
+            if (!uMaterial11.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial11,cmp,consumerName,uQuantity11,uUnit11);
+            }
+            if (!uMaterial12.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial12,cmp,consumerName,uQuantity12,uUnit12);
+            }
+            if (!uMaterial13.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial13,cmp,consumerName,uQuantity13,uUnit13);
+            }
+            if (!uMaterial14.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial14,cmp,consumerName,uQuantity14,uUnit14);
+            }
+            if (!uMaterial15.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial15,cmp,consumerName,uQuantity15,uUnit15);
+            }
+            if (!uMaterial16.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial16,cmp,consumerName,uQuantity16,uUnit16);
+            }
+            if (!uMaterial17.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial17,cmp,consumerName,uQuantity17,uUnit17);
+            }
+            if (!uMaterial18.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial18,cmp,consumerName,uQuantity18,uUnit18);
+            }
+            if (!uMaterial19.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial19,cmp,consumerName,uQuantity19,uUnit19);
+            }
+            if (!uMaterial20.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial20,cmp,consumerName,uQuantity20,uUnit20);
+            }
+            if (!uMaterial21.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial21,cmp,consumerName,uQuantity21,uUnit21);
+            }
+            if (!uMaterial22.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial22,cmp,consumerName,uQuantity22,uUnit22);
+            }
+            if (!uMaterial23.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial23,cmp,consumerName,uQuantity23,uUnit23);
+            }
+            if (!uMaterial24.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial24,cmp,consumerName,uQuantity24,uUnit24);
+            }
+            if (!uMaterial25.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial25,cmp,consumerName,uQuantity25,uUnit25);
+            }
+            if (!uMaterial26.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial26,cmp,consumerName,uQuantity26,uUnit26);
+            }
+            if (!uMaterial27.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial27,cmp,consumerName,uQuantity27,uUnit27);
+            }
+            if (!uMaterial28.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial28,cmp,consumerName,uQuantity28,uUnit28);
+            }
+            if (!uMaterial29.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial29,cmp,consumerName,uQuantity29,uUnit29);
+            }
+            if (!uMaterial30.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial30,cmp,consumerName,uQuantity30,uUnit30);
+            }
+
+        }
+
+    }
+
+    private void addTotalMaterialTakenSpecific(String material, String cmp, String consumerName, String quantity,String unit) {
+
+
+        Map<String, Object> doc = new HashMap<>();
+        doc.put("Id",material);
+        doc.put("Material",material);
+        doc.put("Unit",unit);
+        doc.put("Quantity",quantity);
+
+        fStore.collection(cmp+" "+consumerName).document(material).set(doc).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                //this will be called when data is added Successfully
+                Toast.makeText(getApplicationContext(), "Total Material Added", Toast.LENGTH_SHORT).show();
+                animation.setVisibility(View.VISIBLE);
+                mediaPlayer.start();
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                //this will be called when data is added Failed
+                Toast.makeText(getApplicationContext(), "Failed to add data "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                animation.setVisibility(View.GONE);
+            }
+        });
+
+    }
+
     private void stock(String cmp, String uMaterial1, String uQuantity1, String uMaterial2, String uQuantity2, String uMaterial3, String uQuantity3, String uMaterial4, String uQuantity4, String uMaterial5, String uQuantity5, String uMaterial6, String uQuantity6, String uMaterial7, String uQuantity7, String uMaterial8, String uQuantity8, String uMaterial9, String uQuantity9, String uMaterial10, String uQuantity10, String uQuantity11, String uMaterial12, String uQuantity12, String uMaterial13, String uQuantity13, String uMaterial14, String uQuantity14, String uMaterial15, String uQuantity15, String uMaterial16, String uQuantity16, String uMaterial17, String uQuantity17, String uMaterial18, String uQuantity18, String uMaterial19, String uQuantity19, String uMaterial20, String uQuantity20, String uUnit1, String uUnit2, String uUnit3, String uUnit4, String uUnit5, String uUnit6, String uUnit7, String uUnit8, String uUnit9, String uUnit10, String uUnit11, String uUnit12, String uUnit13, String uUnit14, String uUnit15, String uUnit16, String uUnit17, String uUnit18, String uUnit19, String uUnit20, String uMaterial11, String uMaterial21, String uQuantity21, String uMaterial22, String uQuantity22, String uMaterial23, String uQuantity23, String uMaterial24, String uQuantity24, String uMaterial25, String uQuantity25, String uMaterial26, String uQuantity26, String uMaterial27, String uQuantity27, String uMaterial28, String uQuantity28, String uMaterial29, String uQuantity29, String uMaterial30, String uQuantity30, String uUnit21, String uUnit22, String uUnit23, String uUnit24, String uUnit25, String uUnit26, String uUnit27, String uUnit28, String uUnit29, String uUnit30) {
 
         Bundle bundle = getIntent().getExtras();

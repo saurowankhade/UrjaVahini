@@ -1,6 +1,6 @@
 package com.example.electricalmaterial;
 
-public class AdminModel {
+public class ActualMaterialModel {
     String id;
     String date;
     String teamName;
@@ -10,7 +10,7 @@ public class AdminModel {
     String vehicalName;
     String consumerName;
     String site;
-    String material1;
+    String  material1;
     String unit1;
     String quantity1;
     String material2;
@@ -104,13 +104,13 @@ public class AdminModel {
     String center;
     String village;
 
+    public ActualMaterialModel(){
+
+    }
 
 
 
-
-    public AdminModel(String id, String date, String teamName, String line, String tender, String driverName, String vehicalName, String consumerName, String site, String material1, String unit1, String quantity1, String material2, String quantity2, String unit2, String material3, String unit3, String quantity3, String material4, String unit4, String quantity4, String material5, String unit5, String quantity5, String material6, String unit6, String quantity6, String material7, String unit7, String quantity7, String material8, String unit8, String quantity8, String material9, String unit9, String quantity9, String material10, String unit10, String quantity10, String material11, String unit11, String quantity11, String material12, String unit12, String quantity12, String material13, String unit13, String quantity13, String material14, String unit14, String quantity14, String material15, String unit15, String quantity15, String material16, String unit16, String quantity16, String material17, String unit17, String quantity17, String material18, String unit18, String quantity18, String material19, String unit19, String quantity19, String material20, String unit20, String quantity20, String material21, String unit21, String quantity21, String material22, String unit22, String quantity22, String material23, String unit23, String quantity23, String material24, String unit24, String quantity24, String material25, String unit25, String quantity25, String material26, String unit26, String quantity26, String material27, String unit27, String quantity27, String material28, String unit28, String quantity28, String material29, String unit29,
-                      String quantity29, String material30, String unit30, String quantity30, String materialReceiverName,
-                      String center,String village) {
+    public ActualMaterialModel(String id, String date, String teamName, String line, String tender, String driverName, String vehicalName, String consumerName, String site, String material1, String unit1, String quantity1, String material2, String quantity2, String unit2, String material3, String unit3, String quantity3, String material4, String unit4, String quantity4, String material5, String unit5, String quantity5, String material6, String unit6, String quantity6, String material7, String unit7, String quantity7, String material8, String unit8, String quantity8, String material9, String unit9, String quantity9, String material10, String unit10, String quantity10, String material11, String unit11, String quantity11, String material12, String unit12, String quantity12, String material13, String unit13, String quantity13, String material14, String unit14, String quantity14, String material15, String unit15, String quantity15, String material16, String unit16, String quantity16, String material17, String unit17, String quantity17, String material18, String unit18, String quantity18, String material19, String unit19, String quantity19, String material20, String unit20, String quantity20, String material21, String unit21, String quantity21, String material22, String unit22, String quantity22, String material23, String unit23, String quantity23, String material24, String unit24, String quantity24, String material25, String unit25, String quantity25, String material26, String unit26, String quantity26, String material27, String unit27, String quantity27, String material28, String unit28, String quantity28, String material29, String unit29, String quantity29, String material30, String unit30, String quantity30, String materialReceiverName, String center, String village) {
         this.id = id;
         this.date = date;
         this.teamName = teamName;
@@ -213,9 +213,7 @@ public class AdminModel {
         this.materialReceiverName = materialReceiverName;
         this.center = center;
         this.village = village;
-
     }
-
 
 
 
@@ -630,5 +628,4 @@ public class AdminModel {
     public String getVillage() {
         return village;
     }
-
 }

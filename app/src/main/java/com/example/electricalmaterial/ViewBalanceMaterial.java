@@ -1,9 +1,15 @@
 package com.example.electricalmaterial;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
-import android.widget.SearchView;
+import android.os.Environment;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -13,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -27,11 +34,19 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ViewBalanceMaterial extends AppCompatActivity {
-    List<ReaminingMaterialModel> modelList = new ArrayList<>();
+    List<BalanceMaterialModel> modelList = new ArrayList<>();
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
 
@@ -42,10 +57,16 @@ public class ViewBalanceMaterial extends AppCompatActivity {
 
     ProgressDialog pd,pd1;
 
-    SearchView searchView;
+    androidx.appcompat.widget.SearchView searchView;
 
     BalanceMaterialCustomAdapter adapter;
     String cmp;
+
+    Button excelSheet;
+
+    SwipeRefreshLayout refreshLayout;
+
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +89,9 @@ public class ViewBalanceMaterial extends AppCompatActivity {
         ActionBar bar = getSupportActionBar();
         assert bar != null;
         bar.setTitle("ACTUAL MATERIAL");
+
+        refreshLayout = findViewById(R.id.refresh);
+
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
@@ -76,7 +100,8 @@ public class ViewBalanceMaterial extends AppCompatActivity {
 
 
         searchView = findViewById(R.id.searchView);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+        searchView.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 return false;
@@ -84,9 +109,8 @@ public class ViewBalanceMaterial extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String s) {
-
-                ArrayList<ReaminingMaterialModel> models = new ArrayList<>();
-                for (ReaminingMaterialModel model : modelList){
+                ArrayList<BalanceMaterialModel> models = new ArrayList<>();
+                for (BalanceMaterialModel model : modelList){
                     if (model.getDate().toLowerCase().contains(s.toLowerCase())){
                         models.add(model);
                     }
@@ -115,6 +139,25 @@ public class ViewBalanceMaterial extends AppCompatActivity {
         });
 
 
+       // excelSheet
+
+        excelSheet = findViewById(R.id.excelSheet);
+        excelSheet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+                        checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                }
+                else {
+                    //your cod
+                    createXlFile();
+                }
+            }
+        });
+
+
+
         DocumentReference documentReference = fStore.collection("Users")
                 .document(userId);
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
@@ -125,6 +168,16 @@ public class ViewBalanceMaterial extends AppCompatActivity {
                 cmp = companyEmail;
                 companyEmail = companyEmail.replace("@", "");
                 companyEmail = companyEmail.replace(".", "");
+
+
+                refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        showData(cmp);
+                        refreshLayout.setRefreshing(false);
+                    }
+                });
+
 
                 showData(cmp);
 
@@ -140,8 +193,9 @@ public class ViewBalanceMaterial extends AppCompatActivity {
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         modelList.clear();
                         pd1.dismiss();
+                        refreshLayout.setRefreshing(false);
                         for (DocumentSnapshot doc : queryDocumentSnapshots){
-                            ReaminingMaterialModel model = new ReaminingMaterialModel(
+                            BalanceMaterialModel model = new BalanceMaterialModel(
                                     doc.getString("id"),
                                     doc.getString("Date"),
                                     doc.getString("Team Name"),
@@ -151,96 +205,6 @@ public class ViewBalanceMaterial extends AppCompatActivity {
                                     doc.getString("Vehical Name"),
                                     doc.getString("Consumer Name"),
                                     doc.getString("Site Name"),
-                                    doc.getString("Material 1"),
-                                    doc.getString("Unit 1"),
-                                    doc.getString("Quantity 1"),
-                                    doc.getString("Material 2"),
-                                    doc.getString("Unit 2"),
-                                    doc.getString("Quantity 2"),
-                                    doc.getString("Material 3"),
-                                    doc.getString("Unit 3"),
-                                    doc.getString("Quantity 3"),
-                                    doc.getString("Material 4"),
-                                    doc.getString("Unit 4"),
-                                    doc.getString("Quantity 4"),
-                                    doc.getString("Material 5"),
-                                    doc.getString("Unit 5"),
-                                    doc.getString("Quantity 5"),
-                                    doc.getString("Material 6"),
-                                    doc.getString("Unit 6"),
-                                    doc.getString("Quantity 6"),
-                                    doc.getString("Material 7"),
-                                    doc.getString("Unit 7"),
-                                    doc.getString("Quantity 7"),
-                                    doc.getString("Material 8"),
-                                    doc.getString("Unit 8"),
-                                    doc.getString("Quantity 8"),
-                                    doc.getString("Material 9"),
-                                    doc.getString("Unit 9"),
-                                    doc.getString("Quantity 9"),
-                                    doc.getString("Material 10"),
-                                    doc.getString("Unit 10"),
-                                    doc.getString("Quantity 10"),
-                                    doc.getString("Material 11"),
-                                    doc.getString("Unit 11"),
-                                    doc.getString("Quantity 11"),
-                                    doc.getString("Material 12"),
-                                    doc.getString("Unit 12"),
-                                    doc.getString("Quantity 12"),
-                                    doc.getString("Material 13"),
-                                    doc.getString("Unit 13"),
-                                    doc.getString("Quantity 13"),
-                                    doc.getString("Material 14"),
-                                    doc.getString("Unit 14"),
-                                    doc.getString("Quantity 14"),
-                                    doc.getString("Material 15"),
-                                    doc.getString("Unit 15"),
-                                    doc.getString("Quantity 15"),
-                                    doc.getString("Material 16"),
-                                    doc.getString("Unit 16"),
-                                    doc.getString("Quantity 16"),
-                                    doc.getString("Material 17"),
-                                    doc.getString("Unit 17"),
-                                    doc.getString("Quantity 17"),
-                                    doc.getString("Material 18"),
-                                    doc.getString("Unit 18"),
-                                    doc.getString("Quantity 18"),
-                                    doc.getString("Material 19"),
-                                    doc.getString("Unit 19"),
-                                    doc.getString("Quantity 19"),
-                                    doc.getString("Material 20"),
-                                    doc.getString("Unit 20"),
-                                    doc.getString("Quantity 20"),
-                                    doc.getString("Material 21"),
-                                    doc.getString("Unit 21"),
-                                    doc.getString("Quantity 21"),
-                                    doc.getString("Material 22"),
-                                    doc.getString("Unit 22"),
-                                    doc.getString("Quantity 22"),
-                                    doc.getString("Material 23"),
-                                    doc.getString("Unit 23"),
-                                    doc.getString("Quantity 23"),
-                                    doc.getString("Material 24"),
-                                    doc.getString("Unit 24"),
-                                    doc.getString("Quantity 24"),
-                                    doc.getString("Material 25"),
-                                    doc.getString("Unit 25"),
-                                    doc.getString("Quantity 25"),
-                                    doc.getString("Material 26"),
-                                    doc.getString("Unit 26"),
-                                    doc.getString("Quantity 26"),
-                                    doc.getString("Material 27"),
-                                    doc.getString("Unit 27"),
-                                    doc.getString("Quantity 27"),
-                                    doc.getString("Material 28"),
-                                    doc.getString("Unit 28"),
-                                    doc.getString("Quantity 28"),
-                                    doc.getString("Material 29"),
-                                    doc.getString("Unit 29"),
-                                    doc.getString("Quantity 29"),
-                                    doc.getString("Material 30"),
-                                    doc.getString("Unit 30"),
-                                    doc.getString("Quantity 30"),
                                     doc.getString("Material Receiver Name"),
                                     doc.getString("Center"),
                                     doc.getString("Village")
@@ -296,4 +260,51 @@ public class ViewBalanceMaterial extends AppCompatActivity {
         });
 
     }
+
+    private void createXlFile() {
+
+
+        Workbook wb = new HSSFWorkbook();
+        Cell cell = null;
+        Sheet sheet;
+        sheet = wb.createSheet("Balance Material List");
+
+//        excel();
+//        excel1(cell, sheet);
+//
+//        excel2(wb, cell, sheet);
+
+        String folderName = "UrjaVahini";
+        String fileName = "Balance Material List" + System.currentTimeMillis() + ".xls";
+        String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + folderName + File.separator + fileName;
+
+        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + folderName);
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+
+        FileOutputStream outputStream = null;
+
+        try {
+            outputStream = new FileOutputStream(path);
+            wb.write(outputStream);
+            // ShareViaEmail(file.getParentFile().getName(),file.getName());
+            Toast.makeText(getApplicationContext(), "Excel Created in " + path, Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "Not OK " + e.getMessage(), Toast.LENGTH_LONG).show();
+            try {
+                outputStream.close();
+                Toast.makeText(getApplicationContext(), "Sorry  " + e.getMessage(), Toast.LENGTH_LONG).show();
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                Toast.makeText(getApplicationContext(), "Error " + e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+
+
+
 }

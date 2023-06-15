@@ -606,6 +606,8 @@ public class TeamLeaderCustomAdapter extends RecyclerView.Adapter<TeamLeaderView
         viewHolder.mConsumerName.setText(modelList.get(i).getConsumerName());
         viewHolder.mSiteName.setText(modelList.get(i).getVillage());
         viewHolder.mCenter.setText(modelList.get(i).getCenter());
+
+
     }
 
     @Override

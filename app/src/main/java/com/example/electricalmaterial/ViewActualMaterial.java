@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -33,7 +33,7 @@ import java.util.List;
 
 public class ViewActualMaterial extends AppCompatActivity {
 
-    List<ReaminingMaterialModel> modelList = new ArrayList<>();
+    List<ActualMaterialModel> modelList = new ArrayList<>();
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
 
@@ -47,7 +47,9 @@ public class ViewActualMaterial extends AppCompatActivity {
     ActualCustomAdapter adapter;
     String cmp;
 
-    SearchView searchView;
+    androidx.appcompat.widget.SearchView searchView;
+
+    SwipeRefreshLayout refreshLayout;
 
 
     @SuppressLint("MissingInflatedId")
@@ -59,7 +61,7 @@ public class ViewActualMaterial extends AppCompatActivity {
 
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        fStore = FirebaseFirestore.getInstance();
+
         pd = new ProgressDialog(this);
 
         mAuth = FirebaseAuth.getInstance();
@@ -73,14 +75,24 @@ public class ViewActualMaterial extends AppCompatActivity {
         ActionBar bar = getSupportActionBar();
         assert bar != null;
         bar.setTitle("ACTUAL MATERIAL");
+
+        refreshLayout = findViewById(R.id.refresh);
+
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         modelList.clear();
 
+
+
+
+
+
         searchView = findViewById(R.id.searchView);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+
+        searchView.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 return false;
@@ -88,9 +100,8 @@ public class ViewActualMaterial extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String s) {
-
-                ArrayList<ReaminingMaterialModel> models = new ArrayList<>();
-                for (ReaminingMaterialModel model : modelList){
+                ArrayList<ActualMaterialModel> models = new ArrayList<>();
+                for (ActualMaterialModel model : modelList){
                     if (model.getDate().toLowerCase().contains(s.toLowerCase())){
                         models.add(model);
                     }
@@ -119,6 +130,7 @@ public class ViewActualMaterial extends AppCompatActivity {
         });
 
 
+
         DocumentReference documentReference = fStore.collection("Users")
                 .document(userId);
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
@@ -132,6 +144,14 @@ public class ViewActualMaterial extends AppCompatActivity {
 
                 showData(cmp);
 
+                refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        showData(cmp);
+                        refreshLayout.setRefreshing(false);
+                    }
+                });
+
             }
         });
 
@@ -139,14 +159,19 @@ public class ViewActualMaterial extends AppCompatActivity {
     }
 
     private void showData(String cmp) {
-        fStore.collection(cmp+" AddActualData").orderBy("Date", Query.Direction.DESCENDING).get()
+
+        fStore.collection(cmp+" AddActualData")
+                .orderBy("Date", Query.Direction.DESCENDING).get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         modelList.clear();
                         pd1.dismiss();
+                        refreshLayout.setRefreshing(false);
                         for (DocumentSnapshot doc : queryDocumentSnapshots){
-                            ReaminingMaterialModel model = new ReaminingMaterialModel(
+
+                            ActualMaterialModel model = new ActualMaterialModel(
+
                                     doc.getString("id"),
                                     doc.getString("Date"),
                                     doc.getString("Team Name"),
@@ -250,6 +275,7 @@ public class ViewActualMaterial extends AppCompatActivity {
                                     doc.getString("Center"),
                                     doc.getString("Village")
                             );
+
                             modelList.add(model);
                         }
                         adapter = new ActualCustomAdapter(ViewActualMaterial.this,modelList);
@@ -263,6 +289,22 @@ public class ViewActualMaterial extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
     public void deleteData(int position) {

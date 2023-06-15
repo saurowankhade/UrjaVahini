@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ViewBalanceMaterial">
-    <SearchView
+    <androidx.appcompat.widget.SearchView
         android:id="@+id/searchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,6 +14,11 @@
         app:iconifiedByDefault="false"
         app:queryHint="Search Here ..." />
 
+    <Button
+        android:id="@+id/excelSheet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="excel"/>
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/refresh"
         android:layout_width="match_parent"

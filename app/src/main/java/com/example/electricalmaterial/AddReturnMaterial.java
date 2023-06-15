@@ -146,7 +146,15 @@ public class AddReturnMaterial extends AppCompatActivity {
     ImageView addIV1,addIV2,addIV3,addIV4,addIV5;
 
 
-    String id,dateS,teamNameS,lineS,tenderS,driverNameS,vehicalNameS,consumerNameS,siteNameS,materialReceiverNameS;
+    String id;
+    String dateS;
+    String teamNameS;
+    String lineS;
+    String tenderS;
+    String driverNameS;
+    String vehicalNameS;
+    String consumerNameS;
+    String siteNameS;
 
     String material1S,unit1S,quantity1S;
     String material2S,unit2S,quantity2S;
@@ -234,6 +242,15 @@ public class AddReturnMaterial extends AppCompatActivity {
     RecyclerView recyclerViewKN;
     RecyclerView.LayoutManager layoutManagerKN;
     AdminReturnKgToNoAdapter adapterStockKN;
+
+
+    //Total Material Taken
+    List<AddTotalMaterialTakenModel> modelListTMT = new ArrayList<>();
+    RecyclerView recyclerViewTMT;
+    RecyclerView.LayoutManager layoutManagerTMT;
+    ReturnAddTotalMaterialTakenAdapter adapterStockTMT;
+
+
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -450,6 +467,13 @@ public class AddReturnMaterial extends AppCompatActivity {
                 recyclerView.setLayoutManager(layoutManager);
                 modelList.clear();
                 showData(cmp);
+
+                //Total Material Taken
+                recyclerViewTMT = findViewById(R.id.recyclerATMT);
+                recyclerViewTMT.setHasFixedSize(true);
+                layoutManagerTMT = new LinearLayoutManager(AddReturnMaterial.this);
+                recyclerViewTMT.setLayoutManager(layoutManagerTMT);
+                modelListTMT.clear();
 
 
                 //Stock Material
@@ -1613,6 +1637,35 @@ public class AddReturnMaterial extends AppCompatActivity {
 
 
     }
+
+    private void showTotalMaterialTaken(String cmp, String consumerName) {
+
+        fStore.collection(cmp+" "+consumerName).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                modelListTMT.clear();
+                for (DocumentSnapshot doc : task.getResult()){
+                    AddTotalMaterialTakenModel model = new AddTotalMaterialTakenModel(
+                            doc.getString("Id"),
+                            doc.getString("Material"),
+                            doc.getString("Unit"),
+                            doc.getString("Quantity")
+                    );
+                    modelListTMT.add(model);
+                }
+                adapterStockTMT = new ReturnAddTotalMaterialTakenAdapter(AddReturnMaterial.this,modelListTMT);
+                recyclerViewTMT.setAdapter(adapterStockTMT);
+            }}).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(AddReturnMaterial.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+    }
+
+
 
     private void verifyPassReceiver(String materialReceiver, String pass, String cmp, String uDate, String uTeamName, String uLine, String uTender, String uDriverName, String uVehicalName, String uConsumerName, String uSite, String uMaterial1, String uQuantity1, String uMaterial2, String uQuantity2, String uMaterial3, String uQuantity3, String uMaterial4, String uQuantity4, String uMaterial5, String uQuantity5, String uMaterial6, String uQuantity6, String uMaterial7, String uQuantity7, String uMaterial8, String uQuantity8, String uMaterial9, String uQuantity9, String uMaterial10, String uQuantity10, String uQuantity11, String uMaterial12, String uQuantity12, String uMaterial13, String uQuantity13, String uMaterial14, String uQuantity14, String uMaterial15, String uQuantity15, String uMaterial16, String uQuantity16, String uMaterial17, String uQuantity17, String uMaterial18, String uQuantity18, String uMaterial19, String uQuantity19, String uMaterial20, String uQuantity20, String uUnit1, String uUnit2, String uUnit3, String uUnit4, String uUnit5, String uUnit6, String uUnit7, String uUnit8, String uUnit9, String uUnit10, String uUnit11, String uUnit12, String uUnit13, String uUnit14, String uUnit15, String uUnit16, String uUnit17, String uUnit18, String uUnit19, String uUnit20, String uMaterial11, String uMaterial21, String uQuantity21, String uMaterial22, String uQuantity22, String uMaterial23, String uQuantity23, String uMaterial24, String uQuantity24, String uMaterial25, String uQuantity25, String uMaterial26, String uQuantity26, String uMaterial27, String uQuantity27, String uMaterial28, String uQuantity28, String uMaterial29, String uQuantity29, String uMaterial30, String uQuantity30, String uUnit21, String uUnit22, String uUnit23, String uUnit24, String uUnit25, String uUnit26, String uUnit27, String uUnit28, String uUnit29, String uUnit30, String centerS, String villageS) {
         DocumentReference a = fStore.collection(cmp+" ProfilePass")
@@ -3351,6 +3404,38 @@ public class AddReturnMaterial extends AppCompatActivity {
         String q29 = dec.format(Float.parseFloat(quantity29S) - Float.parseFloat(uQuantity29));
         String q30 = dec.format(Float.parseFloat(quantity30S) - Float.parseFloat(uQuantity30));
 
+
+        String quantity1 = q1;
+        String quantity2 = q2;
+        String quantity3 = q3;
+        String quantity4 = q4;
+        String quantity5 = q5;
+        String quantity6 = q6;
+        String quantity7 = q7;
+        String quantity8 = q8;
+        String quantity9 = q9;
+        String quantity10 = q10;
+        String quantity11 = q11;
+        String quantity12 = q12;
+        String quantity13 = q13;
+        String quantity14 = q14;
+        String quantity15 = q15;
+        String quantity16 = q16;
+        String quantity17 = q17;
+        String quantity18 = q18;
+        String quantity19 = q19;
+        String quantity20 = q20;
+        String quantity21 = q21;
+        String quantity22 = q22;
+        String quantity23 = q23;
+        String quantity24 = q24;
+        String quantity25 = q25;
+        String quantity26 = q26;
+        String quantity27 = q27;
+        String quantity28 = q28;
+        String quantity29 = q29;
+        String quantity30 = q30;
+
         if (q1.equals("0")){
             q1 = "";
         }
@@ -3554,6 +3639,7 @@ public class AddReturnMaterial extends AppCompatActivity {
         doc.put("SearchCenter",centerS.toLowerCase());
         doc.put("SearchVillage",villageS.toLowerCase());
 
+
         fStore.collection(cmp+" RemainingMaterial").document(id).set(doc).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -3564,6 +3650,16 @@ public class AddReturnMaterial extends AppCompatActivity {
                 animation.setVisibility(View.VISIBLE);
                 lastLL.setVisibility(View.GONE);
                 mediaPlayer.start();
+
+                addTotalMaterialTaken(cmp,uConsumerName,uMaterial1,quantity1,uMaterial2,quantity2,uMaterial3,quantity3,uMaterial4,quantity4,uMaterial5,quantity5,
+                        uMaterial6,quantity6,uMaterial7,quantity7,uMaterial8,quantity8,uMaterial9,quantity9,uMaterial10,quantity10
+                        ,quantity11,uMaterial12,quantity12,uMaterial13,quantity13,uMaterial14,quantity14,uMaterial15,quantity15,
+                        uMaterial16,quantity16,uMaterial17,quantity17,uMaterial18,quantity18,uMaterial19,quantity19,uMaterial20,quantity20
+                        ,uUnit1,uUnit2,uUnit3,uUnit4,uUnit5,uUnit6,uUnit7,uUnit8,uUnit9,uUnit10
+                        ,uUnit11,uUnit12,uUnit13,uUnit14,uUnit15,uUnit16,uUnit17,uUnit18,uUnit19,uUnit20,uMaterial11
+                        ,uMaterial21,quantity21,uMaterial22,quantity22,uMaterial23,quantity23,uMaterial24,quantity24,uMaterial25,quantity25,
+                        uMaterial26,quantity26,uMaterial27,quantity27,uMaterial28,quantity28,uMaterial29,quantity29,uMaterial30,quantity30
+                        ,uUnit21,uUnit22,uUnit23,uUnit24,uUnit25,uUnit26,uUnit27,uUnit28,uUnit29,uUnit30);
 
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -3578,6 +3674,384 @@ public class AddReturnMaterial extends AppCompatActivity {
 
 
     }
+
+
+    private void addTotalMaterialTaken(String cmp,String consumerName, String uMaterial1, String uQuantity1, String uMaterial2, String uQuantity2, String uMaterial3, String uQuantity3, String uMaterial4, String uQuantity4, String uMaterial5, String uQuantity5, String uMaterial6, String uQuantity6, String uMaterial7, String uQuantity7, String uMaterial8, String uQuantity8, String uMaterial9, String uQuantity9, String uMaterial10, String uQuantity10, String uQuantity11, String uMaterial12, String uQuantity12, String uMaterial13, String uQuantity13, String uMaterial14, String uQuantity14, String uMaterial15, String uQuantity15, String uMaterial16, String uQuantity16, String uMaterial17, String uQuantity17, String uMaterial18, String uQuantity18, String uMaterial19, String uQuantity19, String uMaterial20, String uQuantity20, String uUnit1, String uUnit2, String uUnit3, String uUnit4, String uUnit5, String uUnit6, String uUnit7, String uUnit8, String uUnit9, String uUnit10, String uUnit11, String uUnit12, String uUnit13, String uUnit14, String uUnit15, String uUnit16, String uUnit17, String uUnit18, String uUnit19, String uUnit20, String uMaterial11, String uMaterial21, String uQuantity21, String uMaterial22, String uQuantity22, String uMaterial23, String uQuantity23, String uMaterial24, String uQuantity24, String uMaterial25, String uQuantity25, String uMaterial26, String uQuantity26, String uMaterial27, String uQuantity27, String uMaterial28, String uQuantity28, String uMaterial29, String uQuantity29, String uMaterial30, String uQuantity30, String uUnit21, String uUnit22, String uUnit23, String uUnit24, String uUnit25, String uUnit26, String uUnit27, String uUnit28, String uUnit29, String uUnit30) {
+
+        if (modelListTMT.size()!=0){
+            for (int i=0;i<modelListTMT.size();i++){
+                if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial1)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity1);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit1);
+                }
+                else {
+                    addTotalMaterialTakenSpecific(uMaterial1,cmp,consumerName,uQuantity1,uUnit1);
+                }
+
+                if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial2)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity2);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit2);
+                }
+                else {
+                    addTotalMaterialTakenSpecific(uMaterial2,cmp,consumerName,uQuantity2,uUnit2);
+                }
+
+                if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial3)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity3);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit3);
+                }
+                else {
+                    addTotalMaterialTakenSpecific(uMaterial3,cmp,consumerName,uQuantity3,uUnit3);
+                }
+
+                if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial4)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity4);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit4);
+                }
+                else {
+                    addTotalMaterialTakenSpecific(uMaterial4,cmp,consumerName,uQuantity4,uUnit4);
+                }
+
+                if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial5)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity5);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit5);
+                }
+                else {
+                    addTotalMaterialTakenSpecific(uMaterial5,cmp,consumerName,uQuantity5,uUnit5);
+                }
+
+                if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial6)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity6);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit6);
+                }
+                else {
+                    addTotalMaterialTakenSpecific(uMaterial6,cmp,consumerName,uQuantity6,uUnit6);
+                }
+
+                if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial7)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity7);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit7);
+                }
+                else {
+                    addTotalMaterialTakenSpecific(uMaterial7,cmp,consumerName,uQuantity7,uUnit7);
+                }
+
+                if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial8)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity8);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit8);
+                }
+                else {
+                    addTotalMaterialTakenSpecific(uMaterial8,cmp,consumerName,uQuantity8,uUnit8);
+                }
+
+                if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial9)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity9);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit9);
+                }
+                else {
+                    addTotalMaterialTakenSpecific(uMaterial9,cmp,consumerName,uQuantity9,uUnit9);
+                }
+
+                if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial10)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity10);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit10);
+                }
+                else {
+                    addTotalMaterialTakenSpecific(uMaterial10,cmp,consumerName,uQuantity10,uUnit10);
+                }
+
+                if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial11)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity11);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit11);
+                }
+                else {
+                    addTotalMaterialTakenSpecific(uMaterial11,cmp,consumerName,uQuantity11,uUnit11);
+                }
+
+                if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial12)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity12);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit12);
+                }
+                else {
+                    addTotalMaterialTakenSpecific(uMaterial12,cmp,consumerName,uQuantity12,uUnit12);
+                }
+
+                if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial13)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity13);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit13);
+                }
+                else {
+                    addTotalMaterialTakenSpecific(uMaterial13,cmp,consumerName,uQuantity13,uUnit13);
+                }
+
+                if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial14)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity14);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit14);
+                }
+                else {
+                    addTotalMaterialTakenSpecific(uMaterial14,cmp,consumerName,uQuantity14,uUnit14);
+                }
+
+                if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial15)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity15);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit15);
+                }
+                else {
+                    addTotalMaterialTakenSpecific(uMaterial15,cmp,consumerName,uQuantity15,uUnit15);
+                }
+
+                if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial16)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity16);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit16);
+                }
+                else {
+                    addTotalMaterialTakenSpecific(uMaterial16,cmp,consumerName,uQuantity16,uUnit16);
+                }
+
+                if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial17)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity17);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit17);
+                }
+                else {
+                    addTotalMaterialTakenSpecific(uMaterial17,cmp,consumerName,uQuantity17,uUnit17);
+                }
+
+                if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial18)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity18);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit18);
+                }
+                else {
+                    addTotalMaterialTakenSpecific(uMaterial18,cmp,consumerName,uQuantity18,uUnit18);
+                }
+
+                if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial19)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity19);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit19);
+                }
+                else {
+                    addTotalMaterialTakenSpecific(uMaterial19,cmp,consumerName,uQuantity19,uUnit19);
+                }
+
+                if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial20)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity20);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit20);
+                }
+                else {
+                    addTotalMaterialTakenSpecific(uMaterial20,cmp,consumerName,uQuantity20,uUnit20);
+                }
+
+                if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial21)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity21);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit21);
+                }
+                else {
+                    addTotalMaterialTakenSpecific(uMaterial21,cmp,consumerName,uQuantity21,uUnit21);
+                }
+
+                if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial22)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity22);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit22);
+                }
+                else {
+                    addTotalMaterialTakenSpecific(uMaterial22,cmp,consumerName,uQuantity22,uUnit22);
+                }
+
+                if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial23)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity23);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit23);
+                }
+                else {
+                    addTotalMaterialTakenSpecific(uMaterial23,cmp,consumerName,uQuantity23,uUnit23);
+                }
+
+                if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial24)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity24);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit24);
+                }
+                else {
+                    addTotalMaterialTakenSpecific(uMaterial24,cmp,consumerName,uQuantity24,uUnit24);
+                }
+
+                if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial25)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity25);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit25);
+                }
+                else {
+                    addTotalMaterialTakenSpecific(uMaterial25,cmp,consumerName,uQuantity25,uUnit25);
+                }
+
+                if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial26)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity26);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit26);
+                }
+                else {
+                    addTotalMaterialTakenSpecific(uMaterial26,cmp,consumerName,uQuantity26,uUnit26);
+                }
+
+                if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial27)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity27);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit27);
+                }
+                else {
+                    addTotalMaterialTakenSpecific(uMaterial27,cmp,consumerName,uQuantity27,uUnit27);
+                }
+
+                if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial28)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity28);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit28);
+                }
+                else {
+                    addTotalMaterialTakenSpecific(uMaterial28,cmp,consumerName,uQuantity28,uUnit28);
+                }
+
+                if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial29)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity29);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit29);
+                }
+                else {
+                    addTotalMaterialTakenSpecific(uMaterial29,cmp,consumerName,uQuantity29,uUnit29);
+                }
+
+                if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial30)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity30);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit30);
+                }
+                else {
+                    addTotalMaterialTakenSpecific(uMaterial30,cmp,consumerName,uQuantity30,uUnit30);
+                }
+
+            }
+
+        }
+        else{
+
+            if (!uMaterial1.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial1,cmp,consumerName,uQuantity1,uUnit1);
+            }
+            if (!uMaterial2.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial2,cmp,consumerName,uQuantity2,uUnit2);
+            }
+            if (!uMaterial3.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial3,cmp,consumerName,uQuantity3,uUnit3);
+            }
+            if (!uMaterial4.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial4,cmp,consumerName,uQuantity4,uUnit4);
+            }
+            if (!uMaterial5.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial5,cmp,consumerName,uQuantity5,uUnit5);
+            }
+            if (!uMaterial6.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial6,cmp,consumerName,uQuantity6,uUnit6);
+            }
+            if (!uMaterial7.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial7,cmp,consumerName,uQuantity7,uUnit7);
+            }
+            if (!uMaterial8.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial8,cmp,consumerName,uQuantity8,uUnit8);
+            }
+            if (!uMaterial9.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial9,cmp,consumerName,uQuantity9,uUnit9);
+            }
+            if (!uMaterial10.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial10,cmp,consumerName,uQuantity10,uUnit10);
+            }
+            if (!uMaterial11.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial11,cmp,consumerName,uQuantity11,uUnit11);
+            }
+            if (!uMaterial12.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial12,cmp,consumerName,uQuantity12,uUnit12);
+            }
+            if (!uMaterial13.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial13,cmp,consumerName,uQuantity13,uUnit13);
+            }
+            if (!uMaterial14.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial14,cmp,consumerName,uQuantity14,uUnit14);
+            }
+            if (!uMaterial15.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial15,cmp,consumerName,uQuantity15,uUnit15);
+            }
+            if (!uMaterial16.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial16,cmp,consumerName,uQuantity16,uUnit16);
+            }
+            if (!uMaterial17.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial17,cmp,consumerName,uQuantity17,uUnit17);
+            }
+            if (!uMaterial18.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial18,cmp,consumerName,uQuantity18,uUnit18);
+            }
+            if (!uMaterial19.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial19,cmp,consumerName,uQuantity19,uUnit19);
+            }
+            if (!uMaterial20.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial20,cmp,consumerName,uQuantity20,uUnit20);
+            }
+            if (!uMaterial21.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial21,cmp,consumerName,uQuantity21,uUnit21);
+            }
+            if (!uMaterial22.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial22,cmp,consumerName,uQuantity22,uUnit22);
+            }
+            if (!uMaterial23.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial23,cmp,consumerName,uQuantity23,uUnit23);
+            }
+            if (!uMaterial24.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial24,cmp,consumerName,uQuantity24,uUnit24);
+            }
+            if (!uMaterial25.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial25,cmp,consumerName,uQuantity25,uUnit25);
+            }
+            if (!uMaterial26.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial26,cmp,consumerName,uQuantity26,uUnit26);
+            }
+            if (!uMaterial27.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial27,cmp,consumerName,uQuantity27,uUnit27);
+            }
+            if (!uMaterial28.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial28,cmp,consumerName,uQuantity28,uUnit28);
+            }
+            if (!uMaterial29.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial29,cmp,consumerName,uQuantity29,uUnit29);
+            }
+            if (!uMaterial30.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial30,cmp,consumerName,uQuantity30,uUnit30);
+            }
+
+
+
+        }
+
+    }
+
+    private void addTotalMaterialTakenSpecific(String material, String cmp, String consumerName, String quantity,String unit) {
+
+
+        Map<String, Object> doc = new HashMap<>();
+        doc.put("Id",material);
+        doc.put("Material",material);
+        doc.put("Unit",unit);
+        doc.put("Quantity",quantity);
+
+        fStore.collection(cmp+" "+consumerName).document(material).set(doc).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                //this will be called when data is added Successfully
+                Toast.makeText(getApplicationContext(), "Total Material Added", Toast.LENGTH_SHORT).show();
+                animation.setVisibility(View.VISIBLE);
+                mediaPlayer.start();
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                //this will be called when data is added Failed
+                Toast.makeText(getApplicationContext(), "Failed to add data "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                animation.setVisibility(View.GONE);
+            }
+        });
+
+    }
+
+
 
     private void sendMail(String cmp, String material) {
         String message = "You have less material quantity of " + material;

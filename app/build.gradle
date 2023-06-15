@@ -7,7 +7,7 @@ android {
     compileSdk 31
     defaultConfig {
         applicationId "com.example.electricalmaterial"
-        minSdk 21
+        minSdk 24
         targetSdk 31
         versionCode 1
         versionName "1.8"
@@ -48,7 +48,7 @@ dependencies {
     //Firebase
     implementation 'com.google.firebase:firebase-auth:21.0.6'
     implementation 'com.google.firebase:firebase-database:20.0.5'
-    implementation 'com.google.firebase:firebase-firestore:24.2.0'
+    implementation 'com.google.firebase:firebase-firestore:24.4.4'
     implementation 'com.google.firebase:firebase-analytics:21.0.0'
     //CardView
     implementation "androidx.cardview:cardview:1.0.0"
@@ -71,6 +71,12 @@ dependencies {
 
 //    implementation fileTree(dir: 'libs', include: ['*.jar'])
 //    implementation 'com.android.support:multidex:1.0.1'
+
+
+
+    // compiler
+    implementation 'com.google.dagger:dagger:2.21'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.21'
 
 
 

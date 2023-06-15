@@ -1141,12 +1141,9 @@ public class AddDetails extends AppCompatActivity {
                                                 showMessage(updateMaterialName + " is remove");
                                                 deleteData(cmp,updateMaterialName);
 
-
                                                 updateMaterialNameData(materialData,updateMaterialName,cmp);
 
-
-
-
+                                                
                                             }
                                         }).addOnFailureListener(new OnFailureListener() {
                                             @Override
@@ -1753,10 +1750,6 @@ public class AddDetails extends AppCompatActivity {
 
 
 
-
-
-
-
                 //WorkDone
                 addWorkDone.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -1867,7 +1860,6 @@ public class AddDetails extends AppCompatActivity {
         for (int i=0;i<modelList.size();i++){
             if (modelList.get(i).getMaterial1().equalsIgnoreCase(updateMaterialName)){
                 updateMaterialNameOneField(materialData,cmp,"Material 1",modelList.get(i).getId());
-
             }
             else  if (modelList.get(i).getMaterial2().equalsIgnoreCase(updateMaterialName)){
                 updateMaterialNameOneField(materialData,cmp,"Material 2",modelList.get(i).getId());

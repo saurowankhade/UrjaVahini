@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:background="#EBF2F6"
     android:id="@+id/sl"
-    tools:context=".ui.home.AdminHomeFragment">
+    tools:context=".ui.home.AdminHomeFragment"
+    tools:ignore="NamespaceTypo">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -88,7 +89,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#EBF2F6"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:layout_marginTop="20sp"
                 android:orientation="vertical">
 
@@ -600,7 +601,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#EBF2F6"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:layout_marginTop="20sp"
                 android:orientation="vertical">
 

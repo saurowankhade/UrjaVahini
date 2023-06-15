@@ -1,15 +1,19 @@
 package com.example.electricalmaterial;
 
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -26,6 +30,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -40,21 +45,22 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.UUID;
 
 public class AddActualMaterial extends AppCompatActivity {
 
     String r = "Required!";
-
-    String work;
 
     //authorization
     FirebaseAuth mAuth;
@@ -71,28 +77,80 @@ public class AddActualMaterial extends AppCompatActivity {
 
     //date
     TextView mDateFormate;
-
+    DatePickerDialog.OnDateSetListener onDateSetListener;
+    String date;
 
     //team name
     AutoCompleteTextView teamName;
+    ArrayAdapter<String> adapter;
+    ArrayList<String> spinnerDataList;
+    DatabaseReference databaseReference;
+    ValueEventListener listener;
 
     //Line
     AutoCompleteTextView line;
+    ArrayAdapter<String> adapterLine;
+    ArrayList<String> spinnerDataListLine;
+    DatabaseReference databaseReferenceLine;
+    ValueEventListener listenerLine;
+
+    //State
+    AutoCompleteTextView state;
+    ArrayAdapter<String> adapterState;
+    ArrayList<String> spinnerDataListState;
+    DatabaseReference databaseReferenceState;
+    ValueEventListener listenerState;
+
+
+    //District
+    AutoCompleteTextView district;
+    ArrayAdapter<String> adapterDistrict;
+    ArrayList<String> spinnerDataListDistrict;
+    DatabaseReference databaseReferenceDistrict;
+    ValueEventListener listenerDistrict;
+
+
+    //Taluka
+    AutoCompleteTextView taluka;
+    ArrayAdapter<String> adapterTaluka;
+    ArrayList<String> spinnerDataListTaluka;
+    DatabaseReference databaseReferenceTaluka;
+    ValueEventListener listenerTaluka;
 
     //Tender
     AutoCompleteTextView tender;
+    ArrayAdapter<String> adapterTender;
+    ArrayList<String> spinnerDataListTender;
+    DatabaseReference databaseReferenceTender;
+    ValueEventListener listenerTender;
 
     //Driver
     AutoCompleteTextView driver;
+    ArrayAdapter<String> adapterDriver;
+    ArrayList<String> spinnerDataListDriver;
+    DatabaseReference databaseReferenceDriver;
+    ValueEventListener listenerDriver;
 
-    //Driver
+    //Vehical
     AutoCompleteTextView vehical;
+    ArrayAdapter<String> adapterVehical;
+    ArrayList<String> spinnerDataListVehical;
+    DatabaseReference databaseReferenceVehical;
+    ValueEventListener listenerVehical;
 
     //Center
     AutoCompleteTextView center;
+    ArrayAdapter<String> adapterCenter;
+    ArrayList<String> spinnerDataListCenter;
+    DatabaseReference databaseReferenceCenter;
+    ValueEventListener listenerCenter;
 
     //Village
     AutoCompleteTextView village;
+    ArrayAdapter<String> adapterVillage;
+    ArrayList<String> spinnerDataListVillage;
+    DatabaseReference databaseReferenceVillage;
+    ValueEventListener listenerVillage;
 
     //Material
     AutoCompleteTextView material1,material2,material3,material4,material5,material6,material7,material8,material9,material10;
@@ -147,47 +205,11 @@ public class AddActualMaterial extends AppCompatActivity {
     ImageView addIV1,addIV2,addIV3,addIV4,addIV5;
 
 
-    String id,dateS,teamNameS,lineS,tenderS,driverNameS,vehicalNameS,consumerNameS,siteNameS,materialReceiverNameS;
-
-    String material1S,unit1S,quantity1S;
-    String material2S,unit2S,quantity2S;
-    String material3S,unit3S,quantity3S;
-    String material4S,unit4S,quantity4S;
-    String material5S,unit5S,quantity5S;
-    String material6S,unit6S,quantity6S;
-    String material7S,unit7S,quantity7S;
-    String material8S,unit8S,quantity8S;
-    String material9S,unit9S,quantity9S;
-    String material10S,unit10S,quantity10S;
-    String material11S,unit11S,quantity11S;
-    String material12S,unit12S,quantity12S;
-    String material13S,unit13S,quantity13S;
-    String material14S,unit14S,quantity14S;
-    String material15S,unit15S,quantity15S;
-    String material16S,unit16S,quantity16S;
-    String material17S,unit17S,quantity17S;
-    String material18S,unit18S,quantity18S;
-    String material19S,unit19S,quantity19S;
-    String material20S,unit20S,quantity20S;
-    String material21S,unit21S,quantity21S;
-    String material22S,unit22S,quantity22S;
-    String material23S,unit23S,quantity23S;
-    String material24S,unit24S,quantity24S;
-    String material25S,unit25S,quantity25S;
-    String material26S,unit26S,quantity26S;
-    String material27S,unit27S,quantity27S;
-    String material28S,unit28S,quantity28S;
-    String material29S,unit29S,quantity29S;
-    String material30S,unit30S,quantity30S;
-    String centerS,villageS;
+    
+    
     ProgressDialog pd;
-    Timer time;
 
     MediaPlayer mediaPlayer;
-
-
-
-
 
 
     String uMaterial1,uUnit1,uQuantity1;
@@ -222,21 +244,80 @@ public class AddActualMaterial extends AppCompatActivity {
     String uMaterial30,uUnit30,uQuantity30;
 
 
+    String idS;
+    String dateS;
+    String teamNameS;
+    String lineS;
+    String tenderS;
+    String driverNameS;
+    String vehicalNameS;
+    String consumerNameS;
+    String siteNameS;
+    String villageS;
+    String centerS;
 
 
-    //Stock Material
-    List<AddStockModel> modelList = new ArrayList<>();
+
+    // creating new id for database
+    String id = UUID.randomUUID().toString();
+
+
+    //View all data
+    List<UsedAddAcutualMaterialModel> modelList = new ArrayList<>();
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
-    AdminActualStockAdapter adapterStock;
+    UsedAddActucalMaterialCustomAdapter usedAddActucalMaterialCustomAdapter;
 
-    //Kg to no
-    List<KgToNoModel> modelListKN = new ArrayList<>();
-    RecyclerView recyclerViewKN;
-    RecyclerView.LayoutManager layoutManagerKN;
-    AdminActualKgToNoAdapter adapterStockKN;
 
-    @SuppressLint("MissingInflatedId")
+
+
+    //Add Actual Material
+    List<AddTotalMaterialTakenModel> modelListTMT = new ArrayList<>();
+    RecyclerView recyclerViewTMT;
+    RecyclerView.LayoutManager layoutManagerTMT;
+    AddActualTotalMaterialTakenAdapter adapterStockTMT;
+
+
+
+    // Balance Material
+    List<BalanceMaterialModel> modelListBalance = new ArrayList<>();
+    RecyclerView recyclerViewBalance;
+    RecyclerView.LayoutManager layoutManagerBalance;
+    BalanceMaterialCustomAdapterInAddActucalMater adapterStockBalance;
+
+    int a1 = 0;
+    int a2 = 0;
+    int a3 = 0;
+    int a4 = 0;
+    int a5 = 0;
+    int a6 = 0;
+    int a7 = 0;
+    int a8 = 0;
+    int a9 = 0;
+    int a10 = 0;
+    int a11 = 0;
+    int a12 = 0;
+    int a13 = 0;
+    int a14 = 0;
+    int a15 = 0;
+    int a16 = 0;
+    int a17 = 0;
+    int a18 = 0;
+    int a19 = 0;
+    int a20 = 0;
+    int a21 = 0;
+    int a22 = 0;
+    int a23 = 0;
+    int a24 = 0;
+    int a25 = 0;
+    int a26 = 0;
+    int a27 = 0;
+    int a28 = 0;
+    int a29 = 0;
+    int a30 = 0;
+
+
+    @SuppressLint({"MissingInflatedId", "SourceLockedOrientationActivity"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -249,15 +330,7 @@ public class AddActualMaterial extends AppCompatActivity {
         userId = mAuth.getCurrentUser().getUid();
 
         pd = ProgressDialog.show(this,"Loading...","Please Wait",false,false);
-
-        time = new Timer();
-        time.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                pd.dismiss();
-            }
-        },3000);
-
+        
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         mediaPlayer = MediaPlayer.create(this,R.raw.sound);
@@ -282,8 +355,62 @@ public class AddActualMaterial extends AppCompatActivity {
         addIV4 = findViewById(R.id.addIV4);
         addIV5 = findViewById(R.id.addIV5);
 
+      
         //Date
         mDateFormate = findViewById(R.id.date);
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        mDateFormate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(
+                        AddActualMaterial.this, R.style.DatePicker1,
+                        onDateSetListener,year,month,day);
+
+                //Theme_Material_Light_Dialog_MinWidth
+
+                datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.rgb(230,223,223)));
+
+                datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+                datePickerDialog.show();
+            }
+        });
+        onDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                month = month+1;
+                if (month<=9){ //
+                    date  = year+"/"+"0"+month+"/"+dayOfMonth;
+                }
+                else if (dayOfMonth<=9){
+                    date  = year+"/"+month+"/"+"0"+dayOfMonth;
+                }
+                else {
+                    date  = year+"/"+month+"/"+dayOfMonth;
+                }
+                if (month<=9 && dayOfMonth<=9){
+                    date  = year+"/"+"0"+month+"/"+"0"+dayOfMonth;
+                }
+                mDateFormate.setText(date);
+            }
+        };
+
+        Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd", Locale.getDefault());
+        mDateFormate.setText(df.format(c));
+
+
+
+        //  View Used data
+        recyclerView = findViewById(R.id.recycler);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        modelList.clear();
+
+        
 
         addDataLL = findViewById(R.id.addData);
         progressBar = findViewById(R.id.progressBar);
@@ -293,22 +420,23 @@ public class AddActualMaterial extends AppCompatActivity {
 
         //Line
         line = findViewById(R.id.line);
-
         //Tender
         tender = findViewById(R.id.tender);
-
-
+        //State
+        state = findViewById(R.id.state);
+        //District
+        district = findViewById(R.id.district);
+        //Taluka
+        taluka = findViewById(R.id.taluka);
         //Driver
         driver = findViewById(R.id.driver);
-
         //Vehical
         vehical = findViewById(R.id.vehical);
-
         //Center
-        center = findViewById(R.id.center);
+        center = findViewById(R.id.centerACTV);
+        //Village
+        village = findViewById(R.id.villageACTV);
 
-        //Vehical
-        village = findViewById(R.id.village);
 
         //Material
         material1 = findViewById(R.id.materialWork1);
@@ -431,6 +559,23 @@ public class AddActualMaterial extends AppCompatActivity {
         site = findViewById(R.id.siteName);
         passReceiver = findViewById(R.id.pass);
 
+
+        recyclerViewTMT = findViewById(R.id.recyclerATMT);
+        recyclerViewTMT.setHasFixedSize(true);
+        layoutManagerTMT = new LinearLayoutManager(AddActualMaterial.this);
+        recyclerViewTMT.setLayoutManager(layoutManagerTMT);
+        modelListTMT.clear();
+
+
+        // Balance Material
+        recyclerViewBalance = findViewById(R.id.recyclerBalance);
+        recyclerViewBalance.setHasFixedSize(true);
+        layoutManagerBalance = new LinearLayoutManager(AddActualMaterial.this);
+        recyclerViewBalance.setLayoutManager(layoutManagerBalance);
+        modelListBalance.clear();
+
+
+
         DocumentReference documentReference = fStore.collection("Users")
                 .document(userId);
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
@@ -442,169 +587,202 @@ public class AddActualMaterial extends AppCompatActivity {
                 companyEmail = companyEmail.replace("@","");
                 companyEmail = companyEmail.replace(".","");
 
-                //Stock Material
-                recyclerView = findViewById(R.id.recyclerAM);
-                recyclerView.setHasFixedSize(true);
-                layoutManager = new LinearLayoutManager(AddActualMaterial.this);
-                recyclerView.setLayoutManager(layoutManager);
-                modelList.clear();
+
+
+                Bundle bundle = getIntent().getExtras();
+
+                if (bundle!=null){
+                    id = bundle.getString("Id");
+                    dateS = bundle.getString("Date");
+                    teamNameS = bundle.getString("TeamName");
+                    lineS = bundle.getString("Line");
+                    tenderS = bundle.getString("Tender");
+                    driverNameS = bundle.getString("Driver Name");
+                    vehicalNameS = bundle.getString("Vehical Name");
+                    consumerNameS = bundle.getString("Consumer Name");
+                    siteNameS = bundle.getString("Site");
+                    centerS = bundle.getString("Center");
+                    villageS = bundle.getString("Village");
+
+
+                    // String Text
+                    mDateFormate.setText(dateS);
+                    teamName.setText(teamNameS);
+                    line.setText(lineS);
+                    tender.setText(tenderS);
+                    driver.setText(driverNameS);
+                    vehical.setText(vehicalNameS);
+                    consumer.setText(consumerNameS);
+                    site.setText(siteNameS);
+                    center.setText(centerS);
+                    village.setText(villageS);
+                }
+
+
                 showData(cmp);
+                showBalanceData(cmp);
 
-
-                //Stock Material
-                recyclerViewKN = findViewById(R.id.recyclerKN);
-                recyclerViewKN.setHasFixedSize(true);
-                layoutManagerKN = new LinearLayoutManager(AddActualMaterial.this);
-                recyclerViewKN.setLayoutManager(layoutManagerKN);
-                modelListKN.clear();
-                showDataKN(cmp);
 
                 ActionBar bar = getSupportActionBar();
                 assert bar != null;
                 bar.hide();
 
 
-
-                Bundle bundle = getIntent().getExtras();
-
-                if (bundle!=null){
-
-                        id = bundle.getString("Id");
-                        dateS = bundle.getString("Date");
-                        teamNameS = bundle.getString("TeamName");
-                        lineS = bundle.getString("Line");
-                        tenderS = bundle.getString("Tender");
-                        driverNameS = bundle.getString("Driver Name");
-                        vehicalNameS = bundle.getString("Vehical Name");
-                        consumerNameS = bundle.getString("Consumer Name");
-                        siteNameS = bundle.getString("Site");
-
-                        //material
-                        material1S = bundle.getString("Material1");
-                        unit1S = bundle.getString("Unit1");
-                        quantity1S = bundle.getString("Quantity1");
-
-                        material2S = bundle.getString("Material2");
-                        unit2S = bundle.getString("Unit2");
-                        quantity2S = bundle.getString("Quantity2");
-
-                        material3S = bundle.getString("Material3");
-                        unit3S = bundle.getString("Unit3");
-                        quantity3S = bundle.getString("Quantity3");
-
-                        material4S = bundle.getString("Material4");
-                        unit4S = bundle.getString("Unit4");
-                        quantity4S = bundle.getString("Quantity4");
-
-                        material5S = bundle.getString("Material5");
-                        unit5S = bundle.getString("Unit5");
-                        quantity5S = bundle.getString("Quantity5");
-
-                        material6S = bundle.getString("Material6");
-                        unit6S = bundle.getString("Unit6");
-                        quantity6S = bundle.getString("Quantity6");
-
-                        material7S = bundle.getString("Material7");
-                        unit7S = bundle.getString("Unit7");
-                        quantity7S = bundle.getString("Quantity7");
-
-                        material8S = bundle.getString("Material8");
-                        unit8S = bundle.getString("Unit8");
-                        quantity8S = bundle.getString("Quantity8");
-
-                        material9S = bundle.getString("Material9");
-                        unit9S = bundle.getString("Unit9");
-                        quantity9S = bundle.getString("Quantity9");
-
-                        material10S = bundle.getString("Material10");
-                        unit10S = bundle.getString("Unit10");
-                        quantity10S = bundle.getString("Quantity10");
-
-                        material11S = bundle.getString("Material11");
-                        unit11S = bundle.getString("Unit11");
-                        quantity11S = bundle.getString("Quantity11");
-
-                        material12S = bundle.getString("Material12");
-                        unit12S = bundle.getString("Unit12");
-                        quantity12S = bundle.getString("Quantity12");
-
-                        material13S = bundle.getString("Material13");
-                        unit13S = bundle.getString("Unit13");
-                        quantity13S = bundle.getString("Quantity13");
-
-                        material14S = bundle.getString("Material14");
-                        unit14S = bundle.getString("Unit14");
-                        quantity14S = bundle.getString("Quantity14");
-
-                        material15S = bundle.getString("Material15");
-                        unit15S = bundle.getString("Unit15");
-                        quantity15S = bundle.getString("Quantity15");
-
-                        material16S = bundle.getString("Material16");
-                        unit16S = bundle.getString("Unit16");
-                        quantity16S = bundle.getString("Quantity16");
-
-                        material17S = bundle.getString("Material17");
-                        unit17S = bundle.getString("Unit17");
-                        quantity17S = bundle.getString("Quantity17");
-
-                        material18S = bundle.getString("Material18");
-                        unit18S = bundle.getString("Unit18");
-                        quantity18S = bundle.getString("Quantity18");
-
-                        material19S = bundle.getString("Material19");
-                        unit19S = bundle.getString("Unit19");
-                        quantity19S = bundle.getString("Quantity19");
-
-                        material20S = bundle.getString("Material20");
-                        unit20S = bundle.getString("Unit20");
-                        quantity20S = bundle.getString("Quantity20");
-
-                        material21S = bundle.getString("Material21");
-                        unit21S = bundle.getString("Unit21");
-                        quantity21S = bundle.getString("Quantity21");
-
-                        material22S = bundle.getString("Material22");
-                        unit22S = bundle.getString("Unit22");
-                        quantity22S = bundle.getString("Quantity22");
-
-                        material23S = bundle.getString("Material23");
-                        unit23S = bundle.getString("Unit23");
-                        quantity23S = bundle.getString("Quantity23");
-
-                        material24S = bundle.getString("Material24");
-                        unit24S = bundle.getString("Unit24");
-                        quantity24S = bundle.getString("Quantity24");
-
-                        material25S = bundle.getString("Material25");
-                        unit25S = bundle.getString("Unit25");
-                        quantity25S = bundle.getString("Quantity25");
-
-                        material26S = bundle.getString("Material26");
-                        unit26S = bundle.getString("Unit26");
-                        quantity26S = bundle.getString("Quantity26");
-
-                        material27S = bundle.getString("Material27");
-                        unit27S = bundle.getString("Unit27");
-                        quantity27S = bundle.getString("Quantity27");
-
-                        material28S = bundle.getString("Material28");
-                        unit28S = bundle.getString("Unit28");
-                        quantity28S = bundle.getString("Quantity28");
-
-                        material29S = bundle.getString("Material29");
-                        unit29S = bundle.getString("Unit29");
-                        quantity29S = bundle.getString("Quantity29");
-
-                        material30S = bundle.getString("Material30");
-                        unit30S = bundle.getString("Unit30");
-                        quantity30S = bundle.getString("Quantity30");
-
-                        centerS = bundle.getString("Center");
-                        villageS = bundle.getString("Village");
+                //State
+                databaseReferenceState = FirebaseDatabase.getInstance().getReference(companyEmail+" State");
+                spinnerDataListState = new ArrayList<>();
+                adapterState = new ArrayAdapter<String>(AddActualMaterial.this,R.layout.support_simple_spinner_dropdown_item,spinnerDataListState);
+                state.setAdapter(adapterState);
+                retrieveDataState();
+                //District
+                databaseReferenceDistrict = FirebaseDatabase.getInstance().getReference(companyEmail+" District");
+                spinnerDataListDistrict = new ArrayList<>();
+                adapterDistrict = new ArrayAdapter<String>(AddActualMaterial.this,R.layout.support_simple_spinner_dropdown_item,spinnerDataListDistrict);
+                district.setAdapter(adapterDistrict);
+                retrieveDataDistrict();
 
 
-                }
+                //Taluka
+                databaseReferenceTaluka = FirebaseDatabase.getInstance().getReference(companyEmail+" Taluka");
+                spinnerDataListTaluka = new ArrayList<>();
+                adapterTaluka = new ArrayAdapter<String>(AddActualMaterial.this,R.layout.support_simple_spinner_dropdown_item,spinnerDataListTaluka);
+                taluka.setAdapter(adapterTaluka);
+                retrieveDataTaluka();
+
+                //Team Name
+                databaseReference = FirebaseDatabase.getInstance().getReference(companyEmail+" teamName");
+                spinnerDataList = new ArrayList<>();
+                adapter = new ArrayAdapter<String>(AddActualMaterial.this,R.layout.support_simple_spinner_dropdown_item,spinnerDataList);
+                teamName.setAdapter(adapter);
+                retrieveData();
+
+                //Line
+                databaseReferenceLine = FirebaseDatabase.getInstance().getReference(companyEmail+" Line");
+                spinnerDataListLine = new ArrayList<>();
+                adapterLine = new ArrayAdapter<String>(AddActualMaterial.this,R.layout.support_simple_spinner_dropdown_item,spinnerDataListLine);
+                line.setAdapter(adapterLine);
+                retrieveDataLine();
+
+                //Tender
+                databaseReferenceTender = FirebaseDatabase.getInstance().getReference(companyEmail+" Tender");
+                spinnerDataListTender = new ArrayList<>();
+                adapterTender = new ArrayAdapter<String>(AddActualMaterial.this,R.layout.support_simple_spinner_dropdown_item,spinnerDataListTender);
+                tender.setAdapter(adapterTender);
+                retrieveDataTender();
+
+                //Driver
+                databaseReferenceDriver = FirebaseDatabase.getInstance().getReference(companyEmail+" Driver");
+                spinnerDataListDriver = new ArrayList<>();
+                adapterDriver = new ArrayAdapter<String>(AddActualMaterial.this,R.layout.support_simple_spinner_dropdown_item,spinnerDataListDriver);
+                driver.setAdapter(adapterDriver);
+                retrieveDataDriver();
+
+                //Vehical
+                databaseReferenceVehical = FirebaseDatabase.getInstance().getReference(companyEmail+" Vehical");
+                spinnerDataListVehical = new ArrayList<>();
+                adapterVehical = new ArrayAdapter<String>(AddActualMaterial.this,R.layout.support_simple_spinner_dropdown_item,spinnerDataListVehical);
+                vehical.setAdapter(adapterVehical);
+                retrieveDataVehical();
+
+                //Center
+                databaseReferenceCenter = FirebaseDatabase.getInstance().getReference(companyEmail+" Center");
+                spinnerDataListCenter = new ArrayList<>();
+                adapterCenter = new ArrayAdapter<String>(AddActualMaterial.this,R.layout.support_simple_spinner_dropdown_item,spinnerDataListCenter);
+                center.setAdapter(adapterCenter);
+                retrieveDataCenter();
+
+                //Village
+                databaseReferenceVillage = FirebaseDatabase.getInstance().getReference(companyEmail+" Village");
+                spinnerDataListVillage = new ArrayList<>();
+                adapterVillage = new ArrayAdapter<String>(AddActualMaterial.this,R.layout.support_simple_spinner_dropdown_item,spinnerDataListVillage);
+                village.setAdapter(adapterVillage);
+                retrieveDataVillage();
+
+
+                //Material
+                databaseReferenceMaterial = FirebaseDatabase.getInstance().getReference(companyEmail + " Material");
+                spinnerDataListMaterial = new ArrayList<>();
+                adapterMaterial = new ArrayAdapter<String>(AddActualMaterial.this, R.layout.support_simple_spinner_dropdown_item, spinnerDataListMaterial);
+                material1.setAdapter(adapterMaterial);
+                material2.setAdapter(adapterMaterial);
+                material3.setAdapter(adapterMaterial);
+                material4.setAdapter(adapterMaterial);
+                material5.setAdapter(adapterMaterial);
+                material6.setAdapter(adapterMaterial);
+                material6.setAdapter(adapterMaterial);
+                material7.setAdapter(adapterMaterial);
+                material8.setAdapter(adapterMaterial);
+                material9.setAdapter(adapterMaterial);
+                material10.setAdapter(adapterMaterial);
+                material11.setAdapter(adapterMaterial);
+                material12.setAdapter(adapterMaterial);
+                material13.setAdapter(adapterMaterial);
+                material14.setAdapter(adapterMaterial);
+                material15.setAdapter(adapterMaterial);
+                material16.setAdapter(adapterMaterial);
+                material16.setAdapter(adapterMaterial);
+                material17.setAdapter(adapterMaterial);
+                material18.setAdapter(adapterMaterial);
+                material19.setAdapter(adapterMaterial);
+                material20.setAdapter(adapterMaterial);
+                material21.setAdapter(adapterMaterial);
+                material22.setAdapter(adapterMaterial);
+                material23.setAdapter(adapterMaterial);
+                material24.setAdapter(adapterMaterial);
+                material25.setAdapter(adapterMaterial);
+                material26.setAdapter(adapterMaterial);
+                material26.setAdapter(adapterMaterial);
+                material27.setAdapter(adapterMaterial);
+                material28.setAdapter(adapterMaterial);
+                material29.setAdapter(adapterMaterial);
+                material30.setAdapter(adapterMaterial);
+                retrieveDataMaterial();
+
+                //Unit
+                databaseReferenceUnit = FirebaseDatabase.getInstance().getReference(companyEmail + " Unit");
+                spinnerDataListUnit = new ArrayList<>();
+                adapterUnit = new ArrayAdapter<String>(AddActualMaterial.this, R.layout.support_simple_spinner_dropdown_item, spinnerDataListUnit);
+                unit1.setAdapter(adapterUnit);
+                unit2.setAdapter(adapterUnit);
+                unit3.setAdapter(adapterUnit);
+                unit4.setAdapter(adapterUnit);
+                unit5.setAdapter(adapterUnit);
+                unit6.setAdapter(adapterUnit);
+                unit7.setAdapter(adapterUnit);
+                unit8.setAdapter(adapterUnit);
+                unit9.setAdapter(adapterUnit);
+                unit10.setAdapter(adapterUnit);
+                unit11.setAdapter(adapterUnit);
+                unit12.setAdapter(adapterUnit);
+                unit13.setAdapter(adapterUnit);
+                unit14.setAdapter(adapterUnit);
+                unit15.setAdapter(adapterUnit);
+                unit16.setAdapter(adapterUnit);
+                unit17.setAdapter(adapterUnit);
+                unit18.setAdapter(adapterUnit);
+                unit19.setAdapter(adapterUnit);
+                unit20.setAdapter(adapterUnit);
+                unit21.setAdapter(adapterUnit);
+                unit22.setAdapter(adapterUnit);
+                unit23.setAdapter(adapterUnit);
+                unit24.setAdapter(adapterUnit);
+                unit25.setAdapter(adapterUnit);
+                unit26.setAdapter(adapterUnit);
+                unit27.setAdapter(adapterUnit);
+                unit28.setAdapter(adapterUnit);
+                unit29.setAdapter(adapterUnit);
+                unit30.setAdapter(adapterUnit);
+                retrieveDataUnit();
+
+
+
+
+
+
+
+
+
+
 
 
                 //Receiver
@@ -615,344 +793,7 @@ public class AddActualMaterial extends AppCompatActivity {
                 retrieveDataReceiver();
 
                 pd.dismiss();
-
-                mDateFormate.setText(dateS);
-                teamName.setText(teamNameS);
-                line.setText(lineS);
-                tender.setText(tenderS);
-                driver.setText(driverNameS);
-                vehical.setText(vehicalNameS);
-                consumer.setText(consumerNameS);
-                site.setText(siteNameS);
-                material1.setText(material1S);
-                material2.setText(material2S);
-                material3.setText(material3S);
-                material4.setText(material4S);
-                material5.setText(material5S);
-                material6.setText(material6S);
-                material7.setText(material7S);
-                material8.setText(material8S);
-                material9.setText(material9S);
-                material10.setText(material10S);
-                material11.setText(material11S);
-                material12.setText(material12S);
-                material13.setText(material13S);
-                material14.setText(material14S);
-                material15.setText(material15S);
-                material16.setText(material16S);
-                material17.setText(material17S);
-                material18.setText(material18S);
-                material19.setText(material19S);
-                material20.setText(material20S);
-                material21.setText(material21S);
-                material22.setText(material22S);
-                material23.setText(material23S);
-                material24.setText(material24S);
-                material25.setText(material25S);
-                material26.setText(material26S);
-                material27.setText(material27S);
-                material28.setText(material28S);
-                material29.setText(material29S);
-                material30.setText(material30S);
-
-                unit1.setText(unit1S);
-                unit2.setText(unit2S);
-                unit3.setText(unit3S);
-                unit4.setText(unit4S);
-                unit5.setText(unit5S);
-                unit6.setText(unit6S);
-                unit7.setText(unit7S);
-                unit8.setText(unit8S);
-                unit9.setText(unit9S);
-                unit10.setText(unit10S);
-                unit11.setText(unit11S);
-                unit12.setText(unit12S);
-                unit13.setText(unit13S);
-                unit14.setText(unit14S);
-                unit15.setText(unit15S);
-                unit16.setText(unit16S);
-                unit17.setText(unit17S);
-                unit18.setText(unit18S);
-                unit19.setText(unit19S);
-                unit20.setText(unit20S);
-                unit21.setText(unit21S);
-                unit22.setText(unit22S);
-                unit23.setText(unit23S);
-                unit24.setText(unit24S);
-                unit25.setText(unit25S);
-                unit26.setText(unit26S);
-                unit27.setText(unit27S);
-                unit28.setText(unit28S);
-                unit29.setText(unit29S);
-                unit30.setText(unit30S);
-
-                center.setText(centerS);
-                village.setText(villageS);
-
-                mDateFormate.setEnabled(false);
-                teamName.setEnabled(false);
-                line.setEnabled(false);
-                tender.setEnabled(false);
-                driver.setEnabled(false);
-                vehical.setEnabled(false);
-                consumer.setEnabled(false);
-                site.setEnabled(false);
-                center.setEnabled(false);
-                village.setEnabled(false);
-
-
-
-
-
-
-                material1.setEnabled(false);
-                material2.setEnabled(false);
-                material3.setEnabled(false);
-                material4.setEnabled(false);
-                material5.setEnabled(false);
-                material6.setEnabled(false);
-                material7.setEnabled(false);
-                material8.setEnabled(false);
-                material9.setEnabled(false);
-                material10.setEnabled(false);
-                material11.setEnabled(false);
-                material12.setEnabled(false);
-                material13.setEnabled(false);
-                material14.setEnabled(false);
-                material15.setEnabled(false);
-                material16.setEnabled(false);
-                material17.setEnabled(false);
-                material18.setEnabled(false);
-                material19.setEnabled(false);
-                material20.setEnabled(false);
-                material21.setEnabled(false);
-                material22.setEnabled(false);
-                material23.setEnabled(false);
-                material24.setEnabled(false);
-                material25.setEnabled(false);
-                material26.setEnabled(false);
-                material27.setEnabled(false);
-                material28.setEnabled(false);
-                material29.setEnabled(false);
-                material30.setEnabled(false);
-
-                unit1.setEnabled(false);
-                unit2.setEnabled(false);
-                unit3.setEnabled(false);
-                unit4.setEnabled(false);
-                unit5.setEnabled(false);
-                unit6.setEnabled(false);
-                unit7.setEnabled(false);
-                unit8.setEnabled(false);
-                unit9.setEnabled(false);
-                unit10.setEnabled(false);
-                unit11.setEnabled(false);
-                unit12.setEnabled(false);
-                unit13.setEnabled(false);
-                unit14.setEnabled(false);
-                unit15.setEnabled(false);
-                unit16.setEnabled(false);
-                unit17.setEnabled(false);
-                unit18.setEnabled(false);
-                unit19.setEnabled(false);
-                unit20.setEnabled(false);
-                unit21.setEnabled(false);
-                unit22.setEnabled(false);
-                unit23.setEnabled(false);
-                unit24.setEnabled(false);
-                unit25.setEnabled(false);
-                unit26.setEnabled(false);
-                unit27.setEnabled(false);
-                unit28.setEnabled(false);
-                unit29.setEnabled(false);
-                unit30.setEnabled(false);
-
-                if (quantity1S.isEmpty()) {
-                    quantity1.setEnabled(false);
-                }
-                if (quantity2S.isEmpty()) {
-                    quantity2.setEnabled(false);
-                }
-                if (quantity3S.isEmpty()) {
-                    quantity3.setEnabled(false);
-                }
-                if (quantity4S.isEmpty()) {
-                    quantity4.setEnabled(false);
-                }
-                if (quantity5S.isEmpty()) {
-                    quantity5.setEnabled(false);
-                }
-                if (quantity6S.isEmpty()) {
-                    quantity6.setEnabled(false);
-                }
-                if (quantity7S.isEmpty()) {
-                    quantity7.setEnabled(false);
-                }
-                if (quantity8S.isEmpty()) {
-                    quantity8.setEnabled(false);
-                }
-                if (quantity9S.isEmpty()) {
-                    quantity9.setEnabled(false);
-                }
-                if (quantity10S.isEmpty()) {
-                    quantity10.setEnabled(false);
-                }
-                if (quantity11S.isEmpty()) {
-                    quantity11.setEnabled(false);
-                }
-                if (quantity12S.isEmpty()) {
-                    quantity12.setEnabled(false);
-                }
-                if (quantity13S.isEmpty()) {
-                    quantity13.setEnabled(false);
-                }
-                if (quantity14S.isEmpty()) {
-                    quantity14.setEnabled(false);
-                }
-                if (quantity15S.isEmpty()) {
-                    quantity15.setEnabled(false);
-                }
-                if (quantity16S.isEmpty()) {
-                    quantity16.setEnabled(false);
-                }
-                if (quantity17S.isEmpty()) {
-                    quantity17.setEnabled(false);
-                }
-                if (quantity18S.isEmpty()) {
-                    quantity18.setEnabled(false);
-                }
-                if (quantity19S.isEmpty()) {
-                    quantity19.setEnabled(false);
-                }
-                if (quantity20S.isEmpty()) {
-                    quantity20.setEnabled(false);
-                }
-                if (quantity21S.isEmpty()) {
-                    quantity21.setEnabled(false);
-                }
-                if (quantity22S.isEmpty()) {
-                    quantity22.setEnabled(false);
-                }
-                if (quantity23S.isEmpty()) {
-                    quantity23.setEnabled(false);
-                }
-                if (quantity24S.isEmpty()) {
-                    quantity24.setEnabled(false);
-                }
-                if (quantity25S.isEmpty()) {
-                    quantity25.setEnabled(false);
-                }
-                if (quantity26S.isEmpty()) {
-                    quantity26.setEnabled(false);
-                }
-                if (quantity27S.isEmpty()) {
-                    quantity27.setEnabled(false);
-                }
-                if (quantity28S.isEmpty()) {
-                    quantity28.setEnabled(false);
-                }
-                if (quantity29S.isEmpty()) {
-                    quantity29.setEnabled(false);
-                }
-                if (quantity30S.isEmpty()) {
-                    quantity30.setEnabled(false);
-                }
-
-
-
-                    if (!quantity1S.isEmpty()) {
-                        quantity1.setText("0");
-                    }
-                    if (!quantity2S.isEmpty()) {
-                        quantity2.setText("0");
-                    }
-                    if (!quantity3S.isEmpty()) {
-                        quantity3.setText("0");
-                    }
-                    if (!quantity4S.isEmpty()) {
-                        quantity4.setText("0");
-                    }
-                    if (!quantity5S.isEmpty()) {
-                        quantity5.setText("0");
-                    }
-                    if (!quantity6S.isEmpty()) {
-                        quantity6.setText("0");
-                    }
-                    if (!quantity7S.isEmpty()) {
-                        quantity7.setText("0");
-                    }
-                    if (!quantity8S.isEmpty()) {
-                        quantity8.setText("0");
-                    }
-                    if (!quantity9S.isEmpty()) {
-                        quantity9.setText("0");
-                    }
-                    if (!quantity10S.isEmpty()) {
-                        quantity10.setText("0");
-                    }
-                    if (!quantity11S.isEmpty()) {
-                        quantity11.setText("0");
-                    }
-                    if (!quantity12S.isEmpty()) {
-                        quantity12.setText("0");
-                    }
-                    if (!quantity13S.isEmpty()) {
-                        quantity13.setText("0");
-                    }
-                    if (!quantity14S.isEmpty()) {
-                        quantity14.setText("0");
-                    }
-                    if (!quantity15S.isEmpty()) {
-                        quantity15.setText("0");
-                    }
-                    if (!quantity16S.isEmpty()) {
-                        quantity16.setText("0");
-                    }
-                    if (!quantity17S.isEmpty()) {
-                        quantity17.setText("0");
-                    }
-                    if (!quantity18S.isEmpty()) {
-                        quantity18.setText("0");
-                    }
-                    if (!quantity19S.isEmpty()) {
-                        quantity19.setText("0");
-                    }
-                    if (!quantity20S.isEmpty()) {
-                        quantity20.setText("0");
-                    }
-                    if (!quantity21S.isEmpty()) {
-                        quantity21.setText("0");
-                    }
-                    if (!quantity22S.isEmpty()) {
-                        quantity22.setText("0");
-                    }
-                    if (!quantity23S.isEmpty()) {
-                        quantity23.setText("0");
-                    }
-                    if (!quantity24S.isEmpty()) {
-                        quantity24.setText("0");
-                    }
-                    if (!quantity25S.isEmpty()) {
-                        quantity25.setText("0");
-                    }
-                    if (!quantity26S.isEmpty()) {
-                        quantity26.setText("0");
-                    }
-                    if (!quantity27S.isEmpty()) {
-                        quantity27.setText("0");
-                    }
-                    if (!quantity28S.isEmpty()) {
-                        quantity28.setText("0");
-                    }
-                    if (!quantity29S.isEmpty()) {
-                        quantity29.setText("0");
-                    }
-                    if (!quantity30S.isEmpty()) {
-                        quantity30.setText("0");
-                    }
-
-
-
+                
 
 
                 //State
@@ -1207,6 +1048,12 @@ public class AddActualMaterial extends AppCompatActivity {
                         String siteName = site.getText().toString().trim();
                         String centerS = center.getText().toString().trim();
                         String villageS = village.getText().toString().trim();
+
+
+                        showTotalMaterialTaken(cmp,consumerName);
+
+
+
                         if (consumerName.isEmpty()){
                             consumer.setError(r);
                             consumer.requestFocus();
@@ -1261,6 +1108,10 @@ public class AddActualMaterial extends AppCompatActivity {
 
                         //Site
                         String uConsumerName = consumer.getText().toString().trim();
+
+
+
+
                         String uSite = (site.getText().toString().trim());
 
                         //Material
@@ -1438,6 +1289,196 @@ public class AddActualMaterial extends AppCompatActivity {
 
     }
 
+    private void showBalanceData(String cmp) {
+        fStore.collection(cmp+" BalanceMaterialOnSite").orderBy("Date", Query.Direction.DESCENDING).get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        modelListBalance.clear();
+                        for (DocumentSnapshot doc : queryDocumentSnapshots){
+                            BalanceMaterialModel model = new BalanceMaterialModel(
+                                    doc.getString("id"),
+                                    doc.getString("Date"),
+                                    doc.getString("Team Name"),
+                                    doc.getString("Line"),
+                                    doc.getString("Tender"),
+                                    doc.getString("Driver Name"),
+                                    doc.getString("Vehical Name"),
+                                    doc.getString("Consumer Name"),
+                                    doc.getString("Site Name"),
+                                    doc.getString("Material Receiver Name"),
+                                    doc.getString("Center"),
+                                    doc.getString("Village")
+                            );
+                            modelListBalance.add(model);
+                        }
+                        adapterStockBalance = new BalanceMaterialCustomAdapterInAddActucalMater(AddActualMaterial.this,modelListBalance);
+                        recyclerView.setAdapter(adapterStockBalance);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        pd.dismiss();
+                        Toast.makeText(getApplicationContext(), "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void showTotalMaterialTaken(String cmp, String consumerName) {
+        fStore.collection(cmp+" "+consumerName).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                modelListTMT.clear();
+                for (DocumentSnapshot doc : task.getResult()){
+                    AddTotalMaterialTakenModel model = new AddTotalMaterialTakenModel(
+                            doc.getString("Id"),
+                            doc.getString("Material"),
+                            doc.getString("Unit"),
+                            doc.getString("Quantity")
+                    );
+                    modelListTMT.add(model);
+                }
+                adapterStockTMT = new AddActualTotalMaterialTakenAdapter(AddActualMaterial.this,modelListTMT);
+                recyclerViewTMT.setAdapter(adapterStockTMT);
+            }}).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(AddActualMaterial.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void showData(String cmp) {
+
+        fStore.collection(cmp+" AddData").orderBy("Date", Query.Direction.DESCENDING).get()
+
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        modelList.clear();
+                        pd.dismiss();
+                        for (DocumentSnapshot doc :queryDocumentSnapshots){
+                            UsedAddAcutualMaterialModel model = new UsedAddAcutualMaterialModel(
+                                    doc.getString("id"),
+                                    doc.getString("Date"),
+                                    doc.getString("Team Name"),
+                                    doc.getString("Line"),
+                                    doc.getString("Tender"),
+                                    doc.getString("Driver Name"),
+                                    doc.getString("Vehical Name"),
+                                    doc.getString("Consumer Name"),
+                                    doc.getString("Site Name"),
+                                    doc.getString("Material 1"),
+                                    doc.getString("Unit 1"),
+                                    doc.getString("Quantity 1"),
+                                    doc.getString("Material 2"),
+                                    doc.getString("Unit 2"),
+                                    doc.getString("Quantity 2"),
+                                    doc.getString("Material 3"),
+                                    doc.getString("Unit 3"),
+                                    doc.getString("Quantity 3"),
+                                    doc.getString("Material 4"),
+                                    doc.getString("Unit 4"),
+                                    doc.getString("Quantity 4"),
+                                    doc.getString("Material 5"),
+                                    doc.getString("Unit 5"),
+                                    doc.getString("Quantity 5"),
+                                    doc.getString("Material 6"),
+                                    doc.getString("Unit 6"),
+                                    doc.getString("Quantity 6"),
+                                    doc.getString("Material 7"),
+                                    doc.getString("Unit 7"),
+                                    doc.getString("Quantity 7"),
+                                    doc.getString("Material 8"),
+                                    doc.getString("Unit 8"),
+                                    doc.getString("Quantity 8"),
+                                    doc.getString("Material 9"),
+                                    doc.getString("Unit 9"),
+                                    doc.getString("Quantity 9"),
+                                    doc.getString("Material 10"),
+                                    doc.getString("Unit 10"),
+                                    doc.getString("Quantity 10"),
+                                    doc.getString("Material 11"),
+                                    doc.getString("Unit 11"),
+                                    doc.getString("Quantity 11"),
+                                    doc.getString("Material 12"),
+                                    doc.getString("Unit 12"),
+                                    doc.getString("Quantity 12"),
+                                    doc.getString("Material 13"),
+                                    doc.getString("Unit 13"),
+                                    doc.getString("Quantity 13"),
+                                    doc.getString("Material 14"),
+                                    doc.getString("Unit 14"),
+                                    doc.getString("Quantity 14"),
+                                    doc.getString("Material 15"),
+                                    doc.getString("Unit 15"),
+                                    doc.getString("Quantity 15"),
+                                    doc.getString("Material 16"),
+                                    doc.getString("Unit 16"),
+                                    doc.getString("Quantity 16"),
+                                    doc.getString("Material 17"),
+                                    doc.getString("Unit 17"),
+                                    doc.getString("Quantity 17"),
+                                    doc.getString("Material 18"),
+                                    doc.getString("Unit 18"),
+                                    doc.getString("Quantity 18"),
+                                    doc.getString("Material 19"),
+                                    doc.getString("Unit 19"),
+                                    doc.getString("Quantity 19"),
+                                    doc.getString("Material 20"),
+                                    doc.getString("Unit 20"),
+                                    doc.getString("Quantity 20"),
+                                    doc.getString("Material 21"),
+                                    doc.getString("Unit 21"),
+                                    doc.getString("Quantity 21"),
+                                    doc.getString("Material 22"),
+                                    doc.getString("Unit 22"),
+                                    doc.getString("Quantity 22"),
+                                    doc.getString("Material 23"),
+                                    doc.getString("Unit 23"),
+                                    doc.getString("Quantity 23"),
+                                    doc.getString("Material 24"),
+                                    doc.getString("Unit 24"),
+                                    doc.getString("Quantity 24"),
+                                    doc.getString("Material 25"),
+                                    doc.getString("Unit 25"),
+                                    doc.getString("Quantity 25"),
+                                    doc.getString("Material 26"),
+                                    doc.getString("Unit 26"),
+                                    doc.getString("Quantity 26"),
+                                    doc.getString("Material 27"),
+                                    doc.getString("Unit 27"),
+                                    doc.getString("Quantity 27"),
+                                    doc.getString("Material 28"),
+                                    doc.getString("Unit 28"),
+                                    doc.getString("Quantity 28"),
+                                    doc.getString("Material 29"),
+                                    doc.getString("Unit 29"),
+                                    doc.getString("Quantity 29"),
+                                    doc.getString("Material 30"),
+                                    doc.getString("Unit 30"),
+                                    doc.getString("Quantity 30"),
+                                    doc.getString("Material Receiver Name"),
+                                    doc.getString("Center"),
+                                    doc.getString("Village")
+                            );
+                            modelList.add(model);
+                        }
+                        usedAddActucalMaterialCustomAdapter = new UsedAddActucalMaterialCustomAdapter(AddActualMaterial.this,modelList);
+                        recyclerView.setAdapter(usedAddActucalMaterialCustomAdapter);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        pd.dismiss();
+                        Toast.makeText(getApplicationContext(), "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
     private void verifyPassReceiver(String materialReceiver, String pass, String cmp, String uDate, String uTeamName, String uLine, String uTender, String uDriverName, String uVehicalName, String uConsumerName, String uSite, String uMaterial1, String uQuantity1, String uMaterial2, String uQuantity2, String uMaterial3, String uQuantity3, String uMaterial4, String uQuantity4, String uMaterial5, String uQuantity5, String uMaterial6, String uQuantity6, String uMaterial7, String uQuantity7, String uMaterial8, String uQuantity8, String uMaterial9, String uQuantity9, String uMaterial10, String uQuantity10, String uQuantity11, String uMaterial12, String uQuantity12, String uMaterial13, String uQuantity13, String uMaterial14, String uQuantity14, String uMaterial15, String uQuantity15, String uMaterial16, String uQuantity16, String uMaterial17, String uQuantity17, String uMaterial18, String uQuantity18, String uMaterial19, String uQuantity19, String uMaterial20, String uQuantity20, String uUnit1, String uUnit2, String uUnit3, String uUnit4, String uUnit5, String uUnit6, String uUnit7, String uUnit8, String uUnit9, String uUnit10, String uUnit11, String uUnit12, String uUnit13, String uUnit14, String uUnit15, String uUnit16, String uUnit17, String uUnit18, String uUnit19, String uUnit20, String uMaterial11, String uMaterial21, String uQuantity21, String uMaterial22, String uQuantity22, String uMaterial23, String uQuantity23, String uMaterial24, String uQuantity24, String uMaterial25, String uQuantity25, String uMaterial26, String uQuantity26, String uMaterial27, String uQuantity27, String uMaterial28, String uQuantity28, String uMaterial29, String uQuantity29, String uMaterial30, String uQuantity30, String uUnit21, String uUnit22, String uUnit23, String uUnit24, String uUnit25, String uUnit26, String uUnit27, String uUnit28, String uUnit29, String uUnit30, String centerS, String villageS) {
         DocumentReference a = fStore.collection(cmp+" ProfilePass")
                 .document(materialReceiver.toLowerCase());
@@ -1473,509 +1514,9 @@ public class AddActualMaterial extends AppCompatActivity {
 
     }
 
-    private void ReturnUpdateMaterial(String cmp, String uDate, String uTeamName, String uLine, String uTender, String uDriverName, String uVehicalName, String uConsumerName, String uSite, String uMaterial1, String uMQuantity1, String uMaterial2, String uMQuantity2, String uMaterial3, String uMQuantity3, String uMaterial4, String uMQuantity4, String uMaterial5, String uMQuantity5, String uMaterial6, String uMQuantity6, String uMaterial7, String uMQuantity7, String uMaterial8, String uMQuantity8, String uMaterial9, String uMQuantity9, String uMaterial10, String uMQuantity10, String uMQuantity11, String uMaterial12, String uMQuantity12, String uMaterial13, String uMQuantity13, String uMaterial14, String uMQuantity14, String uMaterial15, String uMQuantity15, String uMaterial16, String uMQuantity16, String uMaterial17, String uMQuantity17, String uMaterial18, String uMQuantity18, String uMaterial19, String uMQuantity19, String uMaterial20, String uMQuantity20, String uUnit1, String uUnit2, String uUnit3, String uUnit4, String uUnit5, String uUnit6, String uUnit7, String uUnit8, String uUnit9, String uUnit10, String uUnit11, String uUnit12, String uUnit13, String uUnit14, String uUnit15, String uUnit16, String uUnit17, String uUnit18, String uUnit19, String uUnit20, String uMaterial11, String uMaterial21, String uMQuantity21, String uMaterial22, String uMQuantity22, String uMaterial23, String uMQuantity23, String uMaterial24, String uMQuantity24, String uMaterial25, String uMQuantity25, String uMaterial26, String uMQuantity26, String uMaterial27, String uMQuantity27, String uMaterial28, String uMQuantity28, String uMaterial29, String uMQuantity29, String uMaterial30, String uMQuantity30, String uUnit21, String uUnit22, String uUnit23, String uUnit24, String uUnit25, String uUnit26, String uUnit27, String uUnit28, String uUnit29, String uUnit30, String materialReceiver,String centerS,String villageS) {
-        addDataLL.setVisibility(View.GONE);
-        progressBar.setVisibility(View.VISIBLE);
-
-        Map<String, Object> doc = new HashMap<>();
-
-        DecimalFormat dec = new DecimalFormat();
-        dec.setMaximumFractionDigits(2);
-
-        DocumentReference documentReference = fStore.collection(cmp+" AddData")
-                .document(id);
-        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                final String q = "0";
-
-                String Quantity1 = value.getString("Quantity 1");
-                String Quantity2 = value.getString("Quantity 2");
-                String Quantity3 = value.getString("Quantity 3");
-                String Quantity4 = value.getString("Quantity 4");
-                String Quantity5 = value.getString("Quantity 5");
-                String Quantity6 = value.getString("Quantity 6");
-                String Quantity7 = value.getString("Quantity 7");
-                String Quantity8 = value.getString("Quantity 8");
-                String Quantity9 = value.getString("Quantity 9");
-                String Quantity10 = value.getString("Quantity 10");
-                String Quantity11 = value.getString("Quantity 11");
-                String Quantity12 = value.getString("Quantity 12");
-                String Quantity13 = value.getString("Quantity 13");
-                String Quantity14 = value.getString("Quantity 14");
-                String Quantity15 = value.getString("Quantity 15");
-                String Quantity16 = value.getString("Quantity 16");
-                String Quantity17 = value.getString("Quantity 17");
-                String Quantity18 = value.getString("Quantity 18");
-                String Quantity19 = value.getString("Quantity 19");
-                String Quantity20 = value.getString("Quantity 20");
-                String Quantity21 = value.getString("Quantity 21");
-                String Quantity22 = value.getString("Quantity 22");
-                String Quantity23 = value.getString("Quantity 23");
-                String Quantity24 = value.getString("Quantity 24");
-                String Quantity25 = value.getString("Quantity 25");
-                String Quantity26 = value.getString("Quantity 26");
-                String Quantity27 = value.getString("Quantity 27");
-                String Quantity28 = value.getString("Quantity 28");
-                String Quantity29 = value.getString("Quantity 29");
-                String Quantity30 = value.getString("Quantity 30");
-
-
-                if (Quantity1.isEmpty()){
-                    Quantity1 = q;
-                }
-                if (Quantity2.isEmpty()){
-                    Quantity2 = q;
-                }
-                if (Quantity3.isEmpty()){
-                    Quantity3 = q;
-                }
-                if (Quantity4.isEmpty()){
-                    Quantity4 = q;
-                }
-                if (Quantity5.isEmpty()){
-                    Quantity5 = q;
-                }
-                if (Quantity6.isEmpty()){
-                    Quantity6 = q;
-                }
-                if (Quantity7.isEmpty()){
-                    Quantity7 = q;
-                }
-                if ( Quantity8.isEmpty()){
-                    Quantity8 = q;
-                }
-                if ( Quantity9.isEmpty()){
-                    Quantity9 = q;
-                }
-                if (Quantity10.isEmpty()){
-                    Quantity10 = q;
-                }
-                if ( Quantity11.isEmpty()){
-                    Quantity11 = q;
-                }
-                if ( Quantity12.isEmpty()){
-                    Quantity12 = q;
-                }
-                if (Quantity13.isEmpty()){
-                    Quantity13 = q;
-                }
-                if ( Quantity14.isEmpty()){
-                    Quantity14 = q;
-                }
-                if ( Quantity15.isEmpty()){
-                    Quantity15 = q;
-                }
-                if (Quantity16.isEmpty()){
-                    Quantity16 = q;
-                }
-                if ( Quantity17.isEmpty()){
-                    Quantity17 = q;
-                }
-                if ( Quantity18.isEmpty()){
-                    Quantity18 = q;
-                }
-                if ( Quantity19.isEmpty()){
-                    Quantity19 = q;
-                }
-                if (Quantity20.isEmpty()){
-                    Quantity20 = q;
-                }
-                if ( Quantity21.isEmpty()){
-                    Quantity21 = q;
-                }
-                if (Quantity22.isEmpty()){
-                    Quantity22 = q;
-                }
-                if ( Quantity23.isEmpty()){
-                    Quantity23 = q;
-                }
-                if ( Quantity24.isEmpty()){
-                    Quantity24 = q;
-                }
-                if (Quantity25.isEmpty()){
-                    Quantity25 = q;
-                }
-                if ( Quantity26.isEmpty()){
-                    Quantity26 = q;
-                }
-                if ( Quantity27.isEmpty()){
-                    Quantity27 = q;
-                }
-                if (Quantity28.isEmpty()){
-                    Quantity28 = q;
-                }
-                if ( Quantity29.isEmpty()){
-                    Quantity29 = q;
-                }
-                if ( Quantity30.isEmpty()){
-                    Quantity30 = q;
-                }
-
-
-                if (uQuantity1.isEmpty()) {
-                    uQuantity1 = q;
-                }
-                if (uQuantity2.isEmpty()) {
-                    uQuantity2 = q;
-                }
-                if (uQuantity3.isEmpty()) {
-                    uQuantity3 = q;
-                }
-                if (uQuantity4.isEmpty()) {
-                    uQuantity4 = q;
-                }
-                if (uQuantity5.isEmpty()) {
-                    uQuantity5 = q;
-                }
-                if (uQuantity6.isEmpty()) {
-                    uQuantity6 = q;
-                }
-                if (uQuantity7.isEmpty()) {
-                    uQuantity7 = q;
-                }
-                if (uQuantity8.isEmpty()) {
-                    uQuantity8 = q;
-                }
-                if (uQuantity9.isEmpty()) {
-                    uQuantity9 = q;
-                }
-                if (uQuantity10.isEmpty()) {
-                    uQuantity10 = q;
-                }
-                if (uQuantity11.isEmpty()) {
-                    uQuantity11 = q;
-                }
-                if (uQuantity12.isEmpty()) {
-                    uQuantity12 = q;
-                }
-                if (uQuantity13.isEmpty()) {
-                    uQuantity13 = q;
-                }
-                if (uQuantity14.isEmpty()) {
-                    uQuantity14 = q;
-                }
-                if (uQuantity15.isEmpty()) {
-                    uQuantity15 = q;
-                }
-                if (uQuantity16.isEmpty()) {
-                    uQuantity16 = q;
-                }
-                if (uQuantity17.isEmpty()) {
-                    uQuantity17 = q;
-                }
-                if (uQuantity18.isEmpty()) {
-                    uQuantity18 = q;
-                }
-                if (uQuantity19.isEmpty()) {
-                    uQuantity19 = q;
-                }
-                if (uQuantity20.isEmpty()) {
-                    uQuantity20 = q;
-                }
-
-                if (uQuantity21.isEmpty()) {
-                    uQuantity21 = q;
-                }
-                if (uQuantity22.isEmpty()) {
-                    uQuantity22 = q;
-                }
-                if (uQuantity23.isEmpty()) {
-                    uQuantity23 = q;
-                }
-                if (uQuantity24.isEmpty()) {
-                    uQuantity24 = q;
-                }
-                if (uQuantity25.isEmpty()) {
-                    uQuantity25 = q;
-                }
-                if (uQuantity26.isEmpty()) {
-                    uQuantity26 = q;
-                }
-                if (uQuantity27.isEmpty()) {
-                    uQuantity27 = q;
-                }
-                if (uQuantity28.isEmpty()) {
-                    uQuantity28 = q;
-                }
-                if (uQuantity29.isEmpty()) {
-                    uQuantity29 = q;
-                }
-                if (uQuantity30.isEmpty()) {
-                    uQuantity30 = q;
-                }
-
-
-
-                String q1 = dec.format( Float.parseFloat(Quantity1) - Float.parseFloat(uQuantity1) );
-                String q2 = dec.format( Float.parseFloat(Quantity2) - Float.parseFloat(uQuantity2) );
-                String q3 = dec.format( Float.parseFloat(Quantity3) - Float.parseFloat(uQuantity3) );
-                String q4 = dec.format( Float.parseFloat(Quantity4) - Float.parseFloat(uQuantity4) );
-                String q5 = dec.format( Float.parseFloat(Quantity5) - Float.parseFloat(uQuantity5) );
-                String q6 = dec.format( Float.parseFloat(Quantity6) - Float.parseFloat(uQuantity6) );
-                String q7 = dec.format( Float.parseFloat(Quantity7) - Float.parseFloat(uQuantity7) );
-                String q8 = dec.format( Float.parseFloat(Quantity8) - Float.parseFloat(uQuantity8) );
-                String q9 = dec.format( Float.parseFloat(Quantity9) - Float.parseFloat(uQuantity9) );
-                String q10 = dec.format( Float.parseFloat(Quantity10) - Float.parseFloat(uQuantity10) );
-                String q11 = dec.format( Float.parseFloat(Quantity11) - Float.parseFloat(uQuantity11) );
-                String q12 = dec.format( Float.parseFloat(Quantity12) - Float.parseFloat(uQuantity12) );
-                String q13 = dec.format( Float.parseFloat(Quantity13) - Float.parseFloat(uQuantity13) );
-                String q14 = dec.format( Float.parseFloat(Quantity14) - Float.parseFloat(uQuantity14) );
-                String q15 = dec.format( Float.parseFloat(Quantity15) - Float.parseFloat(uQuantity15) );
-                String q16 = dec.format( Float.parseFloat(Quantity16) - Float.parseFloat(uQuantity16) );
-                String q17 = dec.format( Float.parseFloat(Quantity17) - Float.parseFloat(uQuantity17) );
-                String q18 = dec.format( Float.parseFloat(Quantity18) - Float.parseFloat(uQuantity18) );
-                String q19 = dec.format( Float.parseFloat(Quantity19) - Float.parseFloat(uQuantity19) );
-                String q20 = dec.format( Float.parseFloat(Quantity20) - Float.parseFloat(uQuantity20) );
-                String q21 = dec.format( Float.parseFloat(Quantity21) - Float.parseFloat(uQuantity21) );
-                String q22 = dec.format( Float.parseFloat(Quantity22) - Float.parseFloat(uQuantity22) );
-                String q23 = dec.format( Float.parseFloat(Quantity23) - Float.parseFloat(uQuantity23) );
-                String q24 = dec.format( Float.parseFloat(Quantity24) - Float.parseFloat(uQuantity24) );
-                String q25 = dec.format( Float.parseFloat(Quantity25) - Float.parseFloat(uQuantity25) );
-                String q26 = dec.format( Float.parseFloat(Quantity26) - Float.parseFloat(uQuantity26) );
-                String q27 = dec.format( Float.parseFloat(Quantity27) - Float.parseFloat(uQuantity27) );
-                String q28 = dec.format( Float.parseFloat(Quantity28) - Float.parseFloat(uQuantity28) );
-                String q29 = dec.format( Float.parseFloat(Quantity29) - Float.parseFloat(uQuantity29) );
-                String q30 = dec.format( Float.parseFloat(Quantity30) - Float.parseFloat(uQuantity30) );
-
-
-
-                if (q1.equals("0")) {
-                    q1 = "";
-                }
-                if (q2.equals("0")) {
-                    q2 = "";
-                }
-                if (q3.equals("0")) {
-                    q3 = "";
-                }
-                if (q4.equals("0")) {
-                    q4 = "";
-                }
-                if (q5.equals("0")) {
-                    q5 = "";
-                }
-                if (q6.equals("0")) {
-                    q6 = "";
-                }
-                if (q7.equals("0")) {
-                    q7 = "";
-                }
-                if (q8.equals("0")) {
-                    q8 = "";
-                }
-                if (q9.equals("0")) {
-                    q9 = "";
-                }
-                if (q10.equals("0")) {
-                    q10 = "";
-                }
-                if (q11.equals("0")) {
-                    q11 = "";
-                }
-                if (q12.equals("0")) {
-                    q12 = "";
-                }
-                if (q13.equals("0")) {
-                    q13 = "";
-                }
-                if (q14.equals("0")) {
-                    q14 = "";
-                }
-                if (q15.equals("0")) {
-                    q15 = "";
-                }
-                if (q16.equals("0")) {
-                    q16 = "";
-                }
-                if (q17.equals("0")) {
-                    q17 = "";
-                }
-                if (q18.equals("0")) {
-                    q18 = "";
-                }
-                if (q19.equals("0")) {
-                    q19 = "";
-                }
-                if (q20.equals("0")) {
-                    q20 = "";
-                }
-                if (q21.equals("0")) {
-                    q21 = "";
-                }
-                if (q22.equals("0")) {
-                    q22 = "";
-                }
-                if (q23.equals("0")) {
-                    q23 = "";
-                }
-                if (q24.equals("0")) {
-                    q24 = "";
-                }
-                if (q25.equals("0")) {
-                    q25 = "";
-                }
-                if (q26.equals("0")) {
-                    q26 = "";
-                }
-                if (q27.equals("0")) {
-                    q27 = "";
-                }
-                if (q28.equals("0")) {
-                    q28 = "";
-                }
-                if (q29.equals("0")) {
-                    q29 = "";
-                }
-                if (q30.equals("0")) {
-                    q30 = "";
-                }
-
-                doc.put("id", id);
-                doc.put("Date", uDate);
-                doc.put("SearchDate", uDate.toLowerCase());
-                doc.put("Team Name", uTeamName);
-                doc.put("SearchTeamName", uTeamName.toLowerCase());
-                doc.put("Line", uLine);
-                doc.put("Tender", uTender);
-                doc.put("SearchTender", uTender.toLowerCase());
-                doc.put("Driver Name", uDriverName);
-                doc.put("Vehical Name", uVehicalName);
-                doc.put("Consumer Name", uConsumerName);
-                doc.put("Site Name", uSite);
-                //Material
-                doc.put("Material 1", uMaterial1);
-                doc.put("Material 2", uMaterial2);
-                doc.put("Material 3", uMaterial3);
-                doc.put("Material 4", uMaterial4);
-                doc.put("Material 5", uMaterial5);
-                doc.put("Material 6", uMaterial6);
-                doc.put("Material 7", uMaterial7);
-                doc.put("Material 8", uMaterial8);
-                doc.put("Material 9", uMaterial9);
-                doc.put("Material 10", uMaterial10);
-                doc.put("Material 11", uMaterial11);
-                doc.put("Material 12", uMaterial12);
-                doc.put("Material 13", uMaterial13);
-                doc.put("Material 14", uMaterial14);
-                doc.put("Material 15", uMaterial15);
-                doc.put("Material 16", uMaterial16);
-                doc.put("Material 17", uMaterial17);
-                doc.put("Material 18", uMaterial18);
-                doc.put("Material 19", uMaterial19);
-                doc.put("Material 20", uMaterial20);
-                doc.put("Material 21", uMaterial21);
-                doc.put("Material 22", uMaterial22);
-                doc.put("Material 23", uMaterial23);
-                doc.put("Material 24", uMaterial24);
-                doc.put("Material 25", uMaterial25);
-                doc.put("Material 26", uMaterial26);
-                doc.put("Material 27", uMaterial27);
-                doc.put("Material 28", uMaterial28);
-                doc.put("Material 29", uMaterial29);
-                doc.put("Material 30", uMaterial30);
-                //Quantity
-                doc.put("Quantity 1", q1);
-                doc.put("Quantity 2", q2);
-                doc.put("Quantity 3", q3);
-                doc.put("Quantity 4", q4);
-                doc.put("Quantity 5", q5);
-                doc.put("Quantity 6", q6);
-                doc.put("Quantity 7", q7);
-                doc.put("Quantity 8", q8);
-                doc.put("Quantity 9", q9);
-                doc.put("Quantity 10", q10);
-                doc.put("Quantity 11", q11);
-                doc.put("Quantity 12", q12);
-                doc.put("Quantity 13", q13);
-                doc.put("Quantity 14", q14);
-                doc.put("Quantity 15", q15);
-                doc.put("Quantity 16", q16);
-                doc.put("Quantity 17", q17);
-                doc.put("Quantity 18", q18);
-                doc.put("Quantity 19", q19);
-                doc.put("Quantity 20", q20);
-                doc.put("Quantity 21", q21);
-                doc.put("Quantity 22", q22);
-                doc.put("Quantity 23", q23);
-                doc.put("Quantity 24", q24);
-                doc.put("Quantity 25", q25);
-                doc.put("Quantity 26", q26);
-                doc.put("Quantity 27", q27);
-                doc.put("Quantity 28", q28);
-                doc.put("Quantity 29", q29);
-                doc.put("Quantity 30", q30);
-                //Unit
-                doc.put("Unit 1", uUnit1);
-                doc.put("Unit 2", uUnit2);
-                doc.put("Unit 3", uUnit3);
-                doc.put("Unit 4", uUnit4);
-                doc.put("Unit 5", uUnit5);
-                doc.put("Unit 6", uUnit6);
-                doc.put("Unit 7", uUnit7);
-                doc.put("Unit 8", uUnit8);
-                doc.put("Unit 9", uUnit9);
-                doc.put("Unit 10", uUnit10);
-                doc.put("Unit 11", uUnit11);
-                doc.put("Unit 12", uUnit12);
-                doc.put("Unit 13", uUnit13);
-                doc.put("Unit 14", uUnit14);
-                doc.put("Unit 15", uUnit15);
-                doc.put("Unit 16", uUnit16);
-                doc.put("Unit 17", uUnit17);
-                doc.put("Unit 18", uUnit18);
-                doc.put("Unit 19", uUnit19);
-                doc.put("Unit 20", uUnit20);
-                doc.put("Unit 21", uUnit21);
-                doc.put("Unit 22", uUnit22);
-                doc.put("Unit 23", uUnit23);
-                doc.put("Unit 24", uUnit24);
-                doc.put("Unit 25", uUnit25);
-                doc.put("Unit 26", uUnit26);
-                doc.put("Unit 27", uUnit27);
-                doc.put("Unit 28", uUnit28);
-                doc.put("Unit 29", uUnit29);
-                doc.put("Unit 30", uUnit30);
-
-                doc.put("Material Receiver Name", materialReceiver);
-                doc.put("Center", centerS);
-                doc.put("Village", villageS);
-                doc.put("SearchCenter", centerS.toLowerCase());
-                doc.put("SearchVillage", villageS.toLowerCase());
-
-                fStore.collection(cmp + " ActualMaterial").document(id).set(doc).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        //this will be called when data is added Successfully
-                        Toast.makeText(getApplicationContext(), "Data Added !!", Toast.LENGTH_SHORT).show();
-                        addDataLL.setVisibility(View.GONE);
-                        progressBar.setVisibility(View.GONE);
-                        animation.setVisibility(View.VISIBLE);
-                        lastLL.setVisibility(View.GONE);
-                        mediaPlayer.start();
-
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        //this will be called when data is added Failed
-                        Toast.makeText(getApplicationContext(), "Failed to add data " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        addDataLL.setVisibility(View.VISIBLE);
-                        progressBar.setVisibility(View.GONE);
-                    }
-                });
-
-
-            }
-        });
-    }
-
     private void uploadData(String cmp, String uDate, String uTeamName, String uLine, String uTender, String uDriverName, String uVehicalName, String uConsumerName, String uSite, String uMaterial1, String uQuantity1, String uMaterial2, String uQuantity2, String uMaterial3, String uQuantity3, String uMaterial4, String uQuantity4, String uMaterial5, String uQuantity5, String uMaterial6, String uQuantity6, String uMaterial7, String uQuantity7, String uMaterial8, String uQuantity8, String uMaterial9, String uQuantity9, String uMaterial10, String uQuantity10, String uQuantity11, String uMaterial12, String uQuantity12, String uMaterial13, String uQuantity13, String uMaterial14, String uQuantity14, String uMaterial15, String uQuantity15, String uMaterial16, String uQuantity16, String uMaterial17, String uQuantity17, String uMaterial18, String uQuantity18, String uMaterial19, String uQuantity19, String uMaterial20, String uQuantity20, String uUnit1, String uUnit2, String uUnit3, String uUnit4, String uUnit5, String uUnit6, String uUnit7, String uUnit8, String uUnit9, String uUnit10, String uUnit11, String uUnit12, String uUnit13, String uUnit14, String uUnit15, String uUnit16, String uUnit17, String uUnit18, String uUnit19, String uUnit20, String uMaterial11, String uMaterial21, String uQuantity21, String uMaterial22, String uQuantity22, String uMaterial23, String uQuantity23, String uMaterial24, String uQuantity24, String uMaterial25, String uQuantity25, String uMaterial26, String uQuantity26, String uMaterial27, String uQuantity27, String uMaterial28, String uQuantity28, String uMaterial29, String uQuantity29, String uMaterial30, String uQuantity30, String uUnit21, String uUnit22, String uUnit23, String uUnit24, String uUnit25, String uUnit26, String uUnit27, String uUnit28, String uUnit29, String uUnit30, String materialReceiver,String centerS,String villageS) {
         addDataLL.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
-
-
-
 
 
         Map<String, Object> doc = new HashMap<>();
@@ -2096,6 +1637,8 @@ public class AddActualMaterial extends AppCompatActivity {
         doc.put("SearchCenter",centerS.toLowerCase());
         doc.put("SearchVillage",villageS.toLowerCase());
 
+
+
         fStore.collection(cmp+" AddActualData").document(id).set(doc).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -2108,28 +1651,16 @@ public class AddActualMaterial extends AppCompatActivity {
                 lastLL.setVisibility(View.GONE);
                 mediaPlayer.start();
 
+                blanceMaterial(uConsumerName,cmp, uDate, uTeamName, uLine, uTender, uDriverName, uVehicalName, uConsumerName, uSite, uMaterial1, uQuantity1, uMaterial2, uQuantity2, uMaterial3, uQuantity3, uMaterial4, uQuantity4, uMaterial5, uQuantity5,
+                        uMaterial6, uQuantity6, uMaterial7, uQuantity7, uMaterial8, uQuantity8, uMaterial9, uQuantity9, uMaterial10, uQuantity10
+                        , uQuantity11, uMaterial12, uQuantity12, uMaterial13, uQuantity13, uMaterial14, uQuantity14, uMaterial15, uQuantity15,
+                        uMaterial16, uQuantity16, uMaterial17, uQuantity17, uMaterial18, uQuantity18, uMaterial19, uQuantity19, uMaterial20, uQuantity20
+                        , uUnit1, uUnit2, uUnit3, uUnit4, uUnit5, uUnit6, uUnit7, uUnit8, uUnit9, uUnit10
+                        , uUnit11, uUnit12, uUnit13, uUnit14, uUnit15, uUnit16, uUnit17, uUnit18, uUnit19, uUnit20, uMaterial11
+                        , uMaterial21, uQuantity21, uMaterial22, uQuantity22, uMaterial23, uQuantity23, uMaterial24, uQuantity24, uMaterial25, uQuantity25,
+                        uMaterial26, uQuantity26, uMaterial27, uQuantity27, uMaterial28, uQuantity28, uMaterial29, uQuantity29, uMaterial30, uQuantity30
+                        , uUnit21, uUnit22, uUnit23, uUnit24, uUnit25, uUnit26, uUnit27, uUnit28, uUnit29, uUnit30, materialReceiver, centerS, villageS);
 
-                    returnMaterial(cmp, uDate, uTeamName, uLine, uTender, uDriverName, uVehicalName, uConsumerName, uSite, uMaterial1, uQuantity1, uMaterial2, uQuantity2, uMaterial3, uQuantity3, uMaterial4, uQuantity4, uMaterial5, uQuantity5,
-                            uMaterial6, uQuantity6, uMaterial7, uQuantity7, uMaterial8, uQuantity8, uMaterial9, uQuantity9, uMaterial10, uQuantity10
-                            , uQuantity11, uMaterial12, uQuantity12, uMaterial13, uQuantity13, uMaterial14, uQuantity14, uMaterial15, uQuantity15,
-                            uMaterial16, uQuantity16, uMaterial17, uQuantity17, uMaterial18, uQuantity18, uMaterial19, uQuantity19, uMaterial20, uQuantity20
-                            , uUnit1, uUnit2, uUnit3, uUnit4, uUnit5, uUnit6, uUnit7, uUnit8, uUnit9, uUnit10
-                            , uUnit11, uUnit12, uUnit13, uUnit14, uUnit15, uUnit16, uUnit17, uUnit18, uUnit19, uUnit20, uMaterial11
-                            , uMaterial21, uQuantity21, uMaterial22, uQuantity22, uMaterial23, uQuantity23, uMaterial24, uQuantity24, uMaterial25, uQuantity25,
-                            uMaterial26, uQuantity26, uMaterial27, uQuantity27, uMaterial28, uQuantity28, uMaterial29, uQuantity29, uMaterial30, uQuantity30
-                            , uUnit21, uUnit22, uUnit23, uUnit24, uUnit25, uUnit26, uUnit27, uUnit28, uUnit29, uUnit30, materialReceiver, centerS, villageS);
-
-
-
-                stock(cmp,uMaterial1,uQuantity1,uMaterial2,uQuantity2,uMaterial3,uQuantity3,uMaterial4,uQuantity4,uMaterial5,uQuantity5,
-                        uMaterial6,uQuantity6,uMaterial7,uQuantity7,uMaterial8,uQuantity8,uMaterial9,uQuantity9,uMaterial10,uQuantity10
-                        ,uQuantity11,uMaterial12,uQuantity12,uMaterial13,uQuantity13,uMaterial14,uQuantity14,uMaterial15,uQuantity15,
-                        uMaterial16,uQuantity16,uMaterial17,uQuantity17,uMaterial18,uQuantity18,uMaterial19,uQuantity19,uMaterial20,uQuantity20
-                        ,uUnit1,uUnit2,uUnit3,uUnit4,uUnit5,uUnit6,uUnit7,uUnit8,uUnit9,uUnit10
-                        ,uUnit11,uUnit12,uUnit13,uUnit14,uUnit15,uUnit16,uUnit17,uUnit18,uUnit19,uUnit20,uMaterial11
-                        ,uMaterial21,uQuantity21,uMaterial22,uQuantity22,uMaterial23,uQuantity23,uMaterial24,uQuantity24,uMaterial25,uQuantity25,
-                        uMaterial26,uQuantity26,uMaterial27,uQuantity27,uMaterial28,uQuantity28,uMaterial29,uQuantity29,uMaterial30,uQuantity30
-                        ,uUnit21,uUnit22,uUnit23,uUnit24,uUnit25,uUnit26,uUnit27,uUnit28,uUnit29,uUnit30);
 
 
             }
@@ -2142,838 +1673,6 @@ public class AddActualMaterial extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
             }
         });
-    }
-
-    private void stock(String cmp, String uMaterial1, String uQuantity1, String uMaterial2, String uQuantity2, String uMaterial3, String uQuantity3, String uMaterial4, String uQuantity4, String uMaterial5, String uQuantity5, String uMaterial6, String uQuantity6, String uMaterial7, String uQuantity7, String uMaterial8, String uQuantity8, String uMaterial9, String uQuantity9, String uMaterial10, String uQuantity10, String uQuantity11, String uMaterial12, String uQuantity12, String uMaterial13, String uQuantity13, String uMaterial14, String uQuantity14, String uMaterial15, String uQuantity15, String uMaterial16, String uQuantity16, String uMaterial17, String uQuantity17, String uMaterial18, String uQuantity18, String uMaterial19, String uQuantity19, String uMaterial20, String uQuantity20, String uUnit1, String uUnit2, String uUnit3, String uUnit4, String uUnit5, String uUnit6, String uUnit7, String uUnit8, String uUnit9, String uUnit10, String uUnit11, String uUnit12, String uUnit13, String uUnit14, String uUnit15, String uUnit16, String uUnit17, String uUnit18, String uUnit19, String uUnit20, String uMaterial11, String uMaterial21, String uQuantity21, String uMaterial22, String uQuantity22, String uMaterial23, String uQuantity23, String uMaterial24, String uQuantity24, String uMaterial25, String uQuantity25, String uMaterial26, String uQuantity26, String uMaterial27, String uQuantity27, String uMaterial28, String uQuantity28, String uMaterial29, String uQuantity29, String uMaterial30, String uQuantity30, String uUnit21, String uUnit22, String uUnit23, String uUnit24, String uUnit25, String uUnit26, String uUnit27, String uUnit28, String uUnit29, String uUnit30) {
-
-        Bundle bundle = getIntent().getExtras();
-        int p=0,q=0;
-
-        if (bundle!=null){
-            for (int i=0;i<modelList.size();i++){
-
-                if (modelList.get(i).getMaterial().equals(uMaterial1)){
-                    if (modelList.get(i).getQuantity().equals(uUnit1)){
-                        float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(uQuantity1);
-                        addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                        if (a<5){
-                            sendMail(cmp,modelList.get(i).getMaterial());
-                        }
-                    }
-                    else {
-                        for (int j=0;j<modelListKN.size();j++){
-                            if (modelListKN.get(j).getMaterial().equals(uMaterial1)){
-                                float stock = Float.parseFloat(modelList.get(i).getUnit());
-                                float quantity = Float.parseFloat(uQuantity1);
-                                float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                                float division = (quantity / conversion);
-                                float result = stock + division ;
-                                addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                                if (result<5){
-                                    sendMail(cmp,modelList.get(i).getMaterial());
-                                }
-                            }
-
-                        }
-                    }
-
-                }
-
-                if (modelList.get(i).getMaterial().equals(uMaterial2)){
-                    if (modelList.get(i).getQuantity().equals(uUnit2)){
-                        float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(uQuantity2);
-                        addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                        if (a<5){
-                            sendMail(cmp,modelList.get(i).getMaterial());
-                        }
-                    }
-                    else {
-                        for (int j=0;j<modelListKN.size();j++){
-                            if (modelListKN.get(j).getMaterial().equals(uMaterial2)){
-                                float stock = Float.parseFloat(modelList.get(i).getUnit());
-                                float quantity = Float.parseFloat(uQuantity2);
-                                float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                                float division = (quantity / conversion);
-                                float result = stock + division ;
-                                addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                                if (result<5){
-                                    sendMail(cmp,modelList.get(i).getMaterial());
-                                }
-                            }
-
-                        }
-                    }
-
-                }
-
-                if (modelList.get(i).getMaterial().equals(uMaterial3)){
-                    if (modelList.get(i).getQuantity().equals(uUnit3)){
-                        float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(uQuantity3);
-                        addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                        if (a<5){
-                            sendMail(cmp,modelList.get(i).getMaterial());
-                        }
-                    }
-                    else {
-                        for (int j=0;j<modelListKN.size();j++){
-                            if (modelListKN.get(j).getMaterial().equals(uMaterial3)){
-                                float stock = Float.parseFloat(modelList.get(i).getUnit());
-                                float quantity = Float.parseFloat(uQuantity3);
-                                float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                                float division = (quantity / conversion);
-                                float result = stock + division ;
-                                addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                                if (result<5){
-                                    sendMail(cmp,modelList.get(i).getMaterial());
-                                }
-                            }
-
-                        }
-                    }
-
-                }
-
-                if (modelList.get(i).getMaterial().equals(uMaterial4)){
-                    if (modelList.get(i).getQuantity().equals(uUnit4)){
-                        float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(uQuantity4);
-                        addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                        if (a<5){
-                            sendMail(cmp,modelList.get(i).getMaterial());
-                        }
-                    }
-                    else {
-                        for (int j=0;j<modelListKN.size();j++){
-                            if (modelListKN.get(j).getMaterial().equals(uMaterial4)){
-                                float stock = Float.parseFloat(modelList.get(i).getUnit());
-                                float quantity = Float.parseFloat(uQuantity4);
-                                float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                                float division = (quantity / conversion);
-                                float result = stock + division ;
-                                addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                                if (result<5){
-                                    sendMail(cmp,modelList.get(i).getMaterial());
-                                }
-                            }
-
-                        }
-                    }
-
-                }
-
-                if (modelList.get(i).getMaterial().equals(uMaterial5)){
-                    if (modelList.get(i).getQuantity().equals(uUnit5)){
-                        float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(uQuantity5);
-                        addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                        if (a<5){
-                            sendMail(cmp,modelList.get(i).getMaterial());
-                        }
-                    }
-                    else {
-                        for (int j=0;j<modelListKN.size();j++){
-                            if (modelListKN.get(j).getMaterial().equals(uMaterial5)){
-                                float stock = Float.parseFloat(modelList.get(i).getUnit());
-                                float quantity = Float.parseFloat(uQuantity5);
-                                float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                                float division = (quantity / conversion);
-                                float result = stock + division ;
-                                addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                                if (result<5){
-                                    sendMail(cmp,modelList.get(i).getMaterial());
-                                }
-                            }
-
-                        }
-                    }
-
-                }
-
-                if (modelList.get(i).getMaterial().equals(uMaterial6)){
-                    if (modelList.get(i).getQuantity().equals(uUnit6)){
-                        float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(uQuantity6);
-                        addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                        if (a<5){
-                            sendMail(cmp,modelList.get(i).getMaterial());
-                        }
-                    }
-                    else {
-                        for (int j=0;j<modelListKN.size();j++){
-                            if (modelListKN.get(j).getMaterial().equals(uMaterial6)){
-                                float stock = Float.parseFloat(modelList.get(i).getUnit());
-                                float quantity = Float.parseFloat(uQuantity6);
-                                float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                                float division = (quantity / conversion);
-                                float result = stock + division ;
-                                addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                                if (result<5){
-                                    sendMail(cmp,modelList.get(i).getMaterial());
-                                }
-                            }
-
-                        }
-                    }
-
-                }
-
-                if (modelList.get(i).getMaterial().equals(uMaterial7)){
-                    if (modelList.get(i).getQuantity().equals(uUnit7)){
-                        float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(uQuantity7);
-                        addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                        if (a<5){
-                            sendMail(cmp,modelList.get(i).getMaterial());
-                        }
-                    }
-                    else {
-                        for (int j=0;j<modelListKN.size();j++){
-                            if (modelListKN.get(j).getMaterial().equals(uMaterial7)){
-                                float stock = Float.parseFloat(modelList.get(i).getUnit());
-                                float quantity = Float.parseFloat(uQuantity7);
-                                float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                                float division = (quantity / conversion);
-                                float result = stock + division ;
-                                addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                                if (result<5){
-                                    sendMail(cmp,modelList.get(i).getMaterial());
-                                }
-                            }
-
-                        }
-                    }
-
-                }
-
-                if (modelList.get(i).getMaterial().equals(uMaterial8)){
-                    if (modelList.get(i).getQuantity().equals(uUnit8)){
-                        float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(uQuantity8);
-                        addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                        if (a<5){
-                            sendMail(cmp,modelList.get(i).getMaterial());
-                        }
-                    }
-                    else {
-                        for (int j=0;j<modelListKN.size();j++){
-                            if (modelListKN.get(j).getMaterial().equals(uMaterial8)){
-                                float stock = Float.parseFloat(modelList.get(i).getUnit());
-                                float quantity = Float.parseFloat(uQuantity8);
-                                float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                                float division = (quantity / conversion);
-                                float result = stock + division ;
-                                addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                                if (result<5){
-                                    sendMail(cmp,modelList.get(i).getMaterial());
-                                }
-                            }
-
-                        }
-                    }
-
-                }
-
-                if (modelList.get(i).getMaterial().equals(uMaterial9)){
-                    if (modelList.get(i).getQuantity().equals(uUnit9)){
-                        float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(uQuantity9);
-                        addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                        if (a<5){
-                            sendMail(cmp,modelList.get(i).getMaterial());
-                        }
-                    }
-                    else {
-                        for (int j=0;j<modelListKN.size();j++){
-                            if (modelListKN.get(j).getMaterial().equals(uMaterial9)){
-                                float stock = Float.parseFloat(modelList.get(i).getUnit());
-                                float quantity = Float.parseFloat(uQuantity9);
-                                float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                                float division = (quantity / conversion);
-                                float result = stock + division ;
-                                addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                                if (result<5){
-                                    sendMail(cmp,modelList.get(i).getMaterial());
-                                }
-                            }
-
-                        }
-                    }
-
-                }
-
-                if (modelList.get(i).getMaterial().equals(uMaterial10)){
-                    if (modelList.get(i).getQuantity().equals(uUnit10)){
-                        float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(uQuantity10);
-                        addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                        if (a<5){
-                            sendMail(cmp,modelList.get(i).getMaterial());
-                        }
-                    }
-                    else {
-                        for (int j=0;j<modelListKN.size();j++){
-                            if (modelListKN.get(j).getMaterial().equals(uMaterial10)){
-                                float stock = Float.parseFloat(modelList.get(i).getUnit());
-                                float quantity = Float.parseFloat(uQuantity10);
-                                float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                                float division = (quantity / conversion);
-                                float result = stock + division ;
-                                addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                                if (result<5){
-                                    sendMail(cmp,modelList.get(i).getMaterial());
-                                }
-                            }
-
-                        }
-                    }
-
-                }
-
-                if (modelList.get(i).getMaterial().equals(uMaterial11)){
-                    if (modelList.get(i).getQuantity().equals(uUnit11)){
-                        float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(uQuantity11);
-                        addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                        if (a<5){
-                            sendMail(cmp,modelList.get(i).getMaterial());
-                        }
-                    }
-                    else {
-                        for (int j=0;j<modelListKN.size();j++){
-                            if (modelListKN.get(j).getMaterial().equals(uMaterial11)){
-                                float stock = Float.parseFloat(modelList.get(i).getUnit());
-                                float quantity = Float.parseFloat(uQuantity11);
-                                float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                                float division = (quantity / conversion);
-                                float result = stock + division ;
-                                addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                                if (result<5){
-                                    sendMail(cmp,modelList.get(i).getMaterial());
-                                }
-                            }
-
-                        }
-                    }
-
-                }
-
-                if (modelList.get(i).getMaterial().equals(uMaterial12)){
-                    if (modelList.get(i).getQuantity().equals(uUnit12)){
-                        float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(uQuantity12);
-                        addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                        if (a<5){
-                            sendMail(cmp,modelList.get(i).getMaterial());
-                        }
-                    }
-                    else {
-                        for (int j=0;j<modelListKN.size();j++){
-                            if (modelListKN.get(j).getMaterial().equals(uMaterial12)){
-                                float stock = Float.parseFloat(modelList.get(i).getUnit());
-                                float quantity = Float.parseFloat(uQuantity12);
-                                float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                                float division = (quantity / conversion);
-                                float result = stock + division ;
-                                addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                                if (result<5){
-                                    sendMail(cmp,modelList.get(i).getMaterial());
-                                }
-                            }
-
-                        }
-                    }
-
-                }
-
-                if (modelList.get(i).getMaterial().equals(uMaterial13)){
-                    if (modelList.get(i).getQuantity().equals(uUnit13)){
-                        float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(uQuantity13);
-                        addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                        if (a<5){
-                            sendMail(cmp,modelList.get(i).getMaterial());
-                        }
-                    }
-                    else {
-                        for (int j=0;j<modelListKN.size();j++){
-                            if (modelListKN.get(j).getMaterial().equals(uMaterial13)){
-                                float stock = Float.parseFloat(modelList.get(i).getUnit());
-                                float quantity = Float.parseFloat(uQuantity13);
-                                float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                                float division = (quantity / conversion);
-                                float result = stock + division ;
-                                addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                                if (result<5){
-                                    sendMail(cmp,modelList.get(i).getMaterial());
-                                }
-                            }
-
-                        }
-                    }
-
-                }
-
-                if (modelList.get(i).getMaterial().equals(uMaterial14)){
-                    if (modelList.get(i).getQuantity().equals(uUnit14)){
-                        float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(uQuantity14);
-                        addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                        if (a<5){
-                            sendMail(cmp,modelList.get(i).getMaterial());
-                        }
-                    }
-                    else {
-                        for (int j=0;j<modelListKN.size();j++){
-                            if (modelListKN.get(j).getMaterial().equals(uMaterial14)){
-                                float stock = Float.parseFloat(modelList.get(i).getUnit());
-                                float quantity = Float.parseFloat(uQuantity14);
-                                float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                                float division = (quantity / conversion);
-                                float result = stock + division ;
-                                addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                                if (result<5){
-                                    sendMail(cmp,modelList.get(i).getMaterial());
-                                }
-                            }
-
-                        }
-                    }
-
-                }
-
-                if (modelList.get(i).getMaterial().equals(uMaterial15)){
-                    if (modelList.get(i).getQuantity().equals(uUnit15)){
-                        float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(uQuantity15);
-                        addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                        if (a<5){
-                            sendMail(cmp,modelList.get(i).getMaterial());
-                        }
-                    }
-                    else {
-                        for (int j=0;j<modelListKN.size();j++){
-                            if (modelListKN.get(j).getMaterial().equals(uMaterial15)){
-                                float stock = Float.parseFloat(modelList.get(i).getUnit());
-                                float quantity = Float.parseFloat(uQuantity15);
-                                float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                                float division = (quantity / conversion);
-                                float result = stock + division ;
-                                addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                                if (result<5){
-                                    sendMail(cmp,modelList.get(i).getMaterial());
-                                }
-                            }
-
-                        }
-                    }
-
-                }
-
-                if (modelList.get(i).getMaterial().equals(uMaterial16)){
-                    if (modelList.get(i).getQuantity().equals(uUnit16)){
-                        float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(uQuantity16);
-                        addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                        if (a<5){
-                            sendMail(cmp,modelList.get(i).getMaterial());
-                        }
-                    }
-                    else {
-                        for (int j=0;j<modelListKN.size();j++){
-                            if (modelListKN.get(j).getMaterial().equals(uMaterial16)){
-                                float stock = Float.parseFloat(modelList.get(i).getUnit());
-                                float quantity = Float.parseFloat(uQuantity16);
-                                float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                                float division = (quantity / conversion);
-                                float result = stock + division ;
-                                addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                                if (result<5){
-                                    sendMail(cmp,modelList.get(i).getMaterial());
-                                }
-                            }
-
-                        }
-                    }
-
-                }
-
-                if (modelList.get(i).getMaterial().equals(uMaterial17)){
-                    if (modelList.get(i).getQuantity().equals(uUnit17)){
-                        float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(uQuantity17);
-                        addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                        if (a<5){
-                            sendMail(cmp,modelList.get(i).getMaterial());
-                        }
-                    }
-                    else {
-                        for (int j=0;j<modelListKN.size();j++){
-                            if (modelListKN.get(j).getMaterial().equals(uMaterial17)){
-                                float stock = Float.parseFloat(modelList.get(i).getUnit());
-                                float quantity = Float.parseFloat(uQuantity17);
-                                float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                                float division = (quantity / conversion);
-                                float result = stock + division ;
-                                addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                                if (result<5){
-                                    sendMail(cmp,modelList.get(i).getMaterial());
-                                }
-                            }
-
-                        }
-                    }
-
-                }
-
-                if (modelList.get(i).getMaterial().equals(uMaterial18)){
-                    if (modelList.get(i).getQuantity().equals(uUnit18)){
-                        float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(uQuantity18);
-                        addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                        if (a<5){
-                            sendMail(cmp,modelList.get(i).getMaterial());
-                        }
-                    }
-                    else {
-                        for (int j=0;j<modelListKN.size();j++){
-                            if (modelListKN.get(j).getMaterial().equals(uMaterial18)){
-                                float stock = Float.parseFloat(modelList.get(i).getUnit());
-                                float quantity = Float.parseFloat(uQuantity18);
-                                float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                                float division = (quantity / conversion);
-                                float result = stock + division ;
-                                addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                                if (result<5){
-                                    sendMail(cmp,modelList.get(i).getMaterial());
-                                }
-                            }
-
-                        }
-                    }
-
-                }
-
-                if (modelList.get(i).getMaterial().equals(uMaterial19)){
-                    if (modelList.get(i).getQuantity().equals(uUnit19)){
-                        float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(uQuantity19);
-                        addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                        if (a<5){
-                            sendMail(cmp,modelList.get(i).getMaterial());
-                        }
-                    }
-                    else {
-                        for (int j=0;j<modelListKN.size();j++){
-                            if (modelListKN.get(j).getMaterial().equals(uMaterial19)){
-                                float stock = Float.parseFloat(modelList.get(i).getUnit());
-                                float quantity = Float.parseFloat(uQuantity19);
-                                float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                                float division = (quantity / conversion);
-                                float result = stock + division ;
-                                addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                                if (result<5){
-                                    sendMail(cmp,modelList.get(i).getMaterial());
-                                }
-                            }
-
-                        }
-                    }
-
-                }
-
-                if (modelList.get(i).getMaterial().equals(uMaterial20)){
-                    if (modelList.get(i).getQuantity().equals(uUnit20)){
-                        float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(uQuantity20);
-                        addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                        if (a<5){
-                            sendMail(cmp,modelList.get(i).getMaterial());
-                        }
-                    }
-                    else {
-                        for (int j=0;j<modelListKN.size();j++){
-                            if (modelListKN.get(j).getMaterial().equals(uMaterial20)){
-                                float stock = Float.parseFloat(modelList.get(i).getUnit());
-                                float quantity = Float.parseFloat(uQuantity20);
-                                float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                                float division = (quantity / conversion);
-                                float result = stock + division ;
-                                addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                                if (result<5){
-                                    sendMail(cmp,modelList.get(i).getMaterial());
-                                }
-                            }
-
-                        }
-                    }
-
-                }
-
-                if (modelList.get(i).getMaterial().equals(uMaterial21)){
-                    if (modelList.get(i).getQuantity().equals(uUnit21)){
-                        float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(uQuantity21);
-                        addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                        if (a<5){
-                            sendMail(cmp,modelList.get(i).getMaterial());
-                        }
-                    }
-                    else {
-                        for (int j=0;j<modelListKN.size();j++){
-                            if (modelListKN.get(j).getMaterial().equals(uMaterial21)){
-                                float stock = Float.parseFloat(modelList.get(i).getUnit());
-                                float quantity = Float.parseFloat(uQuantity21);
-                                float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                                float division = (quantity / conversion);
-                                float result = stock + division ;
-                                addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                                if (result<5){
-                                    sendMail(cmp,modelList.get(i).getMaterial());
-                                }
-                            }
-
-                        }
-                    }
-
-                }
-
-                if (modelList.get(i).getMaterial().equals(uMaterial22)){
-                    if (modelList.get(i).getQuantity().equals(uUnit22)){
-                        float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(uQuantity22);
-                        addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                        if (a<5){
-                            sendMail(cmp,modelList.get(i).getMaterial());
-                        }
-                    }
-                    else {
-                        for (int j=0;j<modelListKN.size();j++){
-                            if (modelListKN.get(j).getMaterial().equals(uMaterial22)){
-                                float stock = Float.parseFloat(modelList.get(i).getUnit());
-                                float quantity = Float.parseFloat(uQuantity22);
-                                float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                                float division = (quantity / conversion);
-                                float result = stock + division ;
-                                addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                                if (result<5){
-                                    sendMail(cmp,modelList.get(i).getMaterial());
-                                }
-                            }
-
-                        }
-                    }
-
-                }
-
-                if (modelList.get(i).getMaterial().equals(uMaterial23)){
-                    if (modelList.get(i).getQuantity().equals(uUnit23)){
-                        float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(uQuantity23);
-                        addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                        if (a<5){
-                            sendMail(cmp,modelList.get(i).getMaterial());
-                        }
-                    }
-                    else {
-                        for (int j=0;j<modelListKN.size();j++){
-                            if (modelListKN.get(j).getMaterial().equals(uMaterial23)){
-                                float stock = Float.parseFloat(modelList.get(i).getUnit());
-                                float quantity = Float.parseFloat(uQuantity23);
-                                float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                                float division = (quantity / conversion);
-                                float result = stock + division ;
-                                addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                                if (result<5){
-                                    sendMail(cmp,modelList.get(i).getMaterial());
-                                }
-                            }
-
-                        }
-                    }
-
-                }
-
-                if (modelList.get(i).getMaterial().equals(uMaterial24)){
-                    if (modelList.get(i).getQuantity().equals(uUnit24)){
-                        float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(uQuantity24);
-                        addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                        if (a<5){
-                            sendMail(cmp,modelList.get(i).getMaterial());
-                        }
-                    }
-                    else {
-                        for (int j=0;j<modelListKN.size();j++){
-                            if (modelListKN.get(j).getMaterial().equals(uMaterial24)){
-                                float stock = Float.parseFloat(modelList.get(i).getUnit());
-                                float quantity = Float.parseFloat(uQuantity24);
-                                float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                                float division = (quantity / conversion);
-                                float result = stock + division ;
-                                addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                                if (result<5){
-                                    sendMail(cmp,modelList.get(i).getMaterial());
-                                }
-                            }
-
-                        }
-                    }
-
-                }
-
-                if (modelList.get(i).getMaterial().equals(uMaterial25)){
-                    if (modelList.get(i).getQuantity().equals(uUnit25)){
-                        float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(uQuantity25);
-                        addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                        if (a<5){
-                            sendMail(cmp,modelList.get(i).getMaterial());
-                        }
-                    }
-                    else {
-                        for (int j=0;j<modelListKN.size();j++){
-                            if (modelListKN.get(j).getMaterial().equals(uMaterial25)){
-                                float stock = Float.parseFloat(modelList.get(i).getUnit());
-                                float quantity = Float.parseFloat(uQuantity25);
-                                float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                                float division = (quantity / conversion);
-                                float result = stock + division ;
-                                addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                                if (result<5){
-                                    sendMail(cmp,modelList.get(i).getMaterial());
-                                }
-                            }
-
-                        }
-                    }
-
-                }
-
-                if (modelList.get(i).getMaterial().equals(uMaterial26)){
-                    if (modelList.get(i).getQuantity().equals(uUnit26)){
-                        float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(uQuantity26);
-                        addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                        if (a<5){
-                            sendMail(cmp,modelList.get(i).getMaterial());
-                        }
-                    }
-                    else {
-                        for (int j=0;j<modelListKN.size();j++){
-                            if (modelListKN.get(j).getMaterial().equals(uMaterial26)){
-                                float stock = Float.parseFloat(modelList.get(i).getUnit());
-                                float quantity = Float.parseFloat(uQuantity26);
-                                float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                                float division = (quantity / conversion);
-                                float result = stock + division ;
-                                addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                                if (result<5){
-                                    sendMail(cmp,modelList.get(i).getMaterial());
-                                }
-                            }
-
-                        }
-                    }
-
-                }
-
-                if (modelList.get(i).getMaterial().equals(uMaterial27)){
-                    if (modelList.get(i).getQuantity().equals(uUnit27)){
-                        float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(uQuantity27);
-                        addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                        if (a<5){
-                            sendMail(cmp,modelList.get(i).getMaterial());
-                        }
-                    }
-                    else {
-                        for (int j=0;j<modelListKN.size();j++){
-                            if (modelListKN.get(j).getMaterial().equals(uMaterial27)){
-                                float stock = Float.parseFloat(modelList.get(i).getUnit());
-                                float quantity = Float.parseFloat(uQuantity27);
-                                float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                                float division = (quantity / conversion);
-                                float result = stock + division ;
-                                addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                                if (result<5){
-                                    sendMail(cmp,modelList.get(i).getMaterial());
-                                }
-                            }
-
-                        }
-                    }
-
-                }
-
-                if (modelList.get(i).getMaterial().equals(uMaterial28)){
-                    if (modelList.get(i).getQuantity().equals(uUnit28)){
-                        float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(uQuantity28);
-                        addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                        if (a<5){
-                            sendMail(cmp,modelList.get(i).getMaterial());
-                        }
-                    }
-                    else {
-                        for (int j=0;j<modelListKN.size();j++){
-                            if (modelListKN.get(j).getMaterial().equals(uMaterial28)){
-                                float stock = Float.parseFloat(modelList.get(i).getUnit());
-                                float quantity = Float.parseFloat(uQuantity28);
-                                float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                                float division = (quantity / conversion);
-                                float result = stock + division ;
-                                addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                                if (result<5){
-                                    sendMail(cmp,modelList.get(i).getMaterial());
-                                }
-                            }
-
-                        }
-                    }
-
-                }
-
-                if (modelList.get(i).getMaterial().equals(uMaterial29)){
-                    if (modelList.get(i).getQuantity().equals(uUnit29)){
-                        float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(uQuantity29);
-                        addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                        if (a<5){
-                            sendMail(cmp,modelList.get(i).getMaterial());
-                        }
-                    }
-                    else {
-                        for (int j=0;j<modelListKN.size();j++){
-                            if (modelListKN.get(j).getMaterial().equals(uMaterial29)){
-                                float stock = Float.parseFloat(modelList.get(i).getUnit());
-                                float quantity = Float.parseFloat(uQuantity29);
-                                float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                                float division = (quantity / conversion);
-                                float result = stock + division ;
-                                addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                                if (result<5){
-                                    sendMail(cmp,modelList.get(i).getMaterial());
-                                }
-                            }
-
-                        }
-                    }
-
-                }
-
-                if (modelList.get(i).getMaterial().equals(uMaterial30)){
-                    if (modelList.get(i).getQuantity().equals(uUnit30)){
-                        float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(uQuantity30);
-                        addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                        if (a<5){
-                            sendMail(cmp,modelList.get(i).getMaterial());
-                        }
-                    }
-                    else {
-                        for (int j=0;j<modelListKN.size();j++){
-                            if (modelListKN.get(j).getMaterial().equals(uMaterial30)){
-                                float stock = Float.parseFloat(modelList.get(i).getUnit());
-                                float quantity = Float.parseFloat(uQuantity30);
-                                float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                                float division = (quantity / conversion);
-                                float result = stock + division ;
-                                addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                                if (result<5){
-                                    sendMail(cmp,modelList.get(i).getMaterial());
-                                }
-                            }
-
-                        }
-                    }
-
-                }
-
-
-
-
-
-
-
-
-
-
-
-            }
-        }
     }
 
     private void showMessage(String s) {
@@ -2997,257 +1696,277 @@ public class AddActualMaterial extends AppCompatActivity {
         });
     }
 
-    private void returnMaterial(String cmp, String uDate, String uTeamName, String uLine, String uTender, String uDriverName, String uVehicalName, String uConsumerName, String uSite, String uMaterial1, String uQuantity1, String uMaterial2, String uQuantity2, String uMaterial3, String uQuantity3, String uMaterial4, String uQuantity4, String uMaterial5, String uQuantity5, String uMaterial6, String uQuantity6, String uMaterial7, String uQuantity7, String uMaterial8, String uQuantity8, String uMaterial9, String uQuantity9, String uMaterial10, String uQuantity10, String uQuantity11, String uMaterial12, String uQuantity12, String uMaterial13, String uQuantity13, String uMaterial14, String uQuantity14, String uMaterial15, String uQuantity15, String uMaterial16, String uQuantity16, String uMaterial17, String uQuantity17, String uMaterial18, String uQuantity18, String uMaterial19, String uQuantity19, String uMaterial20, String uQuantity20, String uUnit1, String uUnit2, String uUnit3, String uUnit4, String uUnit5, String uUnit6, String uUnit7, String uUnit8, String uUnit9, String uUnit10, String uUnit11, String uUnit12, String uUnit13, String uUnit14, String uUnit15, String uUnit16, String uUnit17, String uUnit18, String uUnit19, String uUnit20, String uMaterial11, String uMaterial21, String uQuantity21, String uMaterial22, String uQuantity22, String uMaterial23, String uQuantity23, String uMaterial24, String uQuantity24, String uMaterial25, String uQuantity25, String uMaterial26, String uQuantity26, String uMaterial27, String uQuantity27, String uMaterial28, String uQuantity28, String uMaterial29, String uQuantity29, String uMaterial30, String uQuantity30, String uUnit21, String uUnit22, String uUnit23, String uUnit24, String uUnit25, String uUnit26, String uUnit27, String uUnit28, String uUnit29, String uUnit30, String materialReceiver,String centerS,String villageS) {
+    private void blanceMaterial(String consumerName,String cmp, String uDate, String uTeamName, String uLine, String uTender, String uDriverName, String uVehicalName, String uConsumerName, String uSite, String uMaterial1, String uQuantity1, String uMaterial2, String uQuantity2, String uMaterial3, String uQuantity3, String uMaterial4, String uQuantity4, String uMaterial5, String uQuantity5, String uMaterial6, String uQuantity6, String uMaterial7, String uQuantity7, String uMaterial8, String uQuantity8, String uMaterial9, String uQuantity9, String uMaterial10, String uQuantity10, String uQuantity11, String uMaterial12, String uQuantity12, String uMaterial13, String uQuantity13, String uMaterial14, String uQuantity14, String uMaterial15, String uQuantity15, String uMaterial16, String uQuantity16, String uMaterial17, String uQuantity17, String uMaterial18, String uQuantity18, String uMaterial19, String uQuantity19, String uMaterial20, String uQuantity20, String uUnit1, String uUnit2, String uUnit3, String uUnit4, String uUnit5, String uUnit6, String uUnit7, String uUnit8, String uUnit9, String uUnit10, String uUnit11, String uUnit12, String uUnit13, String uUnit14, String uUnit15, String uUnit16, String uUnit17, String uUnit18, String uUnit19, String uUnit20, String uMaterial11, String uMaterial21, String uQuantity21, String uMaterial22, String uQuantity22, String uMaterial23, String uQuantity23, String uMaterial24, String uQuantity24, String uMaterial25, String uQuantity25, String uMaterial26, String uQuantity26, String uMaterial27, String uQuantity27, String uMaterial28, String uQuantity28, String uMaterial29, String uQuantity29, String uMaterial30, String uQuantity30, String uUnit21, String uUnit22, String uUnit23, String uUnit24, String uUnit25, String uUnit26, String uUnit27, String uUnit28, String uUnit29, String uUnit30, String materialReceiver, String centerS, String villageS) {
         addDataLL.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
 
+        for (int i=0;i<modelListBalance.size();i++){
+            if (modelListBalance.get(i).getConsumerName().equalsIgnoreCase(uConsumerName)){
+                id = modelListBalance.get(i).getId();
+            }
+        }
+
+
+        if (modelListTMT.size()!=0){
+            for (int i=0;i<modelListTMT.size();i++){
+                if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial1)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity1);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit1);
+                    a1=1;
+
+                }
+                else if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial2)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity2);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit2);
+                    a2=1;
+
+                }
+                else if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial3)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity3);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit3);
+                     a3=1;
+                }else if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial4)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity4);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit4);
+                     a4=1;
+                }else if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial5)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity5);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit5);
+                     a5=1;
+                }else if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial6)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity6);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit6);
+                     a6=1;
+                }else if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial7)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity7);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit7);
+                     a7=1;
+                }else if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial8)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity8);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit8);
+                     a8=1;
+                }else if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial9)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity9);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit9);
+                     a9=1;
+                }else if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial10)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity10);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit10);
+                     a10=1;
+                }else if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial11)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity11);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit11);
+                     a11=1;
+                }else if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial12)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity12);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit12);
+                     a12=1;
+                }else if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial13)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity13);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit13);
+                     a13=1;
+                }else if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial14)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity14);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit14);
+                     a14=1;
+                }else if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial15)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity15);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit15);
+                     a15=1;
+                }else if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial16)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity16);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit16);
+                     a16=1;
+                }else if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial17)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity17);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit17);
+                     a17=1;
+                }else if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial18)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity18);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit18);
+                     a18=1;
+                }else if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial19)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity19);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit19);
+                     a19=1;
+                }else if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial20)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity20);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit20);
+                     a20=1;
+                }else if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial21)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity21);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit21);
+                     a21=1;
+                }else if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial22)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity22);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit22);
+                     a22=1;
+                }else if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial23)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity23);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit23);
+                     a23=1;
+                }else if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial24)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity24);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit24);
+                     a24=1;
+                }else if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial25)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity25);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit25);
+                     a25=1;
+                }else if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial26)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity26);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit26);
+                     a26=1;
+                }else if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial27)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity27);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit27);
+                     a27=1;
+                }else if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial28)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity28);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit28);
+                     a28=1;
+                }else if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial29)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity29);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit29);
+                     a29=1;
+                }else if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial30)){
+                    float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) - Float.parseFloat(uQuantity30);
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,String.valueOf(q),uUnit30);
+                     a30=1;
+                }
+                else{
+                    addTotalMaterialTakenSpecific(modelListTMT.get(i).getMaterial(),cmp,consumerName,modelListTMT.get(i).getQuantity(),modelListTMT.get(i).getUnit());
+
+                }
+
+            }
+
+
+
+            if (a1==0 && !uMaterial1.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial1,cmp,consumerName,uQuantity1,uUnit1);
+            }
+
+            if (a2==0 && !uMaterial2.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial2,cmp,consumerName,uQuantity2,uUnit2);
+            }
+            if (a3==0 && !uMaterial3.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial3,cmp,consumerName,uQuantity3,uUnit3);
+            }
+
+            if (a4==0 && !uMaterial4.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial4,cmp,consumerName,uQuantity4,uUnit4);
+            }
+
+            if (a5==0 && !uMaterial5.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial5,cmp,consumerName,uQuantity5,uUnit5);
+            }
+
+            if (a6==0 && !uMaterial6.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial6,cmp,consumerName,uQuantity6,uUnit6);
+            }
+
+            if (a7==0 && !uMaterial7.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial7,cmp,consumerName,uQuantity7,uUnit7);
+            }
+
+            if (a8==0 && !uMaterial8.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial8,cmp,consumerName,uQuantity8,uUnit8);
+            }
+
+            if (a9==0 && !uMaterial9.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial9,cmp,consumerName,uQuantity9,uUnit9);
+            }
+
+            if (a10==0 && !uMaterial10.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial10,cmp,consumerName,uQuantity10,uUnit10);
+            }
+
+            if (a11==0 && !uMaterial11.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial11,cmp,consumerName,uQuantity11,uUnit11);
+            }
+
+            if (a12==0 && !uMaterial12.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial12,cmp,consumerName,uQuantity12,uUnit12);
+            }
+
+            if (a13==0 && !uMaterial13.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial13,cmp,consumerName,uQuantity13,uUnit13);
+            }
+
+            if (a14==0 && !uMaterial14.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial14,cmp,consumerName,uQuantity14,uUnit14);
+            }
+
+            if (a15==0 && !uMaterial15.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial15,cmp,consumerName,uQuantity15,uUnit15);
+            }
+
+            if (a16==0 && !uMaterial16.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial16,cmp,consumerName,uQuantity16,uUnit16);
+            }
+
+            if (a17==0 && !uMaterial17.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial17,cmp,consumerName,uQuantity17,uUnit17);
+            }
+
+            if (a18==0 && !uMaterial18.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial18,cmp,consumerName,uQuantity18,uUnit18);
+            }
+
+            if (a19==0 && !uMaterial19.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial19,cmp,consumerName,uQuantity19,uUnit19);
+            }
+
+            if (a20==0 && !uMaterial20.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial20,cmp,consumerName,uQuantity20,uUnit20);
+            }
+
+            if (a21==0 && !uMaterial21.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial21,cmp,consumerName,uQuantity21,uUnit21);
+            }
+
+            if (a22==0 && !uMaterial22.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial22,cmp,consumerName,uQuantity22,uUnit22);
+            }
+
+            if (a23==0 && !uMaterial23.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial23,cmp,consumerName,uQuantity23,uUnit23);
+            }
+
+            if (a24==0 && !uMaterial24.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial24,cmp,consumerName,uQuantity24,uUnit24);
+            }
+
+            if (a25==0 && !uMaterial25.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial25,cmp,consumerName,uQuantity25,uUnit25);
+            }
+
+            if (a26==0 && !uMaterial26.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial26,cmp,consumerName,uQuantity26,uUnit26);
+            }
+
+            if (a27==0 && !uMaterial27.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial27,cmp,consumerName,uQuantity27,uUnit27);
+            }
+
+            if (a28==0 && !uMaterial28.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial28,cmp,consumerName,uQuantity28,uUnit28);
+            }
+
+            if (a29==0 && !uMaterial29.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial29,cmp,consumerName,uQuantity29,uUnit29);
+            }
+
+            if (a30==0 && !uMaterial30.equals("")){
+                addTotalMaterialTakenSpecific(uMaterial30,cmp,consumerName,uQuantity30,uUnit30);
+            }
+
+
+
+        }
+
         Map<String, Object> doc = new HashMap<>();
-
-        if (uQuantity1.equals("")||quantity1S.equals("")){
-            uQuantity1 = "0";
-            quantity1S = "0";
-        }
-        if (uQuantity2.equals("")||quantity2S.equals("")){
-            uQuantity2 = "0";
-            quantity2S = "0";
-        }
-        if (uQuantity3.equals("")||quantity3S.equals("")){
-            uQuantity3 = "0";
-            quantity3S = "0";
-        }
-        if (uQuantity4.equals("")||quantity4S.equals("")){
-            uQuantity4 = "0";
-            quantity4S = "0";
-        }
-        if (uQuantity5.equals("")||quantity5S.equals("")){
-            uQuantity5 = "0";
-            quantity5S = "0";
-        }
-        if (uQuantity6.equals("")||quantity6S.equals("")){
-            uQuantity6 = "0";
-            quantity6S = "0";
-        }
-        if (uQuantity7.equals("")||quantity7S.equals("")){
-            uQuantity7 = "0";
-            quantity7S = "0";
-        }
-        if (uQuantity8.equals("")||quantity8S.equals("")){
-            uQuantity8 = "0";
-            quantity8S = "0";
-        }
-        if (uQuantity9.equals("")||quantity9S.equals("")){
-            uQuantity9 = "0";
-            quantity9S = "0";
-        }
-        if (uQuantity10.equals("")||quantity10S.equals("")){
-            uQuantity10 = "0";
-            quantity10S = "0";
-        }
-        if (uQuantity11.equals("")||quantity11S.equals("")){
-            uQuantity11 = "0";
-            quantity11S = "0";
-        }
-        if (uQuantity12.equals("")||quantity12S.equals("")){
-            uQuantity12 = "0";
-            quantity12S = "0";
-        }
-        if (uQuantity13.equals("")||quantity13S.equals("")){
-            uQuantity13 = "0";
-            quantity13S = "0";
-        }
-        if (uQuantity14.equals("")||quantity14S.equals("")){
-            uQuantity14 = "0";
-            quantity14S = "0";
-        }
-        if (uQuantity15.equals("")||quantity15S.equals("")){
-            uQuantity15 = "0";
-            quantity15S = "0";
-        }
-        if (uQuantity16.equals("")||quantity16S.equals("")){
-            uQuantity16 = "0";
-            quantity16S = "0";
-        }
-        if (uQuantity17.equals("")||quantity17S.equals("")){
-            uQuantity17 = "0";
-            quantity17S = "0";
-        }
-        if (uQuantity18.equals("")||quantity18S.equals("")){
-            uQuantity18 = "0";
-            quantity18S = "0";
-        }
-        if (uQuantity19.equals("")||quantity19S.equals("")){
-            uQuantity19 = "0";
-            quantity19S = "0";
-        }
-        if (uQuantity20.equals("")||quantity20S.equals("")){
-            uQuantity20 = "0";
-            quantity20S = "0";
-        }
-        if (uQuantity21.equals("")||quantity21S.equals("")){
-            uQuantity21 = "0";
-            quantity21S = "0";
-        }
-        if (uQuantity22.equals("")||quantity22S.equals("")){
-            uQuantity22 = "0";
-            quantity22S = "0";
-        }
-        if (uQuantity23.equals("")||quantity23S.equals("")){
-            uQuantity23 = "0";
-            quantity23S = "0";
-        }
-        if (uQuantity24.equals("")||quantity24S.equals("")){
-            uQuantity24 = "0";
-            quantity24S = "0";
-        }
-        if (uQuantity25.equals("")||quantity25S.equals("")){
-            uQuantity25 = "0";
-            quantity25S = "0";
-        }
-        if (uQuantity26.equals("")||quantity26S.equals("")){
-            uQuantity26 = "0";
-            quantity26S = "0";
-        }
-        if (uQuantity27.equals("")||quantity27S.equals("")){
-            uQuantity27 = "0";
-            quantity27S = "0";
-        }
-        if (uQuantity28.equals("")||quantity28S.equals("")){
-            uQuantity28 = "0";
-            quantity28S = "0";
-        }
-        if (uQuantity29.equals("")||quantity29S.equals("")){
-            uQuantity29 = "0";
-            quantity29S = "0";
-        }
-        if (uQuantity30.equals("")||quantity30S.equals("")){
-            uQuantity30 = "0";
-            quantity30S = "0";
-        }
-
-        DecimalFormat dec = new DecimalFormat();
-        dec.setMaximumFractionDigits(2);
-
-        String q1 = dec.format(Float.parseFloat(quantity1S) - Float.parseFloat(uQuantity1));
-        String q2 = dec.format(Float.parseFloat(quantity2S) - Float.parseFloat(uQuantity2));
-        String q3 = dec.format(Float.parseFloat(quantity3S) - Float.parseFloat(uQuantity3));
-        String q4 = dec.format(Float.parseFloat(quantity4S) - Float.parseFloat(uQuantity4));
-        String q5 = dec.format(Float.parseFloat(quantity5S) - Float.parseFloat(uQuantity5));
-        String q6 = dec.format(Float.parseFloat(quantity6S) - Float.parseFloat(uQuantity6));
-        String q7 = dec.format(Float.parseFloat(quantity7S) - Float.parseFloat(uQuantity7));
-        String q8 = dec.format(Float.parseFloat(quantity8S) - Float.parseFloat(uQuantity8));
-        String q9 = dec.format(Float.parseFloat(quantity9S) - Float.parseFloat(uQuantity9));
-        String q10 = dec.format(Float.parseFloat(quantity10S) - Float.parseFloat(uQuantity10));
-        String q11 = dec.format(Float.parseFloat(quantity11S) - Float.parseFloat(uQuantity11));
-        String q12 = dec.format(Float.parseFloat(quantity12S) - Float.parseFloat(uQuantity12));
-        String q13 = dec.format(Float.parseFloat(quantity13S) - Float.parseFloat(uQuantity13));
-        String q14 = dec.format(Float.parseFloat(quantity14S) - Float.parseFloat(uQuantity14));
-        String q15 = dec.format(Float.parseFloat(quantity15S) - Float.parseFloat(uQuantity15));
-        String q16 = dec.format(Float.parseFloat(quantity16S) - Float.parseFloat(uQuantity16));
-        String q17 = dec.format(Float.parseFloat(quantity17S) - Float.parseFloat(uQuantity17));
-        String q18 = dec.format(Float.parseFloat(quantity18S) - Float.parseFloat(uQuantity18));
-        String q19 = dec.format(Float.parseFloat(quantity19S) - Float.parseFloat(uQuantity19));
-        String q20 = dec.format(Float.parseFloat(quantity20S) - Float.parseFloat(uQuantity20));
-        String q21 = dec.format(Float.parseFloat(quantity21S) - Float.parseFloat(uQuantity21));
-        String q22 = dec.format(Float.parseFloat(quantity22S) - Float.parseFloat(uQuantity22));
-        String q23 = dec.format(Float.parseFloat(quantity23S) - Float.parseFloat(uQuantity23));
-        String q24 = dec.format(Float.parseFloat(quantity24S) - Float.parseFloat(uQuantity24));
-        String q25 = dec.format(Float.parseFloat(quantity25S) - Float.parseFloat(uQuantity25));
-        String q26 = dec.format(Float.parseFloat(quantity26S) - Float.parseFloat(uQuantity26));
-        String q27 = dec.format(Float.parseFloat(quantity27S) - Float.parseFloat(uQuantity27));
-        String q28 = dec.format(Float.parseFloat(quantity28S) - Float.parseFloat(uQuantity28));
-        String q29 = dec.format(Float.parseFloat(quantity29S) - Float.parseFloat(uQuantity29));
-        String q30 = dec.format(Float.parseFloat(quantity30S) - Float.parseFloat(uQuantity30));
-
-        if (q1.equals("0")){
-            q1 = "";
-        }
-        if (q2.equals("0")){
-            q2 = "";
-        }
-        if (q3.equals("0")){
-            q3 = "";
-        }
-        if (q4.equals("0")){
-            q4 = "";
-        }
-        if (q5.equals("0")){
-            q5 = "";
-        }
-        if (q6.equals("0")){
-            q6 = "";
-        }
-        if (q7.equals("0")){
-            q7 = "";
-        }
-        if (q8.equals("0")){
-            q8 = "";
-        }
-        if (q9.equals("0")){
-            q9 = "";
-        }
-        if (q10.equals("0")){
-            q10 = "";
-        }
-        if (q11.equals("0")){
-            q11 = "";
-        }
-        if (q12.equals("0")){
-            q12 = "";
-        }
-        if (q13.equals("0")){
-            q13 = "";
-        }
-        if (q14.equals("0")){
-            q14 = "";
-        }
-        if (q15.equals("0")){
-            q15 = "";
-        }
-        if (q16.equals("0")){
-            q16 = "";
-        }
-        if (q17.equals("0")){
-            q17 = "";
-        }
-        if (q18.equals("0")){
-            q18 = "";
-        }
-        if (q19.equals("0")){
-            q19 = "";
-        }
-        if (q20.equals("0")){
-            q20 = "";
-        }
-        if (q21.equals("0")){
-            q21 = "";
-        }
-        if (q22.equals("0")){
-            q22 = "";
-        }
-        if (q23.equals("0")){
-            q23 = "";
-        }
-        if (q24.equals("0")){
-            q24 = "";
-        }
-        if (q25.equals("0")){
-            q25 = "";
-        }
-        if (q26.equals("0")){
-            q26 = "";
-        }
-        if (q27.equals("0")){
-            q27 = "";
-        }
-        if (q28.equals("0")){
-            q28 = "";
-        }
-        if (q29.equals("0")){
-            q29 = "";
-        }
-        if (q30.equals("0")){
-            q30 = "";
-        }
 
         doc.put("id", id);
         doc.put("Date",uDate);
@@ -3261,99 +1980,6 @@ public class AddActualMaterial extends AppCompatActivity {
         doc.put("Vehical Name",uVehicalName);
         doc.put("Consumer Name",uConsumerName);
         doc.put("Site Name",uSite);
-        //Material
-        doc.put("Material 1",uMaterial1);
-        doc.put("Material 2",uMaterial2);
-        doc.put("Material 3",uMaterial3);
-        doc.put("Material 4",uMaterial4);
-        doc.put("Material 5",uMaterial5);
-        doc.put("Material 6",uMaterial6);
-        doc.put("Material 7",uMaterial7);
-        doc.put("Material 8",uMaterial8);
-        doc.put("Material 9",uMaterial9);
-        doc.put("Material 10",uMaterial10);
-        doc.put("Material 11",uMaterial11);
-        doc.put("Material 12",uMaterial12);
-        doc.put("Material 13",uMaterial13);
-        doc.put("Material 14",uMaterial14);
-        doc.put("Material 15",uMaterial15);
-        doc.put("Material 16",uMaterial16);
-        doc.put("Material 17",uMaterial17);
-        doc.put("Material 18",uMaterial18);
-        doc.put("Material 19",uMaterial19);
-        doc.put("Material 20",uMaterial20);
-        doc.put("Material 21",uMaterial21);
-        doc.put("Material 22",uMaterial22);
-        doc.put("Material 23",uMaterial23);
-        doc.put("Material 24",uMaterial24);
-        doc.put("Material 25",uMaterial25);
-        doc.put("Material 26",uMaterial26);
-        doc.put("Material 27",uMaterial27);
-        doc.put("Material 28",uMaterial28);
-        doc.put("Material 29",uMaterial29);
-        doc.put("Material 30",uMaterial30);
-        //Quantity
-        doc.put("Quantity 1",q1);
-        doc.put("Quantity 2",q2);
-        doc.put("Quantity 3",q3);
-        doc.put("Quantity 4",q4);
-        doc.put("Quantity 5",q5);
-        doc.put("Quantity 6",q6);
-        doc.put("Quantity 7",q7);
-        doc.put("Quantity 8",q8);
-        doc.put("Quantity 9",q9);
-        doc.put("Quantity 10",q10);
-        doc.put("Quantity 11",q11);
-        doc.put("Quantity 12",q12);
-        doc.put("Quantity 13",q13);
-        doc.put("Quantity 14",q14);
-        doc.put("Quantity 15",q15);
-        doc.put("Quantity 16",q16);
-        doc.put("Quantity 17",q17);
-        doc.put("Quantity 18",q18);
-        doc.put("Quantity 19",q19);
-        doc.put("Quantity 20",q20);
-        doc.put("Quantity 21",q21);
-        doc.put("Quantity 22",q22);
-        doc.put("Quantity 23",q23);
-        doc.put("Quantity 24",q24);
-        doc.put("Quantity 25",q25);
-        doc.put("Quantity 26",q26);
-        doc.put("Quantity 27",q27);
-        doc.put("Quantity 28",q28);
-        doc.put("Quantity 29",q29);
-        doc.put("Quantity 30",q30);
-        //Unit
-        doc.put("Unit 1",uUnit1);
-        doc.put("Unit 2",uUnit2);
-        doc.put("Unit 3",uUnit3);
-        doc.put("Unit 4",uUnit4);
-        doc.put("Unit 5",uUnit5);
-        doc.put("Unit 6",uUnit6);
-        doc.put("Unit 7",uUnit7);
-        doc.put("Unit 8",uUnit8);
-        doc.put("Unit 9",uUnit9);
-        doc.put("Unit 10",uUnit10);
-        doc.put("Unit 11",uUnit11);
-        doc.put("Unit 12",uUnit12);
-        doc.put("Unit 13",uUnit13);
-        doc.put("Unit 14",uUnit14);
-        doc.put("Unit 15",uUnit15);
-        doc.put("Unit 16",uUnit16);
-        doc.put("Unit 17",uUnit17);
-        doc.put("Unit 18",uUnit18);
-        doc.put("Unit 19",uUnit19);
-        doc.put("Unit 20",uUnit20);
-        doc.put("Unit 21",uUnit21);
-        doc.put("Unit 22",uUnit22);
-        doc.put("Unit 23",uUnit23);
-        doc.put("Unit 24",uUnit24);
-        doc.put("Unit 25",uUnit25);
-        doc.put("Unit 26",uUnit26);
-        doc.put("Unit 27",uUnit27);
-        doc.put("Unit 28",uUnit28);
-        doc.put("Unit 29",uUnit29);
-        doc.put("Unit 30",uUnit30);
 
         doc.put("Material Receiver Name",materialReceiver);
         doc.put("Center",centerS);
@@ -3365,12 +1991,8 @@ public class AddActualMaterial extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 //this will be called when data is added Successfully
+
                 Toast.makeText(getApplicationContext(), "Data Added !!", Toast.LENGTH_SHORT).show();
-                addDataLL.setVisibility(View.GONE);
-                progressBar.setVisibility(View.GONE);
-                animation.setVisibility(View.VISIBLE);
-                lastLL.setVisibility(View.GONE);
-                mediaPlayer.start();
 
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -3378,35 +2000,29 @@ public class AddActualMaterial extends AppCompatActivity {
             public void onFailure(@NonNull Exception e) {
                 //this will be called when data is added Failed
                 Toast.makeText(getApplicationContext(), "Failed to add data "+e.getMessage(), Toast.LENGTH_SHORT).show();
-                addDataLL.setVisibility(View.VISIBLE);
-                progressBar.setVisibility(View.GONE);
+
             }
         });
 
 
-    }
 
-    private void sendMail(String cmp, String material) {
-        String message = "You have less material quantity of " + material;
-        JavaMailAPI javaMailAPI = new JavaMailAPI(this, cmp, "You have less material quantity of "+material, message);
-        javaMailAPI.execute();
+
 
     }
-    private void addStock(String cmp, String uMaterial1, String uUnit1, float a) {
 
-        String quantity = String.valueOf(a);
+    private void addTotalMaterialTakenSpecific(String material, String cmp, String consumerName, String quantity,String unit) {
 
         Map<String, Object> doc = new HashMap<>();
-        doc.put("Id",uMaterial1);
-        doc.put("Material",uMaterial1);
-        doc.put("Unit",uUnit1);
+        doc.put("Id",material);
+        doc.put("Material",material);
+        doc.put("Unit",unit);
         doc.put("Quantity",quantity);
 
-        fStore.collection(cmp+" AddStock").document(uMaterial1).set(doc).addOnCompleteListener(new OnCompleteListener<Void>() {
+        fStore.collection(cmp+" "+consumerName+" AAM").document(material).set(doc).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 //this will be called when data is added Successfully
-                Toast.makeText(getApplicationContext(), "Add Stock "+a, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Total Material Added", Toast.LENGTH_SHORT).show();
                 animation.setVisibility(View.VISIBLE);
                 mediaPlayer.start();
 
@@ -3420,60 +2036,6 @@ public class AddActualMaterial extends AppCompatActivity {
             }
         });
 
-
-    }
-
-    private void showData(String cmp) {
-        fStore.collection(cmp+" AddStock").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                modelList.clear();
-                pd.dismiss();
-                for (DocumentSnapshot doc : task.getResult()){
-                    AddStockModel model = new AddStockModel(
-                            doc.getString("Id"),
-                            doc.getString("Material"),
-                            doc.getString("Unit"),
-                            doc.getString("Quantity")
-                    );
-                    modelList.add(model);
-                }
-                adapterStock = new AdminActualStockAdapter(AddActualMaterial.this,modelList);
-                recyclerView.setAdapter(adapterStock);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                pd.dismiss();
-                Toast.makeText(AddActualMaterial.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void showDataKN(String cmp) {
-        fStore.collection(cmp+" KgToNo").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                modelListKN.clear();
-                pd.dismiss();
-                for (DocumentSnapshot doc : task.getResult()){
-                    KgToNoModel model = new KgToNoModel(
-                            doc.getString("Id"),
-                            doc.getString("Material"),
-                            doc.getString("Number"),
-                            doc.getString("Unit")
-                    );
-                    modelListKN.add(model);
-                }
-                adapterStockKN = new AdminActualKgToNoAdapter(AddActualMaterial.this,modelListKN);
-                recyclerViewKN.setAdapter(adapterStockKN);
-            }}).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                pd.dismiss();
-                Toast.makeText(AddActualMaterial.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     public void retrieveDataMaterial(){
@@ -3508,4 +2070,165 @@ public class AddActualMaterial extends AppCompatActivity {
             }
         });
     }
+    public void retrieveData(){
+        listener = databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot item : snapshot.getChildren()){
+                    spinnerDataList.add(item.getValue().toString());
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    public void retrieveDataLine(){
+        listenerLine = databaseReferenceLine.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot item : snapshot.getChildren()){
+                    spinnerDataListLine.add(item.getValue().toString());
+                }
+                adapterLine.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    public void retrieveDataTender(){
+        listenerTender = databaseReferenceTender.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot item : snapshot.getChildren()){
+                    spinnerDataListTender.add(item.getValue().toString());
+                }
+                adapterTender.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    public void retrieveDataDriver(){
+        listenerDriver = databaseReferenceDriver.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot item : snapshot.getChildren()){
+                    spinnerDataListDriver.add(item.getValue().toString());
+                }
+                adapterDriver.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    public void retrieveDataVehical(){
+        listenerVehical = databaseReferenceVehical.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot item : snapshot.getChildren()){
+                    spinnerDataListVehical.add(item.getValue().toString());
+                }
+                adapterVehical.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    public void retrieveDataVillage(){
+        listenerVillage = databaseReferenceVillage.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot item : snapshot.getChildren()){
+                    spinnerDataListVillage.add(item.getValue().toString());
+                }
+                adapterVillage.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    public void retrieveDataCenter(){
+        listenerCenter = databaseReferenceCenter.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot item : snapshot.getChildren()){
+                    spinnerDataListCenter.add(item.getValue().toString());
+                }
+                adapterCenter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    public void retrieveDataState(){
+        listenerState = databaseReferenceState.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot item : snapshot.getChildren()){
+                    spinnerDataListState.add(item.getValue().toString());
+                }
+                adapterState.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    public void retrieveDataDistrict(){
+        listenerDistrict = databaseReferenceDistrict.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot item : snapshot.getChildren()){
+                    spinnerDataListDistrict.add(item.getValue().toString());
+                }
+                adapterDistrict.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    public void retrieveDataTaluka(){
+        listenerTaluka = databaseReferenceTaluka.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot item : snapshot.getChildren()){
+                    spinnerDataListTaluka.add(item.getValue().toString());
+                }
+                adapterTaluka.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
 }

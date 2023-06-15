@@ -28,6 +28,8 @@ public class AdminCustomAdapter extends RecyclerView.Adapter<AdminViewHolder> {
 
 
 
+
+
     @NonNull
     @Override
     public AdminViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -905,12 +907,6 @@ public class AdminCustomAdapter extends RecyclerView.Adapter<AdminViewHolder> {
         viewHolder.mConsumerName.setText(modelList.get(i).getConsumerName());
         viewHolder.mSiteName.setText(modelList.get(i).getVillage());
         viewHolder.mCenter.setText(modelList.get(i).getCenter());
-
-
-//        if (i%2==1) {
-//            Animation animation = AnimationUtils.loadAnimation(adminViewMaterial, R.anim.top_animation);
-//            viewHolder.cardView.setAnimation(animation);
-//        }
 
 
     }

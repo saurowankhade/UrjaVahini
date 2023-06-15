@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -36,7 +35,6 @@ import com.example.electricalmaterial.ViewBalanceMaterial;
 import com.example.electricalmaterial.ViewReturnMaterial;
 import com.example.electricalmaterial.ViewWorkDone;
 import com.example.electricalmaterial.databinding.FragmentAdminHomeBinding;
-import com.google.firebase.BuildConfig;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -138,15 +136,6 @@ public class AdminHomeFragment extends Fragment {
                     }
                 });
 
-                updateLink.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String appLink = "https://play.google.com/store/apps/details?="+ BuildConfig.APPLICATION_ID;
-                        Uri uri = Uri.parse(appLink);
-                        startActivity(new Intent(Intent.ACTION_VIEW,uri));
-
-                    }
-                });
 
             }
         });

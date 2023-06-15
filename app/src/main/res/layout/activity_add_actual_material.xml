@@ -13,17 +13,24 @@
         android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerAM"
+            android:id="@+id/recycler"
             android:layout_width="match_parent"
             android:visibility="gone"
-            android:layout_height="wrap_content"
+            android:layout_height="200sp"
             android:background="#FFFFFF" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerKN"
+            android:id="@+id/recyclerATMT"
             android:layout_width="match_parent"
             android:visibility="gone"
-            android:layout_height="wrap_content"
+            android:layout_height="200sp"
+            android:background="#FFFFFF" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerBalance"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="200sp"
             android:background="#FFFFFF" />
 
         <!--Home-->
@@ -32,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="gone"
+            android:visibility="visible"
             android:background="#FFFFFF"
             android:layout_marginTop="30sp"
             android:layout_gravity="center">
@@ -199,6 +206,7 @@
             android:layout_marginTop="30sp"
             android:layout_gravity="center">
 
+
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
@@ -221,6 +229,154 @@
                     android:textColor="#000000" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10sp"
+                android:layout_marginTop="20sp"
+                android:layout_marginRight="10sp"
+                android:textColorHint="@color/black"
+                app:hintTextColor="@color/black"
+                android:background="@drawable/border_box"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                android:hint="State">
+
+                <AutoCompleteTextView
+                    android:id="@+id/state"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="@color/black"
+                    android:textColor="@color/black"
+                    android:background="@drawable/border_box"
+                    android:layout_weight="1"/>
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10sp"
+                android:layout_marginTop="20sp"
+                android:layout_marginRight="10sp"
+                android:textColorHint="@color/black"
+                app:hintTextColor="@color/black"
+                android:background="@drawable/border_box"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                android:hint="District">
+
+                <AutoCompleteTextView
+                    android:id="@+id/district"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="@color/black"
+                    android:textColor="@color/black"
+                    android:background="@drawable/border_box"
+                    android:layout_weight="1"/>
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10sp"
+                android:layout_marginTop="20sp"
+                android:layout_marginRight="10sp"
+                android:textColorHint="@color/black"
+                app:hintTextColor="@color/black"
+                android:background="@drawable/border_box"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                android:hint="Taluka">
+
+                <AutoCompleteTextView
+                    android:id="@+id/taluka"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="@color/black"
+                    android:textColor="@color/black"
+                    android:background="@drawable/border_box"
+                    android:layout_weight="1"/>
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10sp"
+                android:layout_marginTop="20sp"
+                android:layout_marginRight="10sp"
+                android:textColorHint="@color/black"
+                app:hintTextColor="@color/black"
+                android:background="@drawable/border_box"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                android:hint="Center">
+
+                <AutoCompleteTextView
+                    android:id="@+id/centerACTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="@color/black"
+                    android:textColor="@color/black"
+                    android:background="@drawable/border_box"
+                    android:layout_weight="1"/>
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10sp"
+                android:layout_marginTop="20sp"
+                android:layout_marginRight="10sp"
+                android:textColorHint="@color/black"
+                app:hintTextColor="@color/black"
+                android:background="@drawable/border_box"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                android:hint="Village">
+
+                <AutoCompleteTextView
+                    android:id="@+id/villageACTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="@color/black"
+                    android:textColor="@color/black"
+                    android:background="@drawable/border_box"
+                    android:layout_weight="1"/>
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
             <com.google.android.material.textfield.TextInputLayout
@@ -246,54 +402,6 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10sp"
-                android:layout_marginTop="20sp"
-                android:layout_marginRight="10sp"
-                android:textColorHint="@color/black"
-                app:hintTextColor="@color/black"
-                android:background="@drawable/border_box"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
-                android:hint="Center">
-
-                <AutoCompleteTextView
-                    android:id="@+id/center"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColorHint="@color/black"
-                    android:textColor="@color/black"
-                    android:background="@drawable/border_box"
-                    android:layout_weight="1"/>
-
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10sp"
-                android:layout_marginTop="20sp"
-                android:layout_marginRight="10sp"
-                android:textColorHint="@color/black"
-                app:hintTextColor="@color/black"
-                android:background="@drawable/border_box"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
-                android:hint="Village">
-
-                <AutoCompleteTextView
-                    android:id="@+id/village"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColorHint="@color/black"
-                    android:textColor="@color/black"
-                    android:background="@drawable/border_box"
-                    android:layout_weight="1"/>
-
-
-            </com.google.android.material.textfield.TextInputLayout>
-
 
 
             <LinearLayout
@@ -301,18 +409,16 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:layout_marginBottom="30sp"
+                android:layout_marginTop="20sp"
+                android:layout_marginBottom="20sp"
                 android:orientation="horizontal">
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/backHome"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10sp"
-                    android:layout_marginTop="40sp"
-                    android:layout_marginRight="30sp"
-                    android:layout_marginLeft="20sp"
                     android:elevation="5sp"
                     android:text="BACK"
+                    android:layout_marginEnd="10sp"
                     app:cornerRadius="10sp"
                     app:rippleColor="#FFFFFF"
                     app:strokeColor="#FFFFFF" />
@@ -320,16 +426,16 @@
                     android:id="@+id/nextLast"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10sp"
-                    android:layout_marginTop="40sp"
-                    android:layout_marginRight="30sp"
                     android:elevation="5sp"
+                    android:layout_marginStart="10sp"
                     android:text="NEXT"
                     app:cornerRadius="10sp"
                     app:rippleColor="#FFFFFF"
                     app:strokeColor="#FFFFFF"
                     tools:ignore="RtlHardcoded" />
             </LinearLayout>
+
+
 
         </LinearLayout>
 
@@ -339,7 +445,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="visible"
+            android:visibility="gone"
             android:background="#FFFFFF"
             android:layout_marginTop="30sp"
             android:layout_gravity="center">

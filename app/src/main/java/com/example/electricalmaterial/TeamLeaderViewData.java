@@ -304,60 +304,70 @@ public class TeamLeaderViewData extends AppCompatActivity {
                     }
                 });
 
-                searchButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String search = selectSearch.getText().toString().trim();
-                        String teamNameS = teamName.getText().toString().trim();
-                        String tenderS = tender.getText().toString().trim();
-                        String centerS = center.getText().toString().trim();
-                        String villageS = village.getText().toString().trim();
+//                searchButton.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        String search = selectSearch.getText().toString().trim();
+//                        String teamNameS = teamName.getText().toString().trim();
+//                        String tenderS = tender.getText().toString().trim();
+//                        String centerS = center.getText().toString().trim();
+//                        String villageS = village.getText().toString().trim();
+//
+//                        switch (search) {
+//                            case "Team Name":
+//                                if (teamNameS.isEmpty()) {
+//                                    teamName.setError("Select any one!!");
+//                                    teamName.requestFocus();
+//                                    showMessage("Please select team name to search");
+//                                } else {
+//                                    searchTeamName(cmp, teamNameS);
+//                                }
+//                                break;
+//                            case "Tender":
+//                                if (tenderS.isEmpty()) {
+//                                    tender.setError("Select any one!!");
+//                                    tender.requestFocus();
+//                                    showMessage("Please select tender to search");
+//                                } else {
+//                                    searchTender(cmp, tenderS);
+//                                }
+//                                break;
+//                            case "Center":
+//                                if (centerS.isEmpty()) {
+//                                    center.setError("Select any one!!");
+//                                    center.requestFocus();
+//                                    showMessage("Please select Center to search");
+//                                } else {
+//                                    searchCenter(cmp, centerS);
+//                                }
+//                                break;
+//                            case "Village":
+//                                if (villageS.isEmpty()) {
+//                                    village.setError("Select any one!!");
+//                                    village.requestFocus();
+//                                    showMessage("Please select Village to search");
+//                                } else {
+//                                    searchVillage(cmp, villageS);
+//                                }
+//                                break;
+//                        }
+//
+//
+//
+//
+//
+//                    }
+//                });
 
-                        switch (search) {
-                            case "Team Name":
-                                if (teamNameS.isEmpty()) {
-                                    teamName.setError("Select any one!!");
-                                    teamName.requestFocus();
-                                    showMessage("Please select team name to search");
-                                } else {
-                                    searchTeamName(cmp, teamNameS);
-                                }
-                                break;
-                            case "Tender":
-                                if (tenderS.isEmpty()) {
-                                    tender.setError("Select any one!!");
-                                    tender.requestFocus();
-                                    showMessage("Please select tender to search");
-                                } else {
-                                    searchTender(cmp, tenderS);
-                                }
-                                break;
-                            case "Center":
-                                if (centerS.isEmpty()) {
-                                    center.setError("Select any one!!");
-                                    center.requestFocus();
-                                    showMessage("Please select Center to search");
-                                } else {
-                                    searchCenter(cmp, centerS);
-                                }
-                                break;
-                            case "Village":
-                                if (villageS.isEmpty()) {
-                                    village.setError("Select any one!!");
-                                    village.requestFocus();
-                                    showMessage("Please select Village to search");
-                                } else {
-                                    searchVillage(cmp, villageS);
-                                }
-                                break;
-                        }
 
 
 
 
 
-                    }
-                });
+
+
+
+
             }
         });
     }

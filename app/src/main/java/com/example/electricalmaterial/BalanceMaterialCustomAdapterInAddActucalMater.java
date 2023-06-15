@@ -6,19 +6,18 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class BalanceMaterialCustomAdapter extends RecyclerView.Adapter<RemainingMaterialViewHolder>{
+public class BalanceMaterialCustomAdapterInAddActucalMater extends RecyclerView.Adapter<RemainingMaterialViewHolder>{
 
-    ViewBalanceMaterial adminViewMaterial;
+    AddActualMaterial adminViewMaterial;
     List<BalanceMaterialModel> modelList;
 
-    public BalanceMaterialCustomAdapter(ViewBalanceMaterial adminViewMaterial, List<BalanceMaterialModel> modelList) {
+    public BalanceMaterialCustomAdapterInAddActucalMater(AddActualMaterial adminViewMaterial, List<BalanceMaterialModel> modelList) {
         this.adminViewMaterial = adminViewMaterial;
         this.modelList = modelList;
     }
@@ -112,25 +111,7 @@ public class BalanceMaterialCustomAdapter extends RecyclerView.Adapter<Remaining
 
                         }
 
-                        if (which==1){
 
-                            String [] options = {"No","Yes"};
-                            builder.setTitle("Are you Sure ?");
-                            builder.setIcon(R.drawable.ic_action_delete);
-                            builder.setItems(options, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if (which==0){
-                                        String not = "Cancel";
-                                        Toast.makeText(adminViewMaterial, not.toUpperCase(), Toast.LENGTH_SHORT).show();
-                                    }
-                                    else {
-                                        adminViewMaterial.deleteData(position);
-                                    }
-                                }
-                            }).create().show();
-
-                        }
                     }
                 }).create().show();
             }
