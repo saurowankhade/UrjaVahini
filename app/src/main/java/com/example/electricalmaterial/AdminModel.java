@@ -216,8 +216,414 @@ public class AdminModel {
 
     }
 
+    public AdminModel() {
+
+    }
 
 
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
+    }
+
+    public void setLine(String line) {
+        this.line = line;
+    }
+
+    public void setTender(String tender) {
+        this.tender = tender;
+    }
+
+    public void setDriverName(String driverName) {
+        this.driverName = driverName;
+    }
+
+    public void setVehicalName(String vehicalName) {
+        this.vehicalName = vehicalName;
+    }
+
+    public void setConsumerName(String consumerName) {
+        this.consumerName = consumerName;
+    }
+
+    public void setSite(String site) {
+        this.site = site;
+    }
+
+    public void setMaterial1(String material1) {
+        this.material1 = material1;
+    }
+
+    public void setUnit1(String unit1) {
+        this.unit1 = unit1;
+    }
+
+    public void setQuantity1(String quantity1) {
+        this.quantity1 = quantity1;
+    }
+
+    public void setMaterial2(String material2) {
+        this.material2 = material2;
+    }
+
+    public void setQuantity2(String quantity2) {
+        this.quantity2 = quantity2;
+    }
+
+    public void setUnit2(String unit2) {
+        this.unit2 = unit2;
+    }
+
+    public void setMaterial3(String material3) {
+        this.material3 = material3;
+    }
+
+    public void setUnit3(String unit3) {
+        this.unit3 = unit3;
+    }
+
+    public void setQuantity3(String quantity3) {
+        this.quantity3 = quantity3;
+    }
+
+    public void setMaterial4(String material4) {
+        this.material4 = material4;
+    }
+
+    public void setUnit4(String unit4) {
+        this.unit4 = unit4;
+    }
+
+    public void setQuantity4(String quantity4) {
+        this.quantity4 = quantity4;
+    }
+
+    public void setMaterial5(String material5) {
+        this.material5 = material5;
+    }
+
+    public void setUnit5(String unit5) {
+        this.unit5 = unit5;
+    }
+
+    public void setQuantity5(String quantity5) {
+        this.quantity5 = quantity5;
+    }
+
+    public void setMaterial6(String material6) {
+        this.material6 = material6;
+    }
+
+    public void setUnit6(String unit6) {
+        this.unit6 = unit6;
+    }
+
+    public void setQuantity6(String quantity6) {
+        this.quantity6 = quantity6;
+    }
+
+    public void setMaterial7(String material7) {
+        this.material7 = material7;
+    }
+
+    public void setUnit7(String unit7) {
+        this.unit7 = unit7;
+    }
+
+    public void setQuantity7(String quantity7) {
+        this.quantity7 = quantity7;
+    }
+
+    public void setMaterial8(String material8) {
+        this.material8 = material8;
+    }
+
+    public void setUnit8(String unit8) {
+        this.unit8 = unit8;
+    }
+
+    public void setQuantity8(String quantity8) {
+        this.quantity8 = quantity8;
+    }
+
+    public void setMaterial9(String material9) {
+        this.material9 = material9;
+    }
+
+    public void setUnit9(String unit9) {
+        this.unit9 = unit9;
+    }
+
+    public void setQuantity9(String quantity9) {
+        this.quantity9 = quantity9;
+    }
+
+    public void setMaterial10(String material10) {
+        this.material10 = material10;
+    }
+
+    public void setUnit10(String unit10) {
+        this.unit10 = unit10;
+    }
+
+    public void setQuantity10(String quantity10) {
+        this.quantity10 = quantity10;
+    }
+
+    public void setMaterial11(String material11) {
+        this.material11 = material11;
+    }
+
+    public void setUnit11(String unit11) {
+        this.unit11 = unit11;
+    }
+
+    public void setQuantity11(String quantity11) {
+        this.quantity11 = quantity11;
+    }
+
+    public void setMaterial12(String material12) {
+        this.material12 = material12;
+    }
+
+    public void setUnit12(String unit12) {
+        this.unit12 = unit12;
+    }
+
+    public void setQuantity12(String quantity12) {
+        this.quantity12 = quantity12;
+    }
+
+    public void setMaterial13(String material13) {
+        this.material13 = material13;
+    }
+
+    public void setUnit13(String unit13) {
+        this.unit13 = unit13;
+    }
+
+    public void setQuantity13(String quantity13) {
+        this.quantity13 = quantity13;
+    }
+
+    public void setMaterial14(String material14) {
+        this.material14 = material14;
+    }
+
+    public void setUnit14(String unit14) {
+        this.unit14 = unit14;
+    }
+
+    public void setQuantity14(String quantity14) {
+        this.quantity14 = quantity14;
+    }
+
+    public void setMaterial15(String material15) {
+        this.material15 = material15;
+    }
+
+    public void setUnit15(String unit15) {
+        this.unit15 = unit15;
+    }
+
+    public void setQuantity15(String quantity15) {
+        this.quantity15 = quantity15;
+    }
+
+    public void setMaterial16(String material16) {
+        this.material16 = material16;
+    }
+
+    public void setUnit16(String unit16) {
+        this.unit16 = unit16;
+    }
+
+    public void setQuantity16(String quantity16) {
+        this.quantity16 = quantity16;
+    }
+
+    public void setMaterial17(String material17) {
+        this.material17 = material17;
+    }
+
+    public void setUnit17(String unit17) {
+        this.unit17 = unit17;
+    }
+
+    public void setQuantity17(String quantity17) {
+        this.quantity17 = quantity17;
+    }
+
+    public void setMaterial18(String material18) {
+        this.material18 = material18;
+    }
+
+    public void setUnit18(String unit18) {
+        this.unit18 = unit18;
+    }
+
+    public void setQuantity18(String quantity18) {
+        this.quantity18 = quantity18;
+    }
+
+    public void setMaterial19(String material19) {
+        this.material19 = material19;
+    }
+
+    public void setUnit19(String unit19) {
+        this.unit19 = unit19;
+    }
+
+    public void setQuantity19(String quantity19) {
+        this.quantity19 = quantity19;
+    }
+
+    public void setMaterial20(String material20) {
+        this.material20 = material20;
+    }
+
+    public void setUnit20(String unit20) {
+        this.unit20 = unit20;
+    }
+
+    public void setQuantity20(String quantity20) {
+        this.quantity20 = quantity20;
+    }
+
+    public void setMaterial21(String material21) {
+        this.material21 = material21;
+    }
+
+    public void setUnit21(String unit21) {
+        this.unit21 = unit21;
+    }
+
+    public void setQuantity21(String quantity21) {
+        this.quantity21 = quantity21;
+    }
+
+    public void setMaterial22(String material22) {
+        this.material22 = material22;
+    }
+
+    public void setUnit22(String unit22) {
+        this.unit22 = unit22;
+    }
+
+    public void setQuantity22(String quantity22) {
+        this.quantity22 = quantity22;
+    }
+
+    public void setMaterial23(String material23) {
+        this.material23 = material23;
+    }
+
+    public void setUnit23(String unit23) {
+        this.unit23 = unit23;
+    }
+
+    public void setQuantity23(String quantity23) {
+        this.quantity23 = quantity23;
+    }
+
+    public void setMaterial24(String material24) {
+        this.material24 = material24;
+    }
+
+    public void setUnit24(String unit24) {
+        this.unit24 = unit24;
+    }
+
+    public void setQuantity24(String quantity24) {
+        this.quantity24 = quantity24;
+    }
+
+    public void setMaterial25(String material25) {
+        this.material25 = material25;
+    }
+
+    public void setUnit25(String unit25) {
+        this.unit25 = unit25;
+    }
+
+    public void setQuantity25(String quantity25) {
+        this.quantity25 = quantity25;
+    }
+
+    public void setMaterial26(String material26) {
+        this.material26 = material26;
+    }
+
+    public void setUnit26(String unit26) {
+        this.unit26 = unit26;
+    }
+
+    public void setQuantity26(String quantity26) {
+        this.quantity26 = quantity26;
+    }
+
+    public void setMaterial27(String material27) {
+        this.material27 = material27;
+    }
+
+    public void setUnit27(String unit27) {
+        this.unit27 = unit27;
+    }
+
+    public void setQuantity27(String quantity27) {
+        this.quantity27 = quantity27;
+    }
+
+    public void setMaterial28(String material28) {
+        this.material28 = material28;
+    }
+
+    public void setUnit28(String unit28) {
+        this.unit28 = unit28;
+    }
+
+    public void setQuantity28(String quantity28) {
+        this.quantity28 = quantity28;
+    }
+
+    public void setMaterial29(String material29) {
+        this.material29 = material29;
+    }
+
+    public void setUnit29(String unit29) {
+        this.unit29 = unit29;
+    }
+
+    public void setQuantity29(String quantity29) {
+        this.quantity29 = quantity29;
+    }
+
+    public void setMaterial30(String material30) {
+        this.material30 = material30;
+    }
+
+    public void setUnit30(String unit30) {
+        this.unit30 = unit30;
+    }
+
+    public void setQuantity30(String quantity30) {
+        this.quantity30 = quantity30;
+    }
+
+    public void setMaterialReceiverName(String materialReceiverName) {
+        this.materialReceiverName = materialReceiverName;
+    }
+
+    public void setCenter(String center) {
+        this.center = center;
+    }
+
+    public void setVillage(String village) {
+        this.village = village;
+    }
 
     public String getId() {
         return id;

@@ -119,6 +119,7 @@ public class ProfileActivity extends AppCompatActivity {
                 companyEmail = value.getString("companyEmail");
                 uCEmail.setText(companyEmail);
 
+
             }
         });
 
@@ -200,6 +201,8 @@ public class ProfileActivity extends AppCompatActivity {
 
 
     }
+
+
 
     @Override
     protected void onStart() {

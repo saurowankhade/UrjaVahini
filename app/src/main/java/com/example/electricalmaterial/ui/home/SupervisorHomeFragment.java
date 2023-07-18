@@ -117,24 +117,6 @@ public class SupervisorHomeFragment extends Fragment {
             }
         });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         companyDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -11,8 +11,6 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import com.google.android.material.button.MaterialButton;
 
-import hotchemi.android.rate.AppRate;
-
 public class RateThisApp extends AppCompatActivity {
 
     MaterialButton rate_this_app;
@@ -22,16 +20,6 @@ public class RateThisApp extends AppCompatActivity {
         setContentView(R.layout.activity_rate_this_app);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setTitle("Rate This app");
-
-
-        AppRate.with(this)
-                .setInstallDays(1)
-                .setLaunchTimes(2)
-                .setRemindInterval(2)
-                .monitor();
-        AppRate.showRateDialogIfMeetsConditions(this);
-
-
         rate_this_app = findViewById(R.id.rate_this_app);
         rate_this_app.setOnClickListener(new View.OnClickListener() {
             @Override

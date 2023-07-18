@@ -275,7 +275,6 @@ public class AddMaterial extends AppCompatActivity {
     RecyclerView.LayoutManager layoutManagerAddData;
     ShowDataAdminCustomAdapter adapterStockAddData;
 
-//    SwipeRefreshLayout refreshLayout;
 
 
     int a1 = 0;
@@ -316,16 +315,6 @@ public class AddMaterial extends AppCompatActivity {
         setContentView(R.layout.activity_add_material);
 
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
-//        pd = ProgressDialog.show(this,"Loading...","Please Wait",false,false);
-
-//        time = new Timer();
-//        time.schedule(new TimerTask() {
-//            @Override
-//            public void run() {
-//                pd.dismiss();
-//            }
-//        },3000);
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
@@ -586,16 +575,6 @@ public class AddMaterial extends AppCompatActivity {
             assert bar != null;
             bar.setTitle("MATERIAL DELIVERY");
 
-//                Finding Error
-//                refreshLayout = findViewById(R.id.refresh);
-//                refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//                    @Override
-//                    public void onRefresh() {
-//                        refreshLayout.setRefreshing(false);
-//                        retrieveData();
-//                        teamName.setText("Non");
-//                    }
-//                });
 
             Bundle bundle = getIntent().getExtras();
 
@@ -840,7 +819,6 @@ public class AddMaterial extends AppCompatActivity {
                 unit28.setText(unit28S);
                 unit29.setText(unit29S);
                 unit30.setText(unit30S);
-
             }
             //State
             databaseReferenceState = FirebaseDatabase.getInstance().getReference(companyEmail + " State");
@@ -1180,7 +1158,6 @@ public class AddMaterial extends AppCompatActivity {
                 }
             });
 
-
             //HomeBtn
             homeNextBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -1264,6 +1241,7 @@ public class AddMaterial extends AppCompatActivity {
                     } else {
                         middleLL.setVisibility(View.GONE);
                         lastOneLL.setVisibility(View.VISIBLE);
+                        showTotalMaterialTaken(cmp,consumerName,teamName.getText().toString().trim());
 
                     }
                 }
@@ -1313,7 +1291,7 @@ public class AddMaterial extends AppCompatActivity {
                     String uSite = (site.getText().toString().trim()) + "  " + (taluka.getText().toString().trim()) + "  " + (district.getText().toString().trim()) + "  " + (state.getText().toString().trim());
 
 
-                    showTotalMaterialTaken(cmp,uConsumerName);
+
 
 
                     //Material
@@ -1486,7 +1464,6 @@ public class AddMaterial extends AppCompatActivity {
             });
 
             if (bundle != null) {
-
 
                 //Receiver
                 String materialReceiver = receiver.getText().toString().trim();
@@ -1778,9 +1755,11 @@ public class AddMaterial extends AppCompatActivity {
                 });
     }
 
-    private void showTotalMaterialTaken(String cmp, String consumerName) {
+    private void showTotalMaterialTaken(String cmp, String consumerName, String teamName) {
 
-        fStore.collection(cmp+" "+consumerName).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        fStore.collection(cmp+" TotalMaterialTaken")
+                .document(consumerName+" "+teamName).collection("MaterialDetails")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 modelListTMT.clear();
@@ -2025,7 +2004,8 @@ public class AddMaterial extends AppCompatActivity {
         doc.put("Village",villageS);
         doc.put("SearchVillage",villageS.toLowerCase());
 
-        fStore.collection(cmp+" AddData").document(id).set(doc).addOnCompleteListener(new OnCompleteListener<Void>() {
+        fStore.collection(cmp+" AddData").document(id)
+                .set(doc).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 //this will be called when data is added Successfully
@@ -2210,22 +2190,22 @@ public class AddMaterial extends AppCompatActivity {
                 });
 
     }
-    private void usedData(String id,String cmp, String uDate, String uTeamName, String uLine, String uTender, String uDriverName, String uVehicalName, String uConsumerName, String uSite, String uMaterial1, String uQuantity1, String uMaterial2, String uQuantity2, String uMaterial3, String uQuantity3, String uMaterial4, String uQuantity4, String uMaterial5, String uQuantity5, String uMaterial6, String uQuantity6, String uMaterial7, String uQuantity7, String uMaterial8, String uQuantity8, String uMaterial9, String uQuantity9, String uMaterial10, String uQuantity10, String uQuantity11, String uMaterial12, String uQuantity12, String uMaterial13, String uQuantity13, String uMaterial14, String uQuantity14, String uMaterial15, String uQuantity15, String uMaterial16, String uQuantity16, String uMaterial17, String uQuantity17, String uMaterial18, String uQuantity18, String uMaterial19, String uQuantity19, String uMaterial20, String uQuantity20, String uUnit1, String uUnit2, String uUnit3, String uUnit4, String uUnit5, String uUnit6, String uUnit7, String uUnit8, String uUnit9, String uUnit10, String uUnit11, String uUnit12, String uUnit13, String uUnit14, String uUnit15, String uUnit16, String uUnit17, String uUnit18, String uUnit19, String uUnit20, String uMaterial11, String uMaterial21, String uQuantity21, String uMaterial22, String uQuantity22, String uMaterial23, String uQuantity23, String uMaterial24, String uQuantity24, String uMaterial25, String uQuantity25, String uMaterial26, String uQuantity26, String uMaterial27, String uQuantity27, String uMaterial28, String uQuantity28, String uMaterial29, String uQuantity29, String uMaterial30, String uQuantity30, String uUnit21, String uUnit22, String uUnit23, String uUnit24, String uUnit25, String uUnit26, String uUnit27, String uUnit28, String uUnit29, String uUnit30, String materialReceiver, String centerS, String villageS) {
+    private void usedData(String id,String cmp, String uDate, String uTeamName, String uLine, String uTender, String uDriverName, String uVehicalName,
+                          String uConsumerName, String uSite, String uMaterial1, String uQuantity1, String uMaterial2, String uQuantity2, String uMaterial3,
+                          String uQuantity3, String uMaterial4, String uQuantity4, String uMaterial5, String uQuantity5, String uMaterial6, String uQuantity6,
+                          String uMaterial7, String uQuantity7, String uMaterial8, String uQuantity8, String uMaterial9, String uQuantity9, String uMaterial10,
+                          String uQuantity10, String uQuantity11, String uMaterial12, String uQuantity12, String uMaterial13, String uQuantity13, String uMaterial14,
+                          String uQuantity14, String uMaterial15, String uQuantity15, String uMaterial16, String uQuantity16, String uMaterial17, String uQuantity17,
+                          String uMaterial18, String uQuantity18, String uMaterial19, String uQuantity19, String uMaterial20, String uQuantity20, String uUnit1,
+                          String uUnit2, String uUnit3, String uUnit4, String uUnit5, String uUnit6, String uUnit7, String uUnit8, String uUnit9, String uUnit10,
+                          String uUnit11, String uUnit12, String uUnit13, String uUnit14, String uUnit15, String uUnit16, String uUnit17, String uUnit18, String uUnit19,
+                          String uUnit20, String uMaterial11, String uMaterial21, String uQuantity21, String uMaterial22, String uQuantity22, String uMaterial23,
+                          String uQuantity23, String uMaterial24, String uQuantity24, String uMaterial25, String uQuantity25, String uMaterial26, String uQuantity26,
+                          String uMaterial27, String uQuantity27, String uMaterial28, String uQuantity28, String uMaterial29, String uQuantity29, String uMaterial30,
+                          String uQuantity30, String uUnit21, String uUnit22, String uUnit23, String uUnit24, String uUnit25, String uUnit26, String uUnit27,
+                          String uUnit28, String uUnit29, String uUnit30, String materialReceiver, String centerS, String villageS) {
 
         Map<String, Object> doc = new HashMap<>();
-
-        for (int i=0;i<modelListAddData.size();i++){
-            if (modelListAddData.get(i).getConsumerName().equalsIgnoreCase(uConsumerName)){
-                id = modelListAddData.get(i).getId();
-                if (!modelListAddData.get(i).getTeamName().equalsIgnoreCase(uTeamName)){
-                    uTeamName = uTeamName + "," + modelListAddData.get(i).getTeamName();
-                }
-                if (!modelListAddData.get(i).getDate().equalsIgnoreCase(uDate)){
-                    uDate = uDate + "," + modelListAddData.get(i).getDate();
-                }
-            }
-        }
-
 
         doc.put("id", id);
         doc.put("Date",uDate);
@@ -2343,7 +2323,8 @@ public class AddMaterial extends AppCompatActivity {
         doc.put("Village",villageS);
         doc.put("SearchVillage",villageS.toLowerCase());
 
-        fStore.collection(cmp+" RemainingMaterial").document(id).set(doc).addOnCompleteListener(new OnCompleteListener<Void>() {
+        fStore.collection(cmp+" RemainingMaterial").document(id).set(doc)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 //this will be called when data is added Successfully
@@ -2363,7 +2344,7 @@ public class AddMaterial extends AppCompatActivity {
                         uMaterial26,uQuantity26,uMaterial27,uQuantity27,uMaterial28,uQuantity28,uMaterial29,uQuantity29,uMaterial30,uQuantity30
                         ,uUnit21,uUnit22,uUnit23,uUnit24,uUnit25,uUnit26,uUnit27,uUnit28,uUnit29,uUnit30);
 
-                addTotalMaterialTaken(cmp,uConsumerName,uMaterial1,uQuantity1,uMaterial2,uQuantity2,uMaterial3,uQuantity3,uMaterial4,uQuantity4,uMaterial5,uQuantity5,
+                addTotalMaterialTaken(uTeamName,cmp,uConsumerName,uMaterial1,uQuantity1,uMaterial2,uQuantity2,uMaterial3,uQuantity3,uMaterial4,uQuantity4,uMaterial5,uQuantity5,
                         uMaterial6,uQuantity6,uMaterial7,uQuantity7,uMaterial8,uQuantity8,uMaterial9,uQuantity9,uMaterial10,uQuantity10
                         ,uQuantity11,uMaterial12,uQuantity12,uMaterial13,uQuantity13,uMaterial14,uQuantity14,uMaterial15,uQuantity15,
                         uMaterial16,uQuantity16,uMaterial17,uQuantity17,uMaterial18,uQuantity18,uMaterial19,uQuantity19,uMaterial20,uQuantity20
@@ -2372,9 +2353,10 @@ public class AddMaterial extends AppCompatActivity {
                         ,uMaterial21,uQuantity21,uMaterial22,uQuantity22,uMaterial23,uQuantity23,uMaterial24,uQuantity24,uMaterial25,uQuantity25,
                         uMaterial26,uQuantity26,uMaterial27,uQuantity27,uMaterial28,uQuantity28,uMaterial29,uQuantity29,uMaterial30,uQuantity30
                         ,uUnit21,uUnit22,uUnit23,uUnit24,uUnit25,uUnit26,uUnit27,uUnit28,uUnit29,uUnit30);
-                
-                
-                
+
+
+                addTotalMaterialTakenByUser(cmp,uDate,uTeamName,uLine,uTender,uDriverName,uVehicalName,uConsumerName,uSite,materialReceiver,centerS,villageS);
+
             }
         }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -2389,8 +2371,49 @@ public class AddMaterial extends AppCompatActivity {
 
     }
 
-    private void addTotalMaterialTaken(String cmp,String consumerName, String uMaterial1, String uQuantity1, String uMaterial2, String uQuantity2, String uMaterial3, String uQuantity3, String uMaterial4, String uQuantity4, String uMaterial5, String uQuantity5, String uMaterial6, String uQuantity6, String uMaterial7, String uQuantity7, String uMaterial8, String uQuantity8, String uMaterial9, String uQuantity9, String uMaterial10, String uQuantity10, String uQuantity11, String uMaterial12, String uQuantity12, String uMaterial13, String uQuantity13, String uMaterial14, String uQuantity14, String uMaterial15, String uQuantity15, String uMaterial16, String uQuantity16, String uMaterial17, String uQuantity17, String uMaterial18, String uQuantity18, String uMaterial19, String uQuantity19, String uMaterial20, String uQuantity20, String uUnit1, String uUnit2, String uUnit3, String uUnit4, String uUnit5, String uUnit6, String uUnit7, String uUnit8, String uUnit9, String uUnit10, String uUnit11, String uUnit12, String uUnit13, String uUnit14, String uUnit15, String uUnit16, String uUnit17, String uUnit18, String uUnit19, String uUnit20, String uMaterial11, String uMaterial21, String uQuantity21, String uMaterial22, String uQuantity22, String uMaterial23, String uQuantity23, String uMaterial24, String uQuantity24, String uMaterial25, String uQuantity25, String uMaterial26, String uQuantity26, String uMaterial27, String uQuantity27, String uMaterial28, String uQuantity28, String uMaterial29, String uQuantity29, String uMaterial30, String uQuantity30, String uUnit21, String uUnit22, String uUnit23, String uUnit24, String uUnit25, String uUnit26, String uUnit27, String uUnit28, String uUnit29, String uUnit30) {
+    private void addTotalMaterialTakenByUser( String cmp, String uDate, String uTeamName, String uLine, String uTender, String uDriverName,
+                                              String uVehicalName, String uConsumerName, String uSite, String materialReceiver, String centerS, String villageS) {
+        Map<String, Object> doc = new HashMap<>();
+        doc.put("Id",uConsumerName+" "+uTeamName);
 
+        doc.put("Date",uDate);
+        doc.put("Team Name",uTeamName);
+        doc.put("Line",uLine);
+        doc.put("Tender",uTender);
+        doc.put("Driver Name",uDriverName);
+        doc.put("Vehical Name",uVehicalName);
+        doc.put("Consumer Name",uConsumerName);
+        doc.put("Site Name",uSite);
+
+        doc.put("Material Receiver Name",materialReceiver);
+        doc.put("Center",centerS);
+        doc.put("Village",villageS);
+
+        fStore.collection(cmp+" TotalMaterialTaken")
+                .document(uConsumerName+" "+uTeamName)
+                .set(doc).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        //this will be called when data is added Successfully
+                        Toast.makeText(getApplicationContext(), "Total Material Added", Toast.LENGTH_SHORT).show();
+                        animation.setVisibility(View.VISIBLE);
+                        mediaPlayer.start();
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //this will be called when data is added Failed
+                        Toast.makeText(getApplicationContext(), "Failed to add data "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        animation.setVisibility(View.GONE);
+                    }
+                });
+
+
+    }
+
+
+    private void addTotalMaterialTaken(String teamName,String cmp,String consumerName, String uMaterial1, String uQuantity1, String uMaterial2, String uQuantity2, String uMaterial3, String uQuantity3, String uMaterial4, String uQuantity4, String uMaterial5, String uQuantity5, String uMaterial6, String uQuantity6, String uMaterial7, String uQuantity7, String uMaterial8, String uQuantity8, String uMaterial9, String uQuantity9, String uMaterial10, String uQuantity10, String uQuantity11, String uMaterial12, String uQuantity12, String uMaterial13, String uQuantity13, String uMaterial14, String uQuantity14, String uMaterial15, String uQuantity15, String uMaterial16, String uQuantity16, String uMaterial17, String uQuantity17, String uMaterial18, String uQuantity18, String uMaterial19, String uQuantity19, String uMaterial20, String uQuantity20, String uUnit1, String uUnit2, String uUnit3, String uUnit4, String uUnit5, String uUnit6, String uUnit7, String uUnit8, String uUnit9, String uUnit10, String uUnit11, String uUnit12, String uUnit13, String uUnit14, String uUnit15, String uUnit16, String uUnit17, String uUnit18, String uUnit19, String uUnit20, String uMaterial11, String uMaterial21, String uQuantity21, String uMaterial22, String uQuantity22, String uMaterial23, String uQuantity23, String uMaterial24, String uQuantity24, String uMaterial25, String uQuantity25, String uMaterial26, String uQuantity26, String uMaterial27, String uQuantity27, String uMaterial28, String uQuantity28, String uMaterial29, String uQuantity29, String uMaterial30, String uQuantity30, String uUnit21, String uUnit22, String uUnit23, String uUnit24, String uUnit25, String uUnit26, String uUnit27, String uUnit28, String uUnit29, String uUnit30) {
 
         if (modelListTMT.size()!=0){
             for (int i=0;i<modelListTMT.size();i++){
@@ -2398,7 +2421,7 @@ public class AddMaterial extends AppCompatActivity {
                 if (!uMaterial1.equals("")){
                     if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial1)){
                         float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity1);
-                        addTotalMaterialTakenSpecific(uMaterial1,cmp,consumerName,String.valueOf(q),uUnit1);
+                        addTotalMaterialTakenSpecific(uMaterial1,cmp,consumerName,teamName,String.valueOf(q),uUnit1);
                         a1=1;
                     }
                 }
@@ -2406,7 +2429,7 @@ public class AddMaterial extends AppCompatActivity {
                 if (!uMaterial2.equals("")){
                     if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial2)){
                         float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity2);
-                        addTotalMaterialTakenSpecific(uMaterial2,cmp,consumerName,String.valueOf(q),uUnit2);
+                        addTotalMaterialTakenSpecific(uMaterial2,cmp,consumerName,teamName,String.valueOf(q),uUnit2);
                         a2=1;
                     }
                 }
@@ -2414,7 +2437,7 @@ public class AddMaterial extends AppCompatActivity {
                 if (!uMaterial3.equals("")){
                     if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial3)){
                         float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity3);
-                        addTotalMaterialTakenSpecific(uMaterial3,cmp,consumerName,String.valueOf(q),uUnit3);
+                        addTotalMaterialTakenSpecific(uMaterial3,cmp,consumerName,teamName,String.valueOf(q),uUnit3);
                         a3=1;
                     }
 
@@ -2423,7 +2446,7 @@ public class AddMaterial extends AppCompatActivity {
                 if (!uMaterial4.equals("")){
                     if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial4)){
                         float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity4);
-                        addTotalMaterialTakenSpecific(uMaterial4,cmp,consumerName,String.valueOf(q),uUnit4);
+                        addTotalMaterialTakenSpecific(uMaterial4,cmp,consumerName,teamName,String.valueOf(q),uUnit4);
                         a4=1;
                     }
 
@@ -2432,7 +2455,7 @@ public class AddMaterial extends AppCompatActivity {
                 if (!uMaterial5.equals("")){
                     if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial5)){
                         float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity5);
-                        addTotalMaterialTakenSpecific(uMaterial5,cmp,consumerName,String.valueOf(q),uUnit5);
+                        addTotalMaterialTakenSpecific(uMaterial5,cmp,consumerName,teamName,String.valueOf(q),uUnit5);
                         a5=1;
                     }
 
@@ -2441,7 +2464,7 @@ public class AddMaterial extends AppCompatActivity {
                 if (!uMaterial6.equals("")){
                     if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial6)){
                         float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity6);
-                        addTotalMaterialTakenSpecific(uMaterial6,cmp,consumerName,String.valueOf(q),uUnit6);
+                        addTotalMaterialTakenSpecific(uMaterial6,cmp,consumerName,teamName,String.valueOf(q),uUnit6);
                         a6=1;
                     }
 
@@ -2450,7 +2473,7 @@ public class AddMaterial extends AppCompatActivity {
                 if (!uMaterial7.equals("")){
                     if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial7)){
                         float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity7);
-                        addTotalMaterialTakenSpecific(uMaterial7,cmp,consumerName,String.valueOf(q),uUnit7);
+                        addTotalMaterialTakenSpecific(uMaterial7,cmp,consumerName,teamName,String.valueOf(q),uUnit7);
                         a7=1;
                     }
 
@@ -2459,7 +2482,7 @@ public class AddMaterial extends AppCompatActivity {
                 if (!uMaterial8.equals("")){
                     if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial8)){
                         float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity8);
-                        addTotalMaterialTakenSpecific(uMaterial8,cmp,consumerName,String.valueOf(q),uUnit8);
+                        addTotalMaterialTakenSpecific(uMaterial8,cmp,consumerName,teamName,String.valueOf(q),uUnit8);
                         a8=1;
                     }
 
@@ -2468,7 +2491,7 @@ public class AddMaterial extends AppCompatActivity {
                 if (!uMaterial9.equals("")){
                     if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial9)){
                         float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity9);
-                        addTotalMaterialTakenSpecific(uMaterial9,cmp,consumerName,String.valueOf(q),uUnit9);
+                        addTotalMaterialTakenSpecific(uMaterial9,cmp,consumerName,teamName,String.valueOf(q),uUnit9);
                         a9=1;
                     }
 
@@ -2477,7 +2500,7 @@ public class AddMaterial extends AppCompatActivity {
                 if (!uMaterial10.equals("")){
                     if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial10)){
                         float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity10);
-                        addTotalMaterialTakenSpecific(uMaterial10,cmp,consumerName,String.valueOf(q),uUnit10);
+                        addTotalMaterialTakenSpecific(uMaterial10,cmp,consumerName,teamName,String.valueOf(q),uUnit10);
                         a10=1;
                     }
 
@@ -2486,7 +2509,7 @@ public class AddMaterial extends AppCompatActivity {
                 if (!uMaterial11.equals("")){
                     if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial11)){
                         float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity11);
-                        addTotalMaterialTakenSpecific(uMaterial11,cmp,consumerName,String.valueOf(q),uUnit11);
+                        addTotalMaterialTakenSpecific(uMaterial11,cmp,consumerName,teamName,String.valueOf(q),uUnit11);
                         a11=1;
                     }
 
@@ -2495,7 +2518,7 @@ public class AddMaterial extends AppCompatActivity {
                 if (!uMaterial12.equals("")){
                     if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial12)){
                         float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity12);
-                        addTotalMaterialTakenSpecific(uMaterial12,cmp,consumerName,String.valueOf(q),uUnit12);
+                        addTotalMaterialTakenSpecific(uMaterial12,cmp,consumerName,teamName,String.valueOf(q),uUnit12);
                         a12=1;
                     }
 
@@ -2504,7 +2527,7 @@ public class AddMaterial extends AppCompatActivity {
                 if (!uMaterial13.equals("")){
                     if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial13)){
                         float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity13);
-                        addTotalMaterialTakenSpecific(uMaterial13,cmp,consumerName,String.valueOf(q),uUnit13);
+                        addTotalMaterialTakenSpecific(uMaterial13,cmp,consumerName,teamName,String.valueOf(q),uUnit13);
                         a13=1;
                     }
 
@@ -2513,7 +2536,7 @@ public class AddMaterial extends AppCompatActivity {
                 if (!uMaterial14.equals("")){
                     if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial14)){
                         float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity14);
-                        addTotalMaterialTakenSpecific(uMaterial14,cmp,consumerName,String.valueOf(q),uUnit14);
+                        addTotalMaterialTakenSpecific(uMaterial14,cmp,consumerName,teamName,String.valueOf(q),uUnit14);
                         a14=1;
                     }
 
@@ -2522,7 +2545,7 @@ public class AddMaterial extends AppCompatActivity {
                 if (!uMaterial15.equals("")){
                     if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial15)){
                         float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity15);
-                        addTotalMaterialTakenSpecific(uMaterial15,cmp,consumerName,String.valueOf(q),uUnit15);
+                        addTotalMaterialTakenSpecific(uMaterial15,cmp,consumerName,teamName,String.valueOf(q),uUnit15);
                         a15=1;
                     }
 
@@ -2531,7 +2554,7 @@ public class AddMaterial extends AppCompatActivity {
                 if (!uMaterial16.equals("")){
                     if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial16)){
                         float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity16);
-                        addTotalMaterialTakenSpecific(uMaterial16,cmp,consumerName,String.valueOf(q),uUnit16);
+                        addTotalMaterialTakenSpecific(uMaterial16,cmp,consumerName,teamName,String.valueOf(q),uUnit16);
                         a16=1;
                     }
 
@@ -2540,7 +2563,7 @@ public class AddMaterial extends AppCompatActivity {
                 if (!uMaterial17.equals("")){
                     if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial17)){
                         float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity17);
-                        addTotalMaterialTakenSpecific(uMaterial17,cmp,consumerName,String.valueOf(q),uUnit17);
+                        addTotalMaterialTakenSpecific(uMaterial17,cmp,consumerName,teamName,String.valueOf(q),uUnit17);
                         a17=1;
                     }
 
@@ -2549,7 +2572,7 @@ public class AddMaterial extends AppCompatActivity {
                 if (!uMaterial18.equals("")){
                     if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial18)){
                         float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity18);
-                        addTotalMaterialTakenSpecific(uMaterial18,cmp,consumerName,String.valueOf(q),uUnit18);
+                        addTotalMaterialTakenSpecific(uMaterial18,cmp,consumerName,teamName,String.valueOf(q),uUnit18);
                         a18=1;
                     }
 
@@ -2558,7 +2581,7 @@ public class AddMaterial extends AppCompatActivity {
                 if (!uMaterial19.equals("")){
                     if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial19)){
                         float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity19);
-                        addTotalMaterialTakenSpecific(uMaterial19,cmp,consumerName,String.valueOf(q),uUnit19);
+                        addTotalMaterialTakenSpecific(uMaterial19,cmp,consumerName,teamName,String.valueOf(q),uUnit19);
                         a19=1;
                     }
 
@@ -2567,7 +2590,7 @@ public class AddMaterial extends AppCompatActivity {
                 if (!uMaterial20.equals("")){
                     if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial20)){
                         float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity20);
-                        addTotalMaterialTakenSpecific(uMaterial20,cmp,consumerName,String.valueOf(q),uUnit20);
+                        addTotalMaterialTakenSpecific(uMaterial20,cmp,consumerName,teamName,String.valueOf(q),uUnit20);
                         a20=1;
                     }
 
@@ -2576,7 +2599,7 @@ public class AddMaterial extends AppCompatActivity {
                 if (!uMaterial21.equals("")){
                     if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial21)){
                         float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity21);
-                        addTotalMaterialTakenSpecific(uMaterial21,cmp,consumerName,String.valueOf(q),uUnit21);
+                        addTotalMaterialTakenSpecific(uMaterial21,cmp,consumerName,teamName,String.valueOf(q),uUnit21);
                         a21=1;
                     }
 
@@ -2585,7 +2608,7 @@ public class AddMaterial extends AppCompatActivity {
                 if (!uMaterial22.equals("")){
                     if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial22)){
                         float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity22);
-                        addTotalMaterialTakenSpecific(uMaterial22,cmp,consumerName,String.valueOf(q),uUnit22);
+                        addTotalMaterialTakenSpecific(uMaterial22,cmp,consumerName,teamName,String.valueOf(q),uUnit22);
                         a22=1;
                     }
 
@@ -2594,7 +2617,7 @@ public class AddMaterial extends AppCompatActivity {
                 if (!uMaterial23.equals("")){
                     if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial23)){
                         float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity23);
-                        addTotalMaterialTakenSpecific(uMaterial23,cmp,consumerName,String.valueOf(q),uUnit23);
+                        addTotalMaterialTakenSpecific(uMaterial23,cmp,consumerName,teamName,String.valueOf(q),uUnit23);
                         a23=1;
                     }
 
@@ -2603,7 +2626,7 @@ public class AddMaterial extends AppCompatActivity {
                 if (!uMaterial24.equals("")){
                     if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial24)){
                         float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity24);
-                        addTotalMaterialTakenSpecific(uMaterial24,cmp,consumerName,String.valueOf(q),uUnit24);
+                        addTotalMaterialTakenSpecific(uMaterial24,cmp,consumerName,teamName,String.valueOf(q),uUnit24);
                         a24=1;
                     }
 
@@ -2612,7 +2635,7 @@ public class AddMaterial extends AppCompatActivity {
                 if (!uMaterial25.equals("")){
                     if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial25)){
                         float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity25);
-                        addTotalMaterialTakenSpecific(uMaterial25,cmp,consumerName,String.valueOf(q),uUnit25);
+                        addTotalMaterialTakenSpecific(uMaterial25,cmp,consumerName,teamName,String.valueOf(q),uUnit25);
                         a25=1;
                     }
 
@@ -2621,7 +2644,7 @@ public class AddMaterial extends AppCompatActivity {
                 if (!uMaterial26.equals("")){
                     if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial26)){
                         float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity26);
-                        addTotalMaterialTakenSpecific(uMaterial26,cmp,consumerName,String.valueOf(q),uUnit26);
+                        addTotalMaterialTakenSpecific(uMaterial26,cmp,consumerName,teamName,String.valueOf(q),uUnit26);
                         a26=1;
                     }
 
@@ -2630,7 +2653,7 @@ public class AddMaterial extends AppCompatActivity {
                 if (!uMaterial27.equals("")){
                     if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial27)){
                         float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity27);
-                        addTotalMaterialTakenSpecific(uMaterial27,cmp,consumerName,String.valueOf(q),uUnit27);
+                        addTotalMaterialTakenSpecific(uMaterial27,cmp,consumerName,teamName,String.valueOf(q),uUnit27);
                         a27=1;
                     }
 
@@ -2639,7 +2662,7 @@ public class AddMaterial extends AppCompatActivity {
                 if (!uMaterial28.equals("")){
                     if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial28)){
                         float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity28);
-                        addTotalMaterialTakenSpecific(uMaterial28,cmp,consumerName,String.valueOf(q),uUnit28);
+                        addTotalMaterialTakenSpecific(uMaterial28,cmp,consumerName,teamName,String.valueOf(q),uUnit28);
                         a28=1;
                     }
 
@@ -2648,7 +2671,7 @@ public class AddMaterial extends AppCompatActivity {
                 if (!uMaterial29.equals("")){
                     if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial29)){
                         float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity29);
-                        addTotalMaterialTakenSpecific(uMaterial29,cmp,consumerName,String.valueOf(q),uUnit29);
+                        addTotalMaterialTakenSpecific(uMaterial29,cmp,consumerName,teamName,String.valueOf(q),uUnit29);
                         a29=1;
                     }
 
@@ -2657,7 +2680,7 @@ public class AddMaterial extends AppCompatActivity {
                 if (!uMaterial30.equals("")){
                     if (modelListTMT.get(i).getMaterial().equalsIgnoreCase(uMaterial30)){
                         float q = Float.parseFloat(modelListTMT.get(i).getQuantity()) + Float.parseFloat(uQuantity30);
-                        addTotalMaterialTakenSpecific(uMaterial30,cmp,consumerName,String.valueOf(q),uUnit30);
+                        addTotalMaterialTakenSpecific(uMaterial30,cmp,consumerName,teamName,String.valueOf(q),uUnit30);
                         a30=1;
                     }
 
@@ -2667,232 +2690,232 @@ public class AddMaterial extends AppCompatActivity {
             }
 
             if (a1==0 && !uMaterial1.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial1,cmp,consumerName,uQuantity1,uUnit1);
+                addTotalMaterialTakenSpecific(uMaterial1,cmp,consumerName,teamName,uQuantity1,uUnit1);
             }
 
             if (a2==0 && !uMaterial2.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial2,cmp,consumerName,uQuantity2,uUnit2);
+                addTotalMaterialTakenSpecific(uMaterial2,cmp,consumerName,teamName,uQuantity2,uUnit2);
             }
             if (a3==0 && !uMaterial3.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial3,cmp,consumerName,uQuantity3,uUnit3);
+                addTotalMaterialTakenSpecific(uMaterial3,cmp,consumerName,teamName,uQuantity3,uUnit3);
             }
 
             if (a4==0 && !uMaterial4.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial4,cmp,consumerName,uQuantity4,uUnit4);
+                addTotalMaterialTakenSpecific(uMaterial4,cmp,consumerName,teamName,uQuantity4,uUnit4);
             }
 
             if (a5==0 && !uMaterial5.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial5,cmp,consumerName,uQuantity5,uUnit5);
+                addTotalMaterialTakenSpecific(uMaterial5,cmp,consumerName,teamName,uQuantity5,uUnit5);
             }
 
             if (a6==0 && !uMaterial6.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial6,cmp,consumerName,uQuantity6,uUnit6);
+                addTotalMaterialTakenSpecific(uMaterial6,cmp,consumerName,teamName,uQuantity6,uUnit6);
             }
 
             if (a7==0 && !uMaterial7.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial7,cmp,consumerName,uQuantity7,uUnit7);
+                addTotalMaterialTakenSpecific(uMaterial7,cmp,consumerName,teamName,uQuantity7,uUnit7);
             }
 
             if (a8==0 && !uMaterial8.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial8,cmp,consumerName,uQuantity8,uUnit8);
+                addTotalMaterialTakenSpecific(uMaterial8,cmp,consumerName,teamName,uQuantity8,uUnit8);
             }
 
             if (a9==0 && !uMaterial9.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial9,cmp,consumerName,uQuantity9,uUnit9);
+                addTotalMaterialTakenSpecific(uMaterial9,cmp,consumerName,teamName,uQuantity9,uUnit9);
             }
 
             if (a10==0 && !uMaterial10.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial10,cmp,consumerName,uQuantity10,uUnit10);
+                addTotalMaterialTakenSpecific(uMaterial10,cmp,consumerName,teamName,uQuantity10,uUnit10);
             }
 
             if (a11==0 && !uMaterial11.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial11,cmp,consumerName,uQuantity11,uUnit11);
+                addTotalMaterialTakenSpecific(uMaterial11,cmp,consumerName,teamName,uQuantity11,uUnit11);
             }
 
             if (a12==0 && !uMaterial12.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial12,cmp,consumerName,uQuantity12,uUnit12);
+                addTotalMaterialTakenSpecific(uMaterial12,cmp,consumerName,teamName,uQuantity12,uUnit12);
             }
 
             if (a13==0 && !uMaterial13.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial13,cmp,consumerName,uQuantity13,uUnit13);
+                addTotalMaterialTakenSpecific(uMaterial13,cmp,consumerName,teamName,uQuantity13,uUnit13);
             }
 
             if (a14==0 && !uMaterial14.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial14,cmp,consumerName,uQuantity14,uUnit14);
+                addTotalMaterialTakenSpecific(uMaterial14,cmp,consumerName,teamName,uQuantity14,uUnit14);
             }
 
             if (a15==0 && !uMaterial15.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial15,cmp,consumerName,uQuantity15,uUnit15);
+                addTotalMaterialTakenSpecific(uMaterial15,cmp,consumerName,teamName,uQuantity15,uUnit15);
             }
 
             if (a16==0 && !uMaterial16.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial16,cmp,consumerName,uQuantity16,uUnit16);
+                addTotalMaterialTakenSpecific(uMaterial16,cmp,consumerName,teamName,uQuantity16,uUnit16);
             }
 
             if (a17==0 && !uMaterial17.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial17,cmp,consumerName,uQuantity17,uUnit17);
+                addTotalMaterialTakenSpecific(uMaterial17,cmp,consumerName,teamName,uQuantity17,uUnit17);
             }
 
             if (a18==0 && !uMaterial18.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial18,cmp,consumerName,uQuantity18,uUnit18);
+                addTotalMaterialTakenSpecific(uMaterial18,cmp,consumerName,teamName,uQuantity18,uUnit18);
             }
 
             if (a19==0 && !uMaterial19.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial19,cmp,consumerName,uQuantity19,uUnit19);
+                addTotalMaterialTakenSpecific(uMaterial19,cmp,consumerName,teamName,uQuantity19,uUnit19);
             }
 
             if (a20==0 && !uMaterial20.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial20,cmp,consumerName,uQuantity20,uUnit20);
+                addTotalMaterialTakenSpecific(uMaterial20,cmp,consumerName,teamName,uQuantity20,uUnit20);
             }
 
             if (a21==0 && !uMaterial21.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial21,cmp,consumerName,uQuantity21,uUnit21);
+                addTotalMaterialTakenSpecific(uMaterial21,cmp,consumerName,teamName,uQuantity21,uUnit21);
             }
 
             if (a22==0 && !uMaterial22.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial22,cmp,consumerName,uQuantity22,uUnit22);
+                addTotalMaterialTakenSpecific(uMaterial22,cmp,consumerName,teamName,uQuantity22,uUnit22);
             }
 
             if (a23==0 && !uMaterial23.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial23,cmp,consumerName,uQuantity23,uUnit23);
+                addTotalMaterialTakenSpecific(uMaterial23,cmp,consumerName,teamName,uQuantity23,uUnit23);
             }
 
             if (a24==0 && !uMaterial24.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial24,cmp,consumerName,uQuantity24,uUnit24);
+                addTotalMaterialTakenSpecific(uMaterial24,cmp,consumerName,teamName,uQuantity24,uUnit24);
             }
 
             if (a25==0 && !uMaterial25.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial25,cmp,consumerName,uQuantity25,uUnit25);
+                addTotalMaterialTakenSpecific(uMaterial25,cmp,consumerName,teamName,uQuantity25,uUnit25);
             }
 
             if (a26==0 && !uMaterial26.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial26,cmp,consumerName,uQuantity26,uUnit26);
+                addTotalMaterialTakenSpecific(uMaterial26,cmp,consumerName,teamName,uQuantity26,uUnit26);
             }
 
             if (a27==0 && !uMaterial27.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial27,cmp,consumerName,uQuantity27,uUnit27);
+                addTotalMaterialTakenSpecific(uMaterial27,cmp,consumerName,teamName,uQuantity27,uUnit27);
             }
 
             if (a28==0 && !uMaterial28.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial28,cmp,consumerName,uQuantity28,uUnit28);
+                addTotalMaterialTakenSpecific(uMaterial28,cmp,consumerName,teamName,uQuantity28,uUnit28);
             }
 
             if (a29==0 && !uMaterial29.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial29,cmp,consumerName,uQuantity29,uUnit29);
+                addTotalMaterialTakenSpecific(uMaterial29,cmp,consumerName,teamName,uQuantity29,uUnit29);
             }
 
             if (a30==0 && !uMaterial30.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial30,cmp,consumerName,uQuantity30,uUnit30);
+                addTotalMaterialTakenSpecific(uMaterial30,cmp,consumerName,teamName,uQuantity30,uUnit30);
             }
 
         }
         else{
 
             if (!uMaterial1.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial1,cmp,consumerName,uQuantity1,uUnit1);
+                addTotalMaterialTakenSpecific(uMaterial1,cmp,consumerName,teamName,uQuantity1,uUnit1);
             }
             if (!uMaterial2.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial2,cmp,consumerName,uQuantity2,uUnit2);
+                addTotalMaterialTakenSpecific(uMaterial2,cmp,consumerName,teamName,uQuantity2,uUnit2);
             }
             if (!uMaterial3.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial3,cmp,consumerName,uQuantity3,uUnit3);
+                addTotalMaterialTakenSpecific(uMaterial3,cmp,consumerName,teamName,uQuantity3,uUnit3);
             }
             if (!uMaterial4.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial4,cmp,consumerName,uQuantity4,uUnit4);
+                addTotalMaterialTakenSpecific(uMaterial4,cmp,consumerName,teamName,uQuantity4,uUnit4);
             }
             if (!uMaterial5.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial5,cmp,consumerName,uQuantity5,uUnit5);
+                addTotalMaterialTakenSpecific(uMaterial5,cmp,consumerName,teamName,uQuantity5,uUnit5);
             }
             if (!uMaterial6.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial6,cmp,consumerName,uQuantity6,uUnit6);
+                addTotalMaterialTakenSpecific(uMaterial6,cmp,consumerName,teamName,uQuantity6,uUnit6);
             }
             if (!uMaterial7.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial7,cmp,consumerName,uQuantity7,uUnit7);
+                addTotalMaterialTakenSpecific(uMaterial7,cmp,consumerName,teamName,uQuantity7,uUnit7);
             }
             if (!uMaterial8.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial8,cmp,consumerName,uQuantity8,uUnit8);
+                addTotalMaterialTakenSpecific(uMaterial8,cmp,consumerName,teamName,uQuantity8,uUnit8);
             }
             if (!uMaterial9.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial9,cmp,consumerName,uQuantity9,uUnit9);
+                addTotalMaterialTakenSpecific(uMaterial9,cmp,consumerName,teamName,uQuantity9,uUnit9);
             }
             if (!uMaterial10.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial10,cmp,consumerName,uQuantity10,uUnit10);
+                addTotalMaterialTakenSpecific(uMaterial10,cmp,consumerName,teamName,uQuantity10,uUnit10);
             }
             if (!uMaterial11.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial11,cmp,consumerName,uQuantity11,uUnit11);
+                addTotalMaterialTakenSpecific(uMaterial11,cmp,consumerName,teamName,uQuantity11,uUnit11);
             }
             if (!uMaterial12.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial12,cmp,consumerName,uQuantity12,uUnit12);
+                addTotalMaterialTakenSpecific(uMaterial12,cmp,consumerName,teamName,uQuantity12,uUnit12);
             }
             if (!uMaterial13.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial13,cmp,consumerName,uQuantity13,uUnit13);
+                addTotalMaterialTakenSpecific(uMaterial13,cmp,consumerName,teamName,uQuantity13,uUnit13);
             }
             if (!uMaterial14.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial14,cmp,consumerName,uQuantity14,uUnit14);
+                addTotalMaterialTakenSpecific(uMaterial14,cmp,consumerName,teamName,uQuantity14,uUnit14);
             }
             if (!uMaterial15.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial15,cmp,consumerName,uQuantity15,uUnit15);
+                addTotalMaterialTakenSpecific(uMaterial15,cmp,consumerName,teamName,uQuantity15,uUnit15);
             }
             if (!uMaterial16.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial16,cmp,consumerName,uQuantity16,uUnit16);
+                addTotalMaterialTakenSpecific(uMaterial16,cmp,consumerName,teamName,uQuantity16,uUnit16);
             }
             if (!uMaterial17.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial17,cmp,consumerName,uQuantity17,uUnit17);
+                addTotalMaterialTakenSpecific(uMaterial17,cmp,consumerName,teamName,uQuantity17,uUnit17);
             }
             if (!uMaterial18.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial18,cmp,consumerName,uQuantity18,uUnit18);
+                addTotalMaterialTakenSpecific(uMaterial18,cmp,consumerName,teamName,uQuantity18,uUnit18);
             }
             if (!uMaterial19.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial19,cmp,consumerName,uQuantity19,uUnit19);
+                addTotalMaterialTakenSpecific(uMaterial19,cmp,consumerName,teamName,uQuantity19,uUnit19);
             }
             if (!uMaterial20.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial20,cmp,consumerName,uQuantity20,uUnit20);
+                addTotalMaterialTakenSpecific(uMaterial20,cmp,consumerName,teamName,uQuantity20,uUnit20);
             }
             if (!uMaterial21.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial21,cmp,consumerName,uQuantity21,uUnit21);
+                addTotalMaterialTakenSpecific(uMaterial21,cmp,consumerName,teamName,uQuantity21,uUnit21);
             }
             if (!uMaterial22.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial22,cmp,consumerName,uQuantity22,uUnit22);
+                addTotalMaterialTakenSpecific(uMaterial22,cmp,consumerName,teamName,uQuantity22,uUnit22);
             }
             if (!uMaterial23.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial23,cmp,consumerName,uQuantity23,uUnit23);
+                addTotalMaterialTakenSpecific(uMaterial23,cmp,consumerName,teamName,uQuantity23,uUnit23);
             }
             if (!uMaterial24.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial24,cmp,consumerName,uQuantity24,uUnit24);
+                addTotalMaterialTakenSpecific(uMaterial24,cmp,consumerName,teamName,uQuantity24,uUnit24);
             }
             if (!uMaterial25.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial25,cmp,consumerName,uQuantity25,uUnit25);
+                addTotalMaterialTakenSpecific(uMaterial25,cmp,consumerName,teamName,uQuantity25,uUnit25);
             }
             if (!uMaterial26.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial26,cmp,consumerName,uQuantity26,uUnit26);
+                addTotalMaterialTakenSpecific(uMaterial26,cmp,consumerName,teamName,uQuantity26,uUnit26);
             }
             if (!uMaterial27.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial27,cmp,consumerName,uQuantity27,uUnit27);
+                addTotalMaterialTakenSpecific(uMaterial27,cmp,consumerName,teamName,uQuantity27,uUnit27);
             }
             if (!uMaterial28.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial28,cmp,consumerName,uQuantity28,uUnit28);
+                addTotalMaterialTakenSpecific(uMaterial28,cmp,consumerName,teamName,uQuantity28,uUnit28);
             }
             if (!uMaterial29.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial29,cmp,consumerName,uQuantity29,uUnit29);
+                addTotalMaterialTakenSpecific(uMaterial29,cmp,consumerName,teamName,uQuantity29,uUnit29);
             }
             if (!uMaterial30.equals("")){
-                addTotalMaterialTakenSpecific(uMaterial30,cmp,consumerName,uQuantity30,uUnit30);
+                addTotalMaterialTakenSpecific(uMaterial30,cmp,consumerName,teamName,uQuantity30,uUnit30);
             }
 
         }
 
     }
 
-    private void addTotalMaterialTakenSpecific(String material, String cmp, String consumerName, String quantity,String unit) {
-
-
+    private void addTotalMaterialTakenSpecific(String material, String cmp, String consumerName, String teamName, String quantity,String unit) {
         Map<String, Object> doc = new HashMap<>();
         doc.put("Id",material);
         doc.put("Material",material);
         doc.put("Unit",unit);
         doc.put("Quantity",quantity);
 
-        fStore.collection(cmp+" "+consumerName).document(material).set(doc).addOnCompleteListener(new OnCompleteListener<Void>() {
+        fStore.collection(cmp+" TotalMaterialTaken")
+                .document(consumerName+" "+teamName).collection("MaterialDetails")
+                .document(material).set(doc).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 //this will be called when data is added Successfully
@@ -2958,25 +2981,11 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit1)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(quantity1S) - Float.parseFloat(uQuantity1);
                     addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                    if (a<5){
-                        sendMail(cmp,modelList.get(i).getMaterial());
-                    }
                 }
                 else {
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial1)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float oldQuantity = Float.parseFloat(quantity1S);
-                            float quantity = Float.parseFloat(uQuantity1);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float oldDivision = (oldQuantity / conversion);
-                            float division = (quantity / conversion);
-                            float result = stock - division + oldDivision ;
-                            addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                            if (result<5){
-                                sendMail(cmp,modelList.get(i).getMaterial());
-
-                            }
+                            calculatingStockUpdateInElseLoop(modelList.get(i).getUnit(),quantity1S,uQuantity1,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity());
                         }
 
                     }
@@ -2988,25 +2997,12 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit2)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(quantity2S) - Float.parseFloat(uQuantity2);
                     addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                    if (a<5){
-                        sendMail(cmp,modelList.get(i).getMaterial());
-                    }
                 }
                 else {
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial2)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float oldQuantity = Float.parseFloat(quantity2S);
-                            float quantity = Float.parseFloat(uQuantity2);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float oldDivision = (oldQuantity / conversion);
-                            float division = (quantity / conversion);
-                            float result = stock - division + oldDivision ;
-                            addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                            if (result<5){
-                                sendMail(cmp,modelList.get(i).getMaterial());
+                            calculatingStockUpdateInElseLoop(modelList.get(i).getUnit(),quantity2S,uQuantity2,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity());
 
-                            }
                         }
 
                     }
@@ -3018,25 +3014,13 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit3)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(quantity3S) - Float.parseFloat(uQuantity3);
                     addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                    if (a<5){
-                        sendMail(cmp,modelList.get(i).getMaterial());
-                    }
+
                 }
                 else {
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial3)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float oldQuantity = Float.parseFloat(quantity3S);
-                            float quantity = Float.parseFloat(uQuantity3);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float oldDivision = (oldQuantity / conversion);
-                            float division = (quantity / conversion);
-                            float result = stock - division + oldDivision ;
-                            addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                            if (result<5){
-                                sendMail(cmp,modelList.get(i).getMaterial());
+                            calculatingStockUpdateInElseLoop(modelList.get(i).getUnit(),quantity3S,uQuantity3,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity());
 
-                            }
                         }
 
                     }
@@ -3048,25 +3032,12 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit4)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(quantity4S) - Float.parseFloat(uQuantity4);
                     addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                    if (a<5){
-                        sendMail(cmp,modelList.get(i).getMaterial());
-                    }
                 }
                 else {
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial4)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float oldQuantity = Float.parseFloat(quantity4S);
-                            float quantity = Float.parseFloat(uQuantity4);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float oldDivision = (oldQuantity / conversion);
-                            float division = (quantity / conversion);
-                            float result = stock - division + oldDivision ;
-                            addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                            if (result<5){
-                                sendMail(cmp,modelList.get(i).getMaterial());
+                            calculatingStockUpdateInElseLoop(modelList.get(i).getUnit(),quantity4S,uQuantity4,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity());
 
-                            }
                         }
 
                     }
@@ -3079,25 +3050,12 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit5)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(quantity5S) - Float.parseFloat(uQuantity5);
                     addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                    if (a<5){
-                        sendMail(cmp,modelList.get(i).getMaterial());
-                    }
                 }
                 else {
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial5)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float oldQuantity = Float.parseFloat(quantity5S);
-                            float quantity = Float.parseFloat(uQuantity5);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float oldDivision = (oldQuantity / conversion);
-                            float division = (quantity / conversion);
-                            float result = stock - division + oldDivision ;
-                            addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                            if (result<5){
-                                sendMail(cmp,modelList.get(i).getMaterial());
+                            calculatingStockUpdateInElseLoop(modelList.get(i).getUnit(),quantity5S,uQuantity5,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity());
 
-                            }
                         }
 
                     }
@@ -3110,25 +3068,11 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit6)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(quantity6S) - Float.parseFloat(uQuantity6);
                     addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                    if (a<5){
-                        sendMail(cmp,modelList.get(i).getMaterial());
-                    }
                 }
                 else {
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial6)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float oldQuantity = Float.parseFloat(quantity6S);
-                            float quantity = Float.parseFloat(uQuantity6);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float oldDivision = (oldQuantity / conversion);
-                            float division = (quantity / conversion);
-                            float result = stock - division + oldDivision ;
-                            addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                            if (result<5){
-                                sendMail(cmp,modelList.get(i).getMaterial());
-
-                            }
+                            calculatingStockUpdateInElseLoop(modelList.get(i).getUnit(),quantity6S,uQuantity6,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity());
                         }
 
                     }
@@ -3140,25 +3084,12 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit7)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(quantity7S) - Float.parseFloat(uQuantity7);
                     addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                    if (a<5){
-                        sendMail(cmp,modelList.get(i).getMaterial());
-                    }
                 }
                 else {
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial7)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float oldQuantity = Float.parseFloat(quantity7S);
-                            float quantity = Float.parseFloat(uQuantity7);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float oldDivision = (oldQuantity / conversion);
-                            float division = (quantity / conversion);
-                            float result = stock - division + oldDivision ;
-                            addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                            if (result<5){
-                                sendMail(cmp,modelList.get(i).getMaterial());
+                            calculatingStockUpdateInElseLoop(modelList.get(i).getUnit(),quantity7S,uQuantity7,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity());
 
-                            }
                         }
 
                     }
@@ -3170,25 +3101,12 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit8)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(quantity8S) - Float.parseFloat(uQuantity8);
                     addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                    if (a<5){
-                        sendMail(cmp,modelList.get(i).getMaterial());
-                    }
                 }
                 else {
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial8)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float oldQuantity = Float.parseFloat(quantity8S);
-                            float quantity = Float.parseFloat(uQuantity8);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float oldDivision = (oldQuantity / conversion);
-                            float division = (quantity / conversion);
-                            float result = stock - division + oldDivision ;
-                            addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                            if (result<5){
-                                sendMail(cmp,modelList.get(i).getMaterial());
+                            calculatingStockUpdateInElseLoop(modelList.get(i).getUnit(),quantity8S,uQuantity8,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity());
 
-                            }
                         }
 
                     }
@@ -3200,25 +3118,13 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit9)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(quantity9S) - Float.parseFloat(uQuantity9);
                     addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                    if (a<5){
-                        sendMail(cmp,modelList.get(i).getMaterial());
-                    }
+
                 }
                 else {
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial9)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float oldQuantity = Float.parseFloat(quantity9S);
-                            float quantity = Float.parseFloat(uQuantity9);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float oldDivision = (oldQuantity / conversion);
-                            float division = (quantity / conversion);
-                            float result = stock - division + oldDivision ;
-                            addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                            if (result<5){
-                                sendMail(cmp,modelList.get(i).getMaterial());
+                            calculatingStockUpdateInElseLoop(modelList.get(i).getUnit(),quantity9S,uQuantity9,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity());
 
-                            }
                         }
 
                     }
@@ -3230,25 +3136,13 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit10)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(quantity10S) - Float.parseFloat(uQuantity10);
                     addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                    if (a<5){
-                        sendMail(cmp,modelList.get(i).getMaterial());
-                    }
+
                 }
                 else {
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial10)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float oldQuantity = Float.parseFloat(quantity10S);
-                            float quantity = Float.parseFloat(uQuantity10);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float oldDivision = (oldQuantity / conversion);
-                            float division = (quantity / conversion);
-                            float result = stock - division + oldDivision ;
-                            addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                            if (result<5){
-                                sendMail(cmp,modelList.get(i).getMaterial());
+                            calculatingStockUpdateInElseLoop(modelList.get(i).getUnit(),quantity10S,uQuantity10,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity());
 
-                            }
                         }
 
                     }
@@ -3260,25 +3154,12 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit11)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(quantity11S) - Float.parseFloat(uQuantity11);
                     addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                    if (a<5){
-                        sendMail(cmp,modelList.get(i).getMaterial());
-                    }
                 }
                 else {
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial11)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float oldQuantity = Float.parseFloat(quantity11S);
-                            float quantity = Float.parseFloat(uQuantity11);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float oldDivision = (oldQuantity / conversion);
-                            float division = (quantity / conversion);
-                            float result = stock - division + oldDivision ;
-                            addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                            if (result<5){
-                                sendMail(cmp,modelList.get(i).getMaterial());
+                            calculatingStockUpdateInElseLoop(modelList.get(i).getUnit(),quantity11S,uQuantity11,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity());
 
-                            }
                         }
 
                     }
@@ -3290,25 +3171,12 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit12)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(quantity12S) - Float.parseFloat(uQuantity12);
                     addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                    if (a<5){
-                        sendMail(cmp,modelList.get(i).getMaterial());
-                    }
                 }
                 else {
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial12)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float oldQuantity = Float.parseFloat(quantity12S);
-                            float quantity = Float.parseFloat(uQuantity12);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float oldDivision = (oldQuantity / conversion);
-                            float division = (quantity / conversion);
-                            float result = stock - division + oldDivision ;
-                            addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                            if (result<5){
-                                sendMail(cmp,modelList.get(i).getMaterial());
+                            calculatingStockUpdateInElseLoop(modelList.get(i).getUnit(),quantity12S,uQuantity12,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity());
 
-                            }
                         }
 
                     }
@@ -3320,25 +3188,12 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit13)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(quantity13S) - Float.parseFloat(uQuantity13);
                     addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                    if (a<5){
-                        sendMail(cmp,modelList.get(i).getMaterial());
-                    }
                 }
                 else {
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial13)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float oldQuantity = Float.parseFloat(quantity13S);
-                            float quantity = Float.parseFloat(uQuantity13);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float oldDivision = (oldQuantity / conversion);
-                            float division = (quantity / conversion);
-                            float result = stock - division + oldDivision ;
-                            addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                            if (result<5){
-                                sendMail(cmp,modelList.get(i).getMaterial());
+                            calculatingStockUpdateInElseLoop(modelList.get(i).getUnit(),quantity13S,uQuantity13,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity());
 
-                            }
                         }
 
                     }
@@ -3350,25 +3205,12 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit14)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(quantity14S) - Float.parseFloat(uQuantity14);
                     addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                    if (a<5){
-                        sendMail(cmp,modelList.get(i).getMaterial());
-                    }
                 }
                 else {
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial14)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float oldQuantity = Float.parseFloat(quantity14S);
-                            float quantity = Float.parseFloat(uQuantity14);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float oldDivision = (oldQuantity / conversion);
-                            float division = (quantity / conversion);
-                            float result = stock - division + oldDivision ;
-                            addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                            if (result<5){
-                                sendMail(cmp,modelList.get(i).getMaterial());
+                            calculatingStockUpdateInElseLoop(modelList.get(i).getUnit(),quantity14S,uQuantity14,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity());
 
-                            }
                         }
 
                     }
@@ -3380,25 +3222,12 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit15)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(quantity15S) - Float.parseFloat(uQuantity15);
                     addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                    if (a<5){
-                        sendMail(cmp,modelList.get(i).getMaterial());
-                    }
                 }
                 else {
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial15)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float oldQuantity = Float.parseFloat(quantity15S);
-                            float quantity = Float.parseFloat(uQuantity15);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float oldDivision = (oldQuantity / conversion);
-                            float division = (quantity / conversion);
-                            float result = stock - division + oldDivision ;
-                            addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                            if (result<5){
-                                sendMail(cmp,modelList.get(i).getMaterial());
+                            calculatingStockUpdateInElseLoop(modelList.get(i).getUnit(),quantity15S,uQuantity15,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity());
 
-                            }
                         }
 
                     }
@@ -3410,25 +3239,12 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit16)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(quantity16S) - Float.parseFloat(uQuantity16);
                     addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                    if (a<5){
-                        sendMail(cmp,modelList.get(i).getMaterial());
-                    }
                 }
                 else {
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial16)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float oldQuantity = Float.parseFloat(quantity16S);
-                            float quantity = Float.parseFloat(uQuantity16);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float oldDivision = (oldQuantity / conversion);
-                            float division = (quantity / conversion);
-                            float result = stock - division + oldDivision ;
-                            addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                            if (result<5){
-                                sendMail(cmp,modelList.get(i).getMaterial());
+                            calculatingStockUpdateInElseLoop(modelList.get(i).getUnit(),quantity16S,uQuantity16,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity());
 
-                            }
                         }
 
                     }
@@ -3440,25 +3256,12 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit17)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(quantity17S) - Float.parseFloat(uQuantity17);
                     addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                    if (a<5){
-                        sendMail(cmp,modelList.get(i).getMaterial());
-                    }
                 }
                 else {
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial17)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float oldQuantity = Float.parseFloat(quantity17S);
-                            float quantity = Float.parseFloat(uQuantity17);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float oldDivision = (oldQuantity / conversion);
-                            float division = (quantity / conversion);
-                            float result = stock - division + oldDivision ;
-                            addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                            if (result<5){
-                                sendMail(cmp,modelList.get(i).getMaterial());
+                            calculatingStockUpdateInElseLoop(modelList.get(i).getUnit(),quantity17S,uQuantity17,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity());
 
-                            }
                         }
 
                     }
@@ -3470,25 +3273,12 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit18)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(quantity18S) - Float.parseFloat(uQuantity18);
                     addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                    if (a<5){
-                        sendMail(cmp,modelList.get(i).getMaterial());
-                    }
                 }
                 else {
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial18)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float oldQuantity = Float.parseFloat(quantity18S);
-                            float quantity = Float.parseFloat(uQuantity18);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float oldDivision = (oldQuantity / conversion);
-                            float division = (quantity / conversion);
-                            float result = stock - division + oldDivision ;
-                            addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                            if (result<5){
-                                sendMail(cmp,modelList.get(i).getMaterial());
+                            calculatingStockUpdateInElseLoop(modelList.get(i).getUnit(),quantity18S,uQuantity18,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity());
 
-                            }
                         }
 
                     }
@@ -3500,25 +3290,12 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit19)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(quantity19S) - Float.parseFloat(uQuantity19);
                     addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                    if (a<5){
-                        sendMail(cmp,modelList.get(i).getMaterial());
-                    }
                 }
                 else {
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial19)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float oldQuantity = Float.parseFloat(quantity19S);
-                            float quantity = Float.parseFloat(uQuantity19);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float oldDivision = (oldQuantity / conversion);
-                            float division = (quantity / conversion);
-                            float result = stock - division + oldDivision ;
-                            addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                            if (result<5){
-                                sendMail(cmp,modelList.get(i).getMaterial());
+                            calculatingStockUpdateInElseLoop(modelList.get(i).getUnit(),quantity19S,uQuantity19,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity());
 
-                            }
                         }
 
                     }
@@ -3530,25 +3307,12 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit20)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(quantity20S) - Float.parseFloat(uQuantity20);
                     addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                    if (a<5){
-                        sendMail(cmp,modelList.get(i).getMaterial());
-                    }
                 }
                 else {
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial20)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float oldQuantity = Float.parseFloat(quantity20S);
-                            float quantity = Float.parseFloat(uQuantity20);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float oldDivision = (oldQuantity / conversion);
-                            float division = (quantity / conversion);
-                            float result = stock - division + oldDivision ;
-                            addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                            if (result<5){
-                                sendMail(cmp,modelList.get(i).getMaterial());
+                            calculatingStockUpdateInElseLoop(modelList.get(i).getUnit(),quantity20S,uQuantity20,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity());
 
-                            }
                         }
 
                     }
@@ -3560,25 +3324,12 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit21)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(quantity21S) - Float.parseFloat(uQuantity21);
                     addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                    if (a<5){
-                        sendMail(cmp,modelList.get(i).getMaterial());
-                    }
                 }
                 else {
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial21)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float oldQuantity = Float.parseFloat(quantity21S);
-                            float quantity = Float.parseFloat(uQuantity21);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float oldDivision = (oldQuantity / conversion);
-                            float division = (quantity / conversion);
-                            float result = stock - division + oldDivision ;
-                            addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                            if (result<5){
-                                sendMail(cmp,modelList.get(i).getMaterial());
+                            calculatingStockUpdateInElseLoop(modelList.get(i).getUnit(),quantity21S,uQuantity21,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity());
 
-                            }
                         }
 
                     }
@@ -3590,25 +3341,12 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit22)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(quantity22S) - Float.parseFloat(uQuantity22);
                     addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                    if (a<5){
-                        sendMail(cmp,modelList.get(i).getMaterial());
-                    }
                 }
                 else {
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial22)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float oldQuantity = Float.parseFloat(quantity22S);
-                            float quantity = Float.parseFloat(uQuantity22);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float oldDivision = (oldQuantity / conversion);
-                            float division = (quantity / conversion);
-                            float result = stock - division + oldDivision ;
-                            addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                            if (result<5){
-                                sendMail(cmp,modelList.get(i).getMaterial());
+                            calculatingStockUpdateInElseLoop(modelList.get(i).getUnit(),quantity22S,uQuantity22,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity());
 
-                            }
                         }
 
                     }
@@ -3620,25 +3358,12 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit23)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(quantity23S) - Float.parseFloat(uQuantity23);
                     addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                    if (a<5){
-                        sendMail(cmp,modelList.get(i).getMaterial());
-                    }
                 }
                 else {
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial23)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float oldQuantity = Float.parseFloat(quantity23S);
-                            float quantity = Float.parseFloat(uQuantity23);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float oldDivision = (oldQuantity / conversion);
-                            float division = (quantity / conversion);
-                            float result = stock - division + oldDivision ;
-                            addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                            if (result<5){
-                                sendMail(cmp,modelList.get(i).getMaterial());
+                            calculatingStockUpdateInElseLoop(modelList.get(i).getUnit(),quantity23S,uQuantity23,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity());
 
-                            }
                         }
 
                     }
@@ -3650,25 +3375,13 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit24)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(quantity24S) - Float.parseFloat(uQuantity24);
                     addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                    if (a<5){
-                        sendMail(cmp,modelList.get(i).getMaterial());
-                    }
+
                 }
                 else {
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial24)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float oldQuantity = Float.parseFloat(quantity24S);
-                            float quantity = Float.parseFloat(uQuantity24);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float oldDivision = (oldQuantity / conversion);
-                            float division = (quantity / conversion);
-                            float result = stock - division + oldDivision ;
-                            addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                            if (result<5){
-                                sendMail(cmp,modelList.get(i).getMaterial());
+                            calculatingStockUpdateInElseLoop(modelList.get(i).getUnit(),quantity24S,uQuantity24,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity());
 
-                            }
                         }
 
                     }
@@ -3680,25 +3393,12 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit25)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(quantity25S) - Float.parseFloat(uQuantity25);
                     addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                    if (a<5){
-                        sendMail(cmp,modelList.get(i).getMaterial());
-                    }
                 }
                 else {
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial25)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float oldQuantity = Float.parseFloat(quantity25S);
-                            float quantity = Float.parseFloat(uQuantity25);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float oldDivision = (oldQuantity / conversion);
-                            float division = (quantity / conversion);
-                            float result = stock - division + oldDivision ;
-                            addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                            if (result<5){
-                                sendMail(cmp,modelList.get(i).getMaterial());
+                            calculatingStockUpdateInElseLoop(modelList.get(i).getUnit(),quantity25S,uQuantity25,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity());
 
-                            }
                         }
 
                     }
@@ -3710,25 +3410,12 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit26)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(quantity26S) - Float.parseFloat(uQuantity26);
                     addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                    if (a<5){
-                        sendMail(cmp,modelList.get(i).getMaterial());
-                    }
                 }
                 else {
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial26)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float oldQuantity = Float.parseFloat(quantity26S);
-                            float quantity = Float.parseFloat(uQuantity26);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float oldDivision = (oldQuantity / conversion);
-                            float division = (quantity / conversion);
-                            float result = stock - division + oldDivision ;
-                            addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                            if (result<5){
-                                sendMail(cmp,modelList.get(i).getMaterial());
+                            calculatingStockUpdateInElseLoop(modelList.get(i).getUnit(),quantity26S,uQuantity26,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity());
 
-                            }
                         }
 
                     }
@@ -3740,25 +3427,12 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit27)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(quantity27S) - Float.parseFloat(uQuantity27);
                     addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                    if (a<5){
-                        sendMail(cmp,modelList.get(i).getMaterial());
-                    }
                 }
                 else {
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial27)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float oldQuantity = Float.parseFloat(quantity27S);
-                            float quantity = Float.parseFloat(uQuantity27);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float oldDivision = (oldQuantity / conversion);
-                            float division = (quantity / conversion);
-                            float result = stock - division + oldDivision ;
-                            addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                            if (result<5){
-                                sendMail(cmp,modelList.get(i).getMaterial());
+                            calculatingStockUpdateInElseLoop(modelList.get(i).getUnit(),quantity27S,uQuantity27,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity());
 
-                            }
                         }
 
                     }
@@ -3770,25 +3444,12 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit28)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(quantity28S) - Float.parseFloat(uQuantity28);
                     addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                    if (a<5){
-                        sendMail(cmp,modelList.get(i).getMaterial());
-                    }
                 }
                 else {
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial28)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float oldQuantity = Float.parseFloat(quantity28S);
-                            float quantity = Float.parseFloat(uQuantity28);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float oldDivision = (oldQuantity / conversion);
-                            float division = (quantity / conversion);
-                            float result = stock - division + oldDivision ;
-                            addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                            if (result<5){
-                                sendMail(cmp,modelList.get(i).getMaterial());
+                            calculatingStockUpdateInElseLoop(modelList.get(i).getUnit(),quantity28S,uQuantity28,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity());
 
-                            }
                         }
 
                     }
@@ -3800,25 +3461,12 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit29)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(quantity29S) - Float.parseFloat(uQuantity29);
                     addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                    if (a<5){
-                        sendMail(cmp,modelList.get(i).getMaterial());
-                    }
                 }
                 else {
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial29)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float oldQuantity = Float.parseFloat(quantity29S);
-                            float quantity = Float.parseFloat(uQuantity29);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float oldDivision = (oldQuantity / conversion);
-                            float division = (quantity / conversion);
-                            float result = stock - division + oldDivision ;
-                            addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                            if (result<5){
-                                sendMail(cmp,modelList.get(i).getMaterial());
+                            calculatingStockUpdateInElseLoop(modelList.get(i).getUnit(),quantity29S,uQuantity29,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity());
 
-                            }
                         }
 
                     }
@@ -3830,25 +3478,12 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit30)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) + Float.parseFloat(quantity30S) - Float.parseFloat(uQuantity30);
                     addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),a);
-                    if (a<5){
-                        sendMail(cmp,modelList.get(i).getMaterial());
-                    }
                 }
                 else {
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial30)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float oldQuantity = Float.parseFloat(quantity30S);
-                            float quantity = Float.parseFloat(uQuantity30);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float oldDivision = (oldQuantity / conversion);
-                            float division = (quantity / conversion);
-                            float result = stock - division + oldDivision ;
-                            addStock(cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity(),result);
-                            if (result<5){
-                                sendMail(cmp,modelList.get(i).getMaterial());
+                            calculatingStockUpdateInElseLoop(modelList.get(i).getUnit(),quantity30S,uQuantity30,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial(),modelList.get(i).getQuantity());
 
-                            }
                         }
 
                     }
@@ -3861,6 +3496,18 @@ public class AddMaterial extends AppCompatActivity {
         }
 
     }
+
+    private void calculatingStockUpdateInElseLoop(String unit, String quantity1S, String uQuantity1, String number, String cmp, String material, String quantityML) {
+        float stock = Float.parseFloat(unit);
+        float oldQuantity = Float.parseFloat(quantity1S);
+        float quantity = Float.parseFloat(uQuantity1);
+        float conversion = Float.parseFloat(number);
+        float oldDivision = (oldQuantity / conversion);
+        float division = (quantity / conversion);
+        float result = stock - division + oldDivision ;
+        addStock(cmp,material,quantityML,result);
+    }
+
     private void stock2(String cmp, String uMaterial1, String uQuantity1, String uMaterial2, String uQuantity2, String uMaterial3, String uQuantity3, String uMaterial4, String uQuantity4, String uMaterial5, String uQuantity5, String uMaterial6, String uQuantity6, String uMaterial7, String uQuantity7, String uMaterial8, String uQuantity8, String uMaterial9, String uQuantity9, String uMaterial10, String uQuantity10, String uQuantity11, String uMaterial12, String uQuantity12, String uMaterial13, String uQuantity13, String uMaterial14, String uQuantity14, String uMaterial15, String uQuantity15, String uMaterial16, String uQuantity16, String uMaterial17, String uQuantity17, String uMaterial18, String uQuantity18, String uMaterial19, String uQuantity19, String uMaterial20, String uQuantity20, String uUnit1, String uUnit2, String uUnit3, String uUnit4, String uUnit5, String uUnit6, String uUnit7, String uUnit8, String uUnit9, String uUnit10, String uUnit11, String uUnit12, String uUnit13, String uUnit14, String uUnit15, String uUnit16, String uUnit17, String uUnit18, String uUnit19, String uUnit20, String uMaterial11, String uMaterial21, String uQuantity21, String uMaterial22, String uQuantity22, String uMaterial23, String uQuantity23, String uMaterial24, String uQuantity24, String uMaterial25, String uQuantity25, String uMaterial26, String uQuantity26, String uMaterial27, String uQuantity27, String uMaterial28, String uQuantity28, String uMaterial29, String uQuantity29, String uMaterial30, String uQuantity30, String uUnit21, String uUnit22, String uUnit23, String uUnit24, String uUnit25, String uUnit26, String uUnit27, String uUnit28, String uUnit29, String uUnit30) {
 
         for (int i=0;i<modelList.size();i++){
@@ -3869,22 +3516,12 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit1)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) - Float.parseFloat(uQuantity1);
                     addStock(cmp, modelList.get(i).getMaterial(), modelList.get(i).getQuantity(), a);
-                    if (a < 5) {
-                        sendMail(cmp, modelList.get(i).getMaterial());
-                    }
                 }
                 else{
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial1) && modelListKN.get(j).getUnit().equals(uUnit1)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float quantity = Float.parseFloat(uQuantity1);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float division = (quantity/conversion);
-                            float result = stock - division;
-                            addStock(cmp, modelList.get(i).getMaterial(), "KG", result);
-                            if (result < 5) {
-                                sendMail(cmp, modelList.get(i).getMaterial());
-                            }
+                            calculatingStockInElseLoop(modelList.get(i).getUnit(),uQuantity1,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial());
+
                         }
                     }
                 }
@@ -3895,22 +3532,13 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit2)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) - Float.parseFloat(uQuantity2);
                     addStock(cmp, modelList.get(i).getMaterial(), modelList.get(i).getQuantity(), a);
-                    if (a < 5) {
-                        sendMail(cmp, modelList.get(i).getMaterial());
-                    }
+
                 }
                 else{
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial2) && modelListKN.get(j).getUnit().equals(uUnit2)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float quantity = Float.parseFloat(uQuantity2);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float division = (quantity/conversion);
-                            float result = stock - division;
-                            addStock(cmp, modelList.get(i).getMaterial(), "KG", result);
-                            if (result < 5) {
-                                sendMail(cmp, modelList.get(i).getMaterial());
-                            }
+                            calculatingStockInElseLoop(modelList.get(i).getUnit(),uQuantity2,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial());
+
                         }
                     }
                 }
@@ -3921,22 +3549,12 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit3)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) - Float.parseFloat(uQuantity3);
                     addStock(cmp, modelList.get(i).getMaterial(), modelList.get(i).getQuantity(), a);
-                    if (a < 5) {
-                        sendMail(cmp, modelList.get(i).getMaterial());
-                    }
+
                 }
                 else{
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial3) && modelListKN.get(j).getUnit().equals(uUnit3)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float quantity = Float.parseFloat(uQuantity3);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float division = (quantity/conversion);
-                            float result = stock - division;
-                            addStock(cmp, modelList.get(i).getMaterial(), "KG", result);
-                            if (result < 5) {
-                                sendMail(cmp, modelList.get(i).getMaterial());
-                            }
+                            calculatingStockInElseLoop(modelList.get(i).getUnit(),uQuantity3,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial());
                         }
                     }
                 }
@@ -3947,22 +3565,13 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit4)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) - Float.parseFloat(uQuantity4);
                     addStock(cmp, modelList.get(i).getMaterial(), modelList.get(i).getQuantity(), a);
-                    if (a < 5) {
-                        sendMail(cmp, modelList.get(i).getMaterial());
-                    }
+
                 }
                 else{
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial4) && modelListKN.get(j).getUnit().equals(uUnit4)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float quantity = Float.parseFloat(uQuantity4);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float division = (quantity/conversion);
-                            float result = stock - division;
-                            addStock(cmp, modelList.get(i).getMaterial(), "KG", result);
-                            if (result < 5) {
-                                sendMail(cmp, modelList.get(i).getMaterial());
-                            }
+                            calculatingStockInElseLoop(modelList.get(i).getUnit(),uQuantity4,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial());
+
                         }
                     }
                 }
@@ -3973,22 +3582,13 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit5)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) - Float.parseFloat(uQuantity5);
                     addStock(cmp, modelList.get(i).getMaterial(), modelList.get(i).getQuantity(), a);
-                    if (a < 5) {
-                        sendMail(cmp, modelList.get(i).getMaterial());
-                    }
+
                 }
                 else{
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial5) && modelListKN.get(j).getUnit().equals(uUnit5)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float quantity = Float.parseFloat(uQuantity5);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float division = (quantity/conversion);
-                            float result = stock - division;
-                            addStock(cmp, modelList.get(i).getMaterial(), "KG", result);
-                            if (result < 5) {
-                                sendMail(cmp, modelList.get(i).getMaterial());
-                            }
+                            calculatingStockInElseLoop(modelList.get(i).getUnit(),uQuantity5,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial());
+
                         }
                     }
                 }
@@ -3999,22 +3599,12 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit6)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) - Float.parseFloat(uQuantity6);
                     addStock(cmp, modelList.get(i).getMaterial(), modelList.get(i).getQuantity(), a);
-                    if (a < 5) {
-                        sendMail(cmp, modelList.get(i).getMaterial());
-                    }
+
                 }
                 else{
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial6) && modelListKN.get(j).getUnit().equals(uUnit6)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float quantity = Float.parseFloat(uQuantity6);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float division = (quantity/conversion);
-                            float result = stock - division;
-                            addStock(cmp, modelList.get(i).getMaterial(), "KG", result);
-                            if (result < 5) {
-                                sendMail(cmp, modelList.get(i).getMaterial());
-                            }
+                            calculatingStockInElseLoop(modelList.get(i).getUnit(),uQuantity6,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial());
                         }
                     }
                 }
@@ -4025,22 +3615,13 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit7)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) - Float.parseFloat(uQuantity7);
                     addStock(cmp, modelList.get(i).getMaterial(), modelList.get(i).getQuantity(), a);
-                    if (a < 5) {
-                        sendMail(cmp, modelList.get(i).getMaterial());
-                    }
+
                 }
                 else{
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial7) && modelListKN.get(j).getUnit().equals(uUnit7)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float quantity = Float.parseFloat(uQuantity7);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float division = (quantity/conversion);
-                            float result = stock - division;
-                            addStock(cmp, modelList.get(i).getMaterial(), "KG", result);
-                            if (result < 5) {
-                                sendMail(cmp, modelList.get(i).getMaterial());
-                            }
+                            calculatingStockInElseLoop(modelList.get(i).getUnit(),uQuantity7,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial());
+
                         }
                     }
                 }
@@ -4051,22 +3632,11 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit8)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) - Float.parseFloat(uQuantity8);
                     addStock(cmp, modelList.get(i).getMaterial(), modelList.get(i).getQuantity(), a);
-                    if (a < 5) {
-                        sendMail(cmp, modelList.get(i).getMaterial());
-                    }
                 }
                 else{
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial8) && modelListKN.get(j).getUnit().equals(uUnit8)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float quantity = Float.parseFloat(uQuantity8);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float division = (quantity/conversion);
-                            float result = stock - division;
-                            addStock(cmp, modelList.get(i).getMaterial(), "KG", result);
-                            if (result < 5) {
-                                sendMail(cmp, modelList.get(i).getMaterial());
-                            }
+                            calculatingStockInElseLoop(modelList.get(i).getUnit(),uQuantity8,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial());
                         }
                     }
                 }
@@ -4077,22 +3647,11 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit9)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) - Float.parseFloat(uQuantity9);
                     addStock(cmp, modelList.get(i).getMaterial(), modelList.get(i).getQuantity(), a);
-                    if (a < 5) {
-                        sendMail(cmp, modelList.get(i).getMaterial());
-                    }
                 }
                 else{
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial9) && modelListKN.get(j).getUnit().equals(uUnit9)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float quantity = Float.parseFloat(uQuantity9);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float division = (quantity/conversion);
-                            float result = stock - division;
-                            addStock(cmp, modelList.get(i).getMaterial(), "KG", result);
-                            if (result < 5) {
-                                sendMail(cmp, modelList.get(i).getMaterial());
-                            }
+                            calculatingStockInElseLoop(modelList.get(i).getUnit(),uQuantity9,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial());
                         }
                     }
                 }
@@ -4103,22 +3662,11 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit10)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) - Float.parseFloat(uQuantity10);
                     addStock(cmp, modelList.get(i).getMaterial(), modelList.get(i).getQuantity(), a);
-                    if (a < 5) {
-                        sendMail(cmp, modelList.get(i).getMaterial());
-                    }
                 }
                 else{
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial10) && modelListKN.get(j).getUnit().equals(uUnit10)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float quantity = Float.parseFloat(uQuantity10);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float division = (quantity/conversion);
-                            float result = stock - division;
-                            addStock(cmp, modelList.get(i).getMaterial(), "KG", result);
-                            if (result < 5) {
-                                sendMail(cmp, modelList.get(i).getMaterial());
-                            }
+                            calculatingStockInElseLoop(modelList.get(i).getUnit(),uQuantity10,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial());
                         }
                     }
                 }
@@ -4129,22 +3677,11 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit11)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) - Float.parseFloat(uQuantity11);
                     addStock(cmp, modelList.get(i).getMaterial(), modelList.get(i).getQuantity(), a);
-                    if (a < 5) {
-                        sendMail(cmp, modelList.get(i).getMaterial());
-                    }
                 }
                 else{
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial11) && modelListKN.get(j).getUnit().equals(uUnit11)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float quantity = Float.parseFloat(uQuantity11);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float division = (quantity/conversion);
-                            float result = stock - division;
-                            addStock(cmp, modelList.get(i).getMaterial(), "KG", result);
-                            if (result < 5) {
-                                sendMail(cmp, modelList.get(i).getMaterial());
-                            }
+                            calculatingStockInElseLoop(modelList.get(i).getUnit(),uQuantity11,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial());
                         }
                     }
                 }
@@ -4155,22 +3692,12 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit12)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) - Float.parseFloat(uQuantity12);
                     addStock(cmp, modelList.get(i).getMaterial(), modelList.get(i).getQuantity(), a);
-                    if (a < 5) {
-                        sendMail(cmp, modelList.get(i).getMaterial());
-                    }
+
                 }
                 else{
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial12) && modelListKN.get(j).getUnit().equals(uUnit12)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float quantity = Float.parseFloat(uQuantity12);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float division = (quantity/conversion);
-                            float result = stock - division;
-                            addStock(cmp, modelList.get(i).getMaterial(), "KG", result);
-                            if (result < 5) {
-                                sendMail(cmp, modelList.get(i).getMaterial());
-                            }
+                            calculatingStockInElseLoop(modelList.get(i).getUnit(),uQuantity12,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial());
                         }
                     }
                 }
@@ -4181,22 +3708,13 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit13)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) - Float.parseFloat(uQuantity13);
                     addStock(cmp, modelList.get(i).getMaterial(), modelList.get(i).getQuantity(), a);
-                    if (a < 5) {
-                        sendMail(cmp, modelList.get(i).getMaterial());
-                    }
+
                 }
                 else{
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial13) && modelListKN.get(j).getUnit().equals(uUnit13)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float quantity = Float.parseFloat(uQuantity13);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float division = (quantity/conversion);
-                            float result = stock - division;
-                            addStock(cmp, modelList.get(i).getMaterial(), "KG", result);
-                            if (result < 5) {
-                                sendMail(cmp, modelList.get(i).getMaterial());
-                            }
+                            calculatingStockInElseLoop(modelList.get(i).getUnit(),uQuantity13,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial());
+
                         }
                     }
                 }
@@ -4207,22 +3725,11 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit14)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) - Float.parseFloat(uQuantity14);
                     addStock(cmp, modelList.get(i).getMaterial(), modelList.get(i).getQuantity(), a);
-                    if (a < 5) {
-                        sendMail(cmp, modelList.get(i).getMaterial());
-                    }
                 }
                 else{
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial14) && modelListKN.get(j).getUnit().equals(uUnit14)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float quantity = Float.parseFloat(uQuantity14);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float division = (quantity/conversion);
-                            float result = stock - division;
-                            addStock(cmp, modelList.get(i).getMaterial(), "KG", result);
-                            if (result < 5) {
-                                sendMail(cmp, modelList.get(i).getMaterial());
-                            }
+                            calculatingStockInElseLoop(modelList.get(i).getUnit(),uQuantity14,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial());
                         }
                     }
                 }
@@ -4233,22 +3740,11 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit15)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) - Float.parseFloat(uQuantity15);
                     addStock(cmp, modelList.get(i).getMaterial(), modelList.get(i).getQuantity(), a);
-                    if (a < 5) {
-                        sendMail(cmp, modelList.get(i).getMaterial());
-                    }
                 }
                 else{
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial15) && modelListKN.get(j).getUnit().equals(uUnit15)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float quantity = Float.parseFloat(uQuantity15);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float division = (quantity/conversion);
-                            float result = stock - division;
-                            addStock(cmp, modelList.get(i).getMaterial(), "KG", result);
-                            if (result < 5) {
-                                sendMail(cmp, modelList.get(i).getMaterial());
-                            }
+                            calculatingStockInElseLoop(modelList.get(i).getUnit(),uQuantity15,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial());
                         }
                     }
                 }
@@ -4259,22 +3755,12 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit16)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) - Float.parseFloat(uQuantity16);
                     addStock(cmp, modelList.get(i).getMaterial(), modelList.get(i).getQuantity(), a);
-                    if (a < 5) {
-                        sendMail(cmp, modelList.get(i).getMaterial());
-                    }
                 }
                 else{
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial16) && modelListKN.get(j).getUnit().equals(uUnit16)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float quantity = Float.parseFloat(uQuantity16);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float division = (quantity/conversion);
-                            float result = stock - division;
-                            addStock(cmp, modelList.get(i).getMaterial(), "KG", result);
-                            if (result < 5) {
-                                sendMail(cmp, modelList.get(i).getMaterial());
-                            }
+                            calculatingStockInElseLoop(modelList.get(i).getUnit(),uQuantity16,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial());
+
                         }
                     }
                 }
@@ -4285,22 +3771,11 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit17)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) - Float.parseFloat(uQuantity17);
                     addStock(cmp, modelList.get(i).getMaterial(), modelList.get(i).getQuantity(), a);
-                    if (a < 5) {
-                        sendMail(cmp, modelList.get(i).getMaterial());
-                    }
                 }
                 else{
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial17) && modelListKN.get(j).getUnit().equals(uUnit17)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float quantity = Float.parseFloat(uQuantity17);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float division = (quantity/conversion);
-                            float result = stock - division;
-                            addStock(cmp, modelList.get(i).getMaterial(), "KG", result);
-                            if (result < 5) {
-                                sendMail(cmp, modelList.get(i).getMaterial());
-                            }
+                            calculatingStockInElseLoop(modelList.get(i).getUnit(),uQuantity17,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial());
                         }
                     }
                 }
@@ -4311,22 +3786,11 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit18)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) - Float.parseFloat(uQuantity18);
                     addStock(cmp, modelList.get(i).getMaterial(), modelList.get(i).getQuantity(), a);
-                    if (a < 5) {
-                        sendMail(cmp, modelList.get(i).getMaterial());
-                    }
                 }
                 else{
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial18) && modelListKN.get(j).getUnit().equals(uUnit18)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float quantity = Float.parseFloat(uQuantity18);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float division = (quantity/conversion);
-                            float result = stock - division;
-                            addStock(cmp, modelList.get(i).getMaterial(), "KG", result);
-                            if (result < 5) {
-                                sendMail(cmp, modelList.get(i).getMaterial());
-                            }
+                            calculatingStockInElseLoop(modelList.get(i).getUnit(),uQuantity18,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial());
                         }
                     }
                 }
@@ -4337,22 +3801,11 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit19)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) - Float.parseFloat(uQuantity19);
                     addStock(cmp, modelList.get(i).getMaterial(), modelList.get(i).getQuantity(), a);
-                    if (a < 5) {
-                        sendMail(cmp, modelList.get(i).getMaterial());
-                    }
                 }
                 else{
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial19) && modelListKN.get(j).getUnit().equals(uUnit19)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float quantity = Float.parseFloat(uQuantity19);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float division = (quantity/conversion);
-                            float result = stock - division;
-                            addStock(cmp, modelList.get(i).getMaterial(), "KG", result);
-                            if (result < 5) {
-                                sendMail(cmp, modelList.get(i).getMaterial());
-                            }
+                            calculatingStockInElseLoop(modelList.get(i).getUnit(),uQuantity19,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial());
                         }
                     }
                 }
@@ -4363,22 +3816,11 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit20)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) - Float.parseFloat(uQuantity20);
                     addStock(cmp, modelList.get(i).getMaterial(), modelList.get(i).getQuantity(), a);
-                    if (a < 5) {
-                        sendMail(cmp, modelList.get(i).getMaterial());
-                    }
                 }
                 else{
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial20) && modelListKN.get(j).getUnit().equals(uUnit20)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float quantity = Float.parseFloat(uQuantity20);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float division = (quantity/conversion);
-                            float result = stock - division;
-                            addStock(cmp, modelList.get(i).getMaterial(), "KG", result);
-                            if (result < 5) {
-                                sendMail(cmp, modelList.get(i).getMaterial());
-                            }
+                            calculatingStockInElseLoop(modelList.get(i).getUnit(),uQuantity20,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial());
                         }
                     }
                 }
@@ -4389,22 +3831,11 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit21)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) - Float.parseFloat(uQuantity21);
                     addStock(cmp, modelList.get(i).getMaterial(), modelList.get(i).getQuantity(), a);
-                    if (a < 5) {
-                        sendMail(cmp, modelList.get(i).getMaterial());
-                    }
                 }
                 else{
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial21) && modelListKN.get(j).getUnit().equals(uUnit21)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float quantity = Float.parseFloat(uQuantity21);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float division = (quantity/conversion);
-                            float result = stock - division;
-                            addStock(cmp, modelList.get(i).getMaterial(), "KG", result);
-                            if (result < 5) {
-                                sendMail(cmp, modelList.get(i).getMaterial());
-                            }
+                            calculatingStockInElseLoop(modelList.get(i).getUnit(),uQuantity21,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial());
                         }
                     }
                 }
@@ -4415,22 +3846,11 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit22)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) - Float.parseFloat(uQuantity22);
                     addStock(cmp, modelList.get(i).getMaterial(), modelList.get(i).getQuantity(), a);
-                    if (a < 5) {
-                        sendMail(cmp, modelList.get(i).getMaterial());
-                    }
                 }
                 else{
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial22) && modelListKN.get(j).getUnit().equals(uUnit22)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float quantity = Float.parseFloat(uQuantity22);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float division = (quantity/conversion);
-                            float result = stock - division;
-                            addStock(cmp, modelList.get(i).getMaterial(), "KG", result);
-                            if (result < 5) {
-                                sendMail(cmp, modelList.get(i).getMaterial());
-                            }
+                            calculatingStockInElseLoop(modelList.get(i).getUnit(),uQuantity22,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial());
                         }
                     }
                 }
@@ -4441,22 +3861,11 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit23)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) - Float.parseFloat(uQuantity23);
                     addStock(cmp, modelList.get(i).getMaterial(), modelList.get(i).getQuantity(), a);
-                    if (a < 5) {
-                        sendMail(cmp, modelList.get(i).getMaterial());
-                    }
                 }
                 else{
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial23) && modelListKN.get(j).getUnit().equals(uUnit23)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float quantity = Float.parseFloat(uQuantity23);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float division = (quantity/conversion);
-                            float result = stock - division;
-                            addStock(cmp, modelList.get(i).getMaterial(), "KG", result);
-                            if (result < 5) {
-                                sendMail(cmp, modelList.get(i).getMaterial());
-                            }
+                            calculatingStockInElseLoop(modelList.get(i).getUnit(),uQuantity23,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial());
                         }
                     }
                 }
@@ -4467,22 +3876,11 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit24)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) - Float.parseFloat(uQuantity24);
                     addStock(cmp, modelList.get(i).getMaterial(), modelList.get(i).getQuantity(), a);
-                    if (a < 5) {
-                        sendMail(cmp, modelList.get(i).getMaterial());
-                    }
                 }
                 else{
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial24) && modelListKN.get(j).getUnit().equals(uUnit24)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float quantity = Float.parseFloat(uQuantity24);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float division = (quantity/conversion);
-                            float result = stock - division;
-                            addStock(cmp, modelList.get(i).getMaterial(), "KG", result);
-                            if (result < 5) {
-                                sendMail(cmp, modelList.get(i).getMaterial());
-                            }
+                            calculatingStockInElseLoop(modelList.get(i).getUnit(),uQuantity24,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial());
                         }
                     }
                 }
@@ -4493,22 +3891,11 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit25)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) - Float.parseFloat(uQuantity25);
                     addStock(cmp, modelList.get(i).getMaterial(), modelList.get(i).getQuantity(), a);
-                    if (a < 5) {
-                        sendMail(cmp, modelList.get(i).getMaterial());
-                    }
                 }
                 else{
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial25) && modelListKN.get(j).getUnit().equals(uUnit25)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float quantity = Float.parseFloat(uQuantity25);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float division = (quantity/conversion);
-                            float result = stock - division;
-                            addStock(cmp, modelList.get(i).getMaterial(), "KG", result);
-                            if (result < 5) {
-                                sendMail(cmp, modelList.get(i).getMaterial());
-                            }
+                            calculatingStockInElseLoop(modelList.get(i).getUnit(),uQuantity25,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial());
                         }
                     }
                 }
@@ -4519,22 +3906,11 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit26)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) - Float.parseFloat(uQuantity26);
                     addStock(cmp, modelList.get(i).getMaterial(), modelList.get(i).getQuantity(), a);
-                    if (a < 5) {
-                        sendMail(cmp, modelList.get(i).getMaterial());
-                    }
                 }
                 else{
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial26) && modelListKN.get(j).getUnit().equals(uUnit26)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float quantity = Float.parseFloat(uQuantity26);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float division = (quantity/conversion);
-                            float result = stock - division;
-                            addStock(cmp, modelList.get(i).getMaterial(), "KG", result);
-                            if (result < 5) {
-                                sendMail(cmp, modelList.get(i).getMaterial());
-                            }
+                            calculatingStockInElseLoop(modelList.get(i).getUnit(),uQuantity26,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial());
                         }
                     }
                 }
@@ -4545,22 +3921,11 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit27)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) - Float.parseFloat(uQuantity27);
                     addStock(cmp, modelList.get(i).getMaterial(), modelList.get(i).getQuantity(), a);
-                    if (a < 5) {
-                        sendMail(cmp, modelList.get(i).getMaterial());
-                    }
                 }
                 else{
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial27) && modelListKN.get(j).getUnit().equals(uUnit27)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float quantity = Float.parseFloat(uQuantity27);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float division = (quantity/conversion);
-                            float result = stock - division;
-                            addStock(cmp, modelList.get(i).getMaterial(), "KG", result);
-                            if (result < 5) {
-                                sendMail(cmp, modelList.get(i).getMaterial());
-                            }
+                            calculatingStockInElseLoop(modelList.get(i).getUnit(),uQuantity27,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial());
                         }
                     }
                 }
@@ -4571,22 +3936,11 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit28)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) - Float.parseFloat(uQuantity28);
                     addStock(cmp, modelList.get(i).getMaterial(), modelList.get(i).getQuantity(), a);
-                    if (a < 5) {
-                        sendMail(cmp, modelList.get(i).getMaterial());
-                    }
                 }
                 else{
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial28) && modelListKN.get(j).getUnit().equals(uUnit28)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float quantity = Float.parseFloat(uQuantity28);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float division = (quantity/conversion);
-                            float result = stock - division;
-                            addStock(cmp, modelList.get(i).getMaterial(), "KG", result);
-                            if (result < 5) {
-                                sendMail(cmp, modelList.get(i).getMaterial());
-                            }
+                            calculatingStockInElseLoop(modelList.get(i).getUnit(),uQuantity28,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial());
                         }
                     }
                 }
@@ -4597,22 +3951,11 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit29)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) - Float.parseFloat(uQuantity29);
                     addStock(cmp, modelList.get(i).getMaterial(), modelList.get(i).getQuantity(), a);
-                    if (a < 5) {
-                        sendMail(cmp, modelList.get(i).getMaterial());
-                    }
                 }
                 else{
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial29) && modelListKN.get(j).getUnit().equals(uUnit29)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float quantity = Float.parseFloat(uQuantity29);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float division = (quantity/conversion);
-                            float result = stock - division;
-                            addStock(cmp, modelList.get(i).getMaterial(), "KG", result);
-                            if (result < 5) {
-                                sendMail(cmp, modelList.get(i).getMaterial());
-                            }
+                            calculatingStockInElseLoop(modelList.get(i).getUnit(),uQuantity29,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial());
                         }
                     }
                 }
@@ -4623,22 +3966,11 @@ public class AddMaterial extends AppCompatActivity {
                 if (modelList.get(i).getQuantity().equals(uUnit30)){
                     float a = Float.parseFloat(modelList.get(i).getUnit()) - Float.parseFloat(uQuantity30);
                     addStock(cmp, modelList.get(i).getMaterial(), modelList.get(i).getQuantity(), a);
-                    if (a < 5) {
-                        sendMail(cmp, modelList.get(i).getMaterial());
-                    }
                 }
                 else{
                     for (int j=0;j<modelListKN.size();j++){
                         if (modelListKN.get(j).getMaterial().equals(uMaterial30) && modelListKN.get(j).getUnit().equals(uUnit30)){
-                            float stock = Float.parseFloat(modelList.get(i).getUnit());
-                            float quantity = Float.parseFloat(uQuantity30);
-                            float conversion = Float.parseFloat(modelListKN.get(j).getNumber());
-                            float division = (quantity/conversion);
-                            float result = stock - division;
-                            addStock(cmp, modelList.get(i).getMaterial(), "KG", result);
-                            if (result < 5) {
-                                sendMail(cmp, modelList.get(i).getMaterial());
-                            }
+                            calculatingStockInElseLoop(modelList.get(i).getUnit(),uQuantity30,modelListKN.get(j).getNumber(),cmp,modelList.get(i).getMaterial());
                         }
                     }
                 }
@@ -4648,12 +3980,18 @@ public class AddMaterial extends AppCompatActivity {
         }
 
     }
-    private void sendMail(String cmp, String material) {
-        String message = "You have less material quantity of " + material;
-        JavaMailAPI javaMailAPI = new JavaMailAPI(this, cmp, "You have less material quantity of "+material, message);
-        javaMailAPI.execute();
+
+    private void calculatingStockInElseLoop(String unit, String uQuantity1, String number, String cmp, String material) {
+        float stock = Float.parseFloat(unit);
+        float quantity = Float.parseFloat(uQuantity1);
+        float conversion = Float.parseFloat(number);
+        float division = (quantity/conversion);
+        float result = stock - division;
+        addStock(cmp, material, "KG", result);
 
     }
+
+
     private void addStock(String cmp, String uMaterial1, String uUnit1, float a) {
 
         String quantity = String.valueOf(a);

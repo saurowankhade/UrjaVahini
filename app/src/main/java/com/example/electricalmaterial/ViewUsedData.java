@@ -123,10 +123,7 @@ public class ViewUsedData extends AppCompatActivity {
 
                 showTotalMaterialTaken( cmp, consumerNameS);
             }
-
         });
-
-        
     }
 
     private void showTotalMaterialTaken(String cmp, String consumerName) {

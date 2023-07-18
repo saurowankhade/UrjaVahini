@@ -263,13 +263,11 @@ public class RemainingMaterial extends AppCompatActivity {
                 companyEmail = companyEmail.replace(".", "");
 
 
-
                 con.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         for (int i=0;i<modelList.size();i++){
                             addDataConsumer(modelList.get(i).getConsumerName());
-                            addDataSite(modelList.get(i).getSite());
                         }
                     }
                 });
@@ -542,9 +540,6 @@ public class RemainingMaterial extends AppCompatActivity {
         
     }
 
-    private void addDataSite(String site) {
-
-    }
 
     private void addDataConsumer(String consumerName) {
 
@@ -1500,7 +1495,6 @@ public class RemainingMaterial extends AppCompatActivity {
     private void excel(){
 
         for (int i=0;i<list.size();i++){
-//            m0 = list.get(i).getMaterial();
             arr[i] = list.get(i).getMaterial();
         }
 
@@ -1696,7 +1690,6 @@ public class RemainingMaterial extends AppCompatActivity {
                     cell.setCellValue((modelList.get(i).getQuantity22()));
                 }
                 else if (arr[j].equals(modelList.get(i).getMaterial23())){
-
                     cell = row1.createCell(k);
                     cell.setCellValue((modelList.get(i).getQuantity23()));
                 }

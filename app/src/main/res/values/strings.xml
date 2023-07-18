@@ -27,6 +27,7 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="profile">Profile</string>
+    <string name="update">Update</string>
     <string name="theme">Theme</string>
     <string name="logout">Logout</string>
 

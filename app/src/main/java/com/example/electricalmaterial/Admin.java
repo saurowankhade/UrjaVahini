@@ -41,7 +41,7 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import hotchemi.android.rate.AppRate;
+
 
 public class Admin extends AppCompatActivity {
 
@@ -75,14 +75,6 @@ public class Admin extends AppCompatActivity {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         setTitle("");
-
-
-        AppRate.with(this)
-                .setInstallDays(1)
-                .setLaunchTimes(2)
-                .setRemindInterval(2)
-                .monitor();
-        AppRate.showRateDialogIfMeetsConditions(this);
 
 
 
@@ -210,9 +202,9 @@ public class Admin extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
 
                         if (which == 0) {
-                            FirebaseAuth.getInstance().signOut();
                             startActivity(new Intent(getApplicationContext(),MainActivity.class));
                             finish();
+                            FirebaseAuth.getInstance().signOut();
                             Toast.makeText(getApplicationContext(), "Logout", Toast.LENGTH_SHORT).show();
 
                         } else {
@@ -222,9 +214,7 @@ public class Admin extends AppCompatActivity {
                 }).create().show();
                 return  true;
             default:
-
         }
-
 
         return super.onOptionsItemSelected(item);
     }

@@ -127,7 +127,7 @@ public class ViewBalanceData extends AppCompatActivity {
                 companyEmail = companyEmail.replace("@", "");
                 companyEmail = companyEmail.replace(".", "");
 
-                showTotalMaterialTaken( cmp, consumerNameS);
+                showTotalMaterialTaken(cmp);
             }
 
         });
@@ -135,9 +135,10 @@ public class ViewBalanceData extends AppCompatActivity {
 
     }
 
-    private void showTotalMaterialTaken(String cmp, String consumerName) {
-
-        fStore.collection(cmp+" "+consumerName+" AAM").orderBy("Material", Query.Direction.ASCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+    private void showTotalMaterialTaken(String cmp) {
+        fStore.collection(cmp+" BalanceMaterialOnSite")
+                .document(id).collection("BalanceMaterialOnSite")
+                .orderBy("Material", Query.Direction.ASCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 modelListTMT.clear();

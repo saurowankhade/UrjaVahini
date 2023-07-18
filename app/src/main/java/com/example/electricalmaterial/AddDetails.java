@@ -2,17 +2,18 @@ package com.example.electricalmaterial;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -54,9 +57,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AddDetails extends AppCompatActivity {
-
+    String cmp;
     Pattern pattern = Pattern.compile("[^a-z A-Z0-9]");
-    String s = "Spacial Symbol does allow";
+    final String WARRING_MESSAGE = "Spacial Symbol does allow";
 
     //authorization
     FirebaseAuth mAuth;
@@ -64,210 +67,11 @@ public class AddDetails extends AppCompatActivity {
     String companyEmail;
     String userId;
 
-    //team name
-    TextView addTeamName;
-    AutoCompleteTextView teamName;
-    String textData;
-    ArrayAdapter<String> adapter;
-    ArrayList<String> spinnerDataList;
-    LinearLayout team,teamNameLL;
-    EditText teamNameETAdd;
-    Button addTeamNameBtn;
-    TextView viewTeamName;
-    DatabaseReference databaseReference;
-    ValueEventListener listener;
-    TextView deleteTeamName;
-
-    //line
-    TextView addLine;
-    AutoCompleteTextView line;
-    String lineData;
-    ArrayAdapter<String> adapterLine;
-    ArrayList<String> spinnerLine;
-    LinearLayout lineLL,addLineLL;
-    EditText lineETAdd;
-    Button addLineBtn;
-    TextView viewLine;
-    DatabaseReference databaseReferenceLine;
-    ValueEventListener listenerLine;
-    TextView deleteLine;
-
-    //Tender
-    TextView addTender;
-    AutoCompleteTextView tender;
-    String tenderData;
-    ArrayAdapter<String> adapterTender;
-    ArrayList<String> spinnerTender;
-    LinearLayout tenderLL,addTenderLL;
-    EditText tenderETAdd;
-    Button addTenderBtn;
-    TextView viewTender;
-    DatabaseReference databaseReferenceTender;
-    ValueEventListener listenerTender;
-    TextView deleteTender;
-
-    //Driver
-    TextView addDriver;
-    AutoCompleteTextView driver;
-    String driverData;
-    ArrayAdapter<String> adapterDriver;
-    ArrayList<String> spinnerDriver;
-    LinearLayout driverLL,addDriverLL;
-    EditText driverETAdd;
-    Button addDriverBtn;
-    TextView viewDriver;
-    DatabaseReference databaseReferenceDriver;
-    ValueEventListener listenerDriver;
-    TextView deleteDriver;
-
-
-    //Vehical
-    TextView addVehical;
-    AutoCompleteTextView vehical;
-    String vehicalData;
-    ArrayAdapter<String> adapterVehical;
-    ArrayList<String> spinnerVehical;
-    LinearLayout vehicalLL,addVehicalLL;
-    EditText vehicalETAdd;
-    Button addVehicalBtn;
-    TextView viewVehical;
-    DatabaseReference databaseReferenceVehical;
-    ValueEventListener listenerVehical;
-    TextView deleteVehical;
-
-    //Receiver
-    TextView addReceiver;
-    AutoCompleteTextView receiver;
-    String receiverData;
-    ArrayAdapter<String> adapterReceiver;
-    ArrayList<String> spinnerReceiver;
-    LinearLayout receiverLL,addReceiverLL;
-    EditText receiverETAdd;
-    Button addReceiverBtn;
-    TextView viewReceiver;
-    DatabaseReference databaseReferenceReceiver;
-    ValueEventListener listenerReceiver;
-    TextView deleteReceiver;
-
-    //State
-    TextView addState;
-    AutoCompleteTextView state;
-    String stateData;
-    ArrayAdapter<String> adapterState;
-    ArrayList<String> spinnerState;
-    LinearLayout stateLL,addStateLL;
-    EditText stateETAdd;
-    Button addStateBtn;
-    TextView viewState;
-    DatabaseReference databaseReferenceState;
-    ValueEventListener listenerState;
-    TextView deleteState;
-
-    //District
-    TextView addDistrict;
-    AutoCompleteTextView district;
-    String districtData;
-    ArrayAdapter<String> adapterDistrict;
-    ArrayList<String> spinnerDistrict;
-    LinearLayout districtLL,addDistrictLL;
-    EditText districtETAdd;
-    Button addDistrictBtn;
-    TextView viewDistrict;
-    DatabaseReference databaseReferenceDistrict;
-    ValueEventListener listenerDistrict;
-    TextView deleteDistrict;
-
-    //Taluka
-    TextView addTaluka;
-    AutoCompleteTextView taluka;
-    String talukaData;
-    ArrayAdapter<String> adapterTaluka;
-    ArrayList<String> spinnerTaluka;
-    LinearLayout talukaLL,addTalukaLL;
-    EditText talukaETAdd;
-    Button addTalukaBtn;
-    TextView viewTaluka;
-    DatabaseReference databaseReferenceTaluka;
-    ValueEventListener listenerTaluka;
-    TextView deleteTaluka;
-
-    //Material
-    TextView addMaterial;
-    AutoCompleteTextView material;
-    String materialData;
-    ArrayAdapter<String> adapterMaterial;
-    ArrayList<String> spinnerMaterial;
-    LinearLayout materialLL,addMaterialLL;
-    EditText materialETAdd;
-    Button addMaterialBtn;
-    TextView viewMaterial;
-    DatabaseReference databaseReferenceMaterial;
-    ValueEventListener listenerMaterial;
-    TextView deleteMaterial;
-
-    //Center
-    TextView addCenter;
-    AutoCompleteTextView center;
-    String centerData;
-    ArrayAdapter<String> adapterCenter;
-    ArrayList<String> spinnerCenter;
-    LinearLayout centerLL,addCenterLL;
-    EditText centerETAdd;
-    Button addCenterBtn;
-    TextView viewCenter;
-    DatabaseReference databaseReferenceCenter;
-    ValueEventListener listenerCenter;
-    TextView deleteCenter;
-
-    //Village
-    TextView addVillage;
-    AutoCompleteTextView village;
-    String villageData;
-    ArrayAdapter<String> adapterVillage;
-    ArrayList<String> spinnerVillage;
-    LinearLayout villageLL,addVillageLL;
-    EditText villageETAdd;
-    Button addVillageBtn;
-    TextView viewVillage;
-    DatabaseReference databaseReferenceVillage;
-    ValueEventListener listenerVillage;
-    TextView deleteVillage;
-
-    //Unit
-    TextView addUnit;
-    AutoCompleteTextView unit;
-    String unitData;
-    ArrayAdapter<String> adapterUnit;
-    ArrayList<String> spinnerUnit;
-    LinearLayout unitLL,addUnitLL;
-    EditText unitETAdd;
-    Button addUnitBtn;
-    TextView viewUnit;
-    DatabaseReference databaseReferenceUnit;
-    ValueEventListener listenerUnit;
-    TextView deleteUnit;
-
-
-    //WorkDone
-    TextView addWorkDone;
-    AutoCompleteTextView workDone;
-    String workDoneData;
-    ArrayAdapter<String> adapterWorkDone;
-    ArrayList<String> spinnerWorkDone;
-    LinearLayout workDoneLL,addWorkDoneLL;
-    EditText workDoneETAdd;
-    Button addWorkDoneBtn;
-    TextView viewWorkDone;
-    DatabaseReference databaseReferenceWorkDone;
-    ValueEventListener listenerWorkDone;
-    TextView deleteWorkDone;
-
     Timer time;
     ProgressDialog pd;
 
     TextView tv;
 
-    LinearLayout pairLL;
 
 
 
@@ -279,20 +83,30 @@ public class AddDetails extends AppCompatActivity {
     TextView materialPair;
 
 
-//    UPDATE DATA
-
-    TextView updateMaterial;
-
-    String updateMaterialName;
-
-
-
 //    Data form added material for changes material and additional
     List<AdminModel> modelList = new ArrayList<>();
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
 
     AddedDataChangesCustomAdapter adminCustomAdapter;
+
+
+    // Update Data
+
+    Dialog dialog;
+
+    TextInputEditText updatedText;
+    MaterialButton addButton,updateButton,deleteButton;
+    AutoCompleteTextView whatDoUpdate,whichTextDoYouReplace;
+
+    ArrayAdapter <String> arrayAdapterForWhatDoUpdate;
+    String [] whatDoUpdateItem = {"Team Name","Line","Tender","Driver Name","Vehical","Material Receiver Name","Material Name","State","District","Taluka"
+    ,"Center","Village","Unit","Work Done"};
+
+    ArrayAdapter<String> adapterUpdate;
+    ArrayList<String> spinnerDataListUpdate;
+    DatabaseReference databaseReferenceUpdate;
+    ValueEventListener listenerUpdate;
 
     @SuppressLint({"SourceLockedOrientationActivity", "MissingInflatedId"})
     @Override
@@ -324,157 +138,9 @@ public class AddDetails extends AppCompatActivity {
         assert bar != null;
         bar.setTitle("DATA LIBRARY");
 
-        //Team Name
-        team = findViewById(R.id.teamLL);
-        teamNameLL = findViewById(R.id.addTeamLL);
-        teamName = findViewById(R.id.teamName);
-        addTeamName = findViewById(R.id.addTeamName);
-        teamNameETAdd = findViewById(R.id.teamNameETAdd);
-        addTeamNameBtn = findViewById(R.id.addTeamNameBtn);
-        viewTeamName = findViewById(R.id.viewTeamName);
-        deleteTeamName = findViewById(R.id.deleteTeamName);
-
-        //Line
-        addLine = findViewById(R.id.addLine);
-        line = findViewById(R.id.lineSpineer);
-        lineLL = findViewById(R.id.lineLL);
-        addLineLL = findViewById(R.id.addLineLL);
-        lineETAdd = findViewById(R.id.lineETAdd);
-        addLineBtn = findViewById(R.id.lineBtn);
-        viewLine = findViewById(R.id.viewLine);
-        deleteLine = findViewById(R.id.deleteLine);
-
-        //Tender
-        addTender = findViewById(R.id.addTender);
-        tender = findViewById(R.id.tenderSpineer);
-        tenderLL = findViewById(R.id.tenderLL);
-        addTenderLL = findViewById(R.id.addTenderLL);
-        tenderETAdd = findViewById(R.id.tenderETAdd);
-        addTenderBtn = findViewById(R.id.tenderBtn);
-        viewTender = findViewById(R.id.viewTender);
-        deleteTender = findViewById(R.id.deleteTender);
-
-        //Driver
-        addDriver = findViewById(R.id.addDriver);
-        driver = findViewById(R.id.driverSpineer);
-        driverLL = findViewById(R.id.driverLL);
-        addDriverLL = findViewById(R.id.addDriverLL);
-        driverETAdd = findViewById(R.id.driverETAdd);
-        addDriverBtn = findViewById(R.id.driverBtn);
-        viewDriver = findViewById(R.id.viewDriver);
-        deleteDriver = findViewById(R.id.deleteDriver);
-
-        //Vehical
-        addVehical = findViewById(R.id.addVehical);
-        vehical = findViewById(R.id.vehicalSpineer);
-        vehicalLL = findViewById(R.id.vehicalLL);
-        addVehicalLL = findViewById(R.id.addVehicalLL);
-        vehicalETAdd = findViewById(R.id.vehicalETAdd);
-        addVehicalBtn = findViewById(R.id.vehicalBtn);
-        viewVehical = findViewById(R.id.viewVehical);
-        deleteVehical = findViewById(R.id.deleteVehical);
-
-        //Receiver
-        addReceiver = findViewById(R.id.addReceiver);
-        receiver = findViewById(R.id.receiverSpineer);
-        receiverLL = findViewById(R.id.receiverLL);
-        addReceiverLL = findViewById(R.id.addReceiverLL);
-        receiverETAdd = findViewById(R.id.receiverETAdd);
-        addReceiverBtn = findViewById(R.id.receiverBtn);
-        viewReceiver = findViewById(R.id.viewReceiver);
-        deleteReceiver = findViewById(R.id.deleteReceiver);
-
-        //Material
-        addMaterial = findViewById(R.id.addMaterial);
-        material = findViewById(R.id.materialSpineer);
-        materialLL = findViewById(R.id.materialLL);
-        addMaterialLL = findViewById(R.id.addMaterialLL);
-        materialETAdd = findViewById(R.id.materialETAdd);
-        addMaterialBtn = findViewById(R.id.materialBtn);
-        viewMaterial = findViewById(R.id.viewMaterial);
-        deleteMaterial = findViewById(R.id.deleteMaterial);
-        updateMaterial = findViewById(R.id.updateMaterial); // update material id find
-
-        //Center
-        addCenter = findViewById(R.id.addCenter);
-        center = findViewById(R.id.centerSpineer);
-        centerLL = findViewById(R.id.centerLL);
-        addCenterLL = findViewById(R.id.addCenterLL);
-        centerETAdd = findViewById(R.id.centerETAdd);
-        addCenterBtn = findViewById(R.id.centerBtn);
-        viewCenter = findViewById(R.id.viewCenter);
-        deleteCenter = findViewById(R.id.deleteCenter);
-
-        //Village
-        addVillage = findViewById(R.id.addVillage);
-        village = findViewById(R.id.villageSpineer);
-        villageLL = findViewById(R.id.villageLL);
-        addVillageLL = findViewById(R.id.addVillageLL);
-        villageETAdd = findViewById(R.id.villageETAdd);
-        addVillageBtn = findViewById(R.id.villageBtn);
-        viewVillage = findViewById(R.id.viewVillage);
-        deleteVillage = findViewById(R.id.deleteVillage);
-
-        //District
-        addDistrict = findViewById(R.id.addDistrict);
-        district = findViewById(R.id.districtSpineer);
-        districtLL = findViewById(R.id.districtLL);
-        addDistrictLL = findViewById(R.id.addDistrictLL);
-        districtETAdd = findViewById(R.id.districtETAdd);
-        addDistrictBtn = findViewById(R.id.districtBtn);
-        viewDistrict = findViewById(R.id.viewDistrict);
-        deleteDistrict = findViewById(R.id.deleteDistrict);
-
-
-        //State
-        addState = findViewById(R.id.addState);
-        state = findViewById(R.id.stateSpineer);
-        stateLL = findViewById(R.id.stateLL);
-        addStateLL = findViewById(R.id.addStateLL);
-        stateETAdd = findViewById(R.id.stateETAdd);
-        addStateBtn = findViewById(R.id.stateBtn);
-        viewState = findViewById(R.id.viewState);
-        deleteState = findViewById(R.id.deleteState);
-
-
-        //Taluka
-        addTaluka = findViewById(R.id.addTaluka);
-        taluka = findViewById(R.id.talukaSpineer);
-        talukaLL = findViewById(R.id.talukaLL);
-        addTalukaLL = findViewById(R.id.addTalukaLL);
-        talukaETAdd = findViewById(R.id.talukaETAdd);
-        addTalukaBtn = findViewById(R.id.talukaBtn);
-        viewTaluka = findViewById(R.id.viewTaluka);
-        deleteTaluka = findViewById(R.id.deleteTaluka);
-
-
-        //Unit
-        addUnit = findViewById(R.id.addUnit);
-        unit = findViewById(R.id.unitSpineer);
-        unitLL = findViewById(R.id.unitLL);
-        addUnitLL = findViewById(R.id.addUnitLL);
-        unitETAdd = findViewById(R.id.unitETAdd);
-        addUnitBtn = findViewById(R.id.unitBtn);
-        viewUnit = findViewById(R.id.viewUnit);
-        deleteUnit = findViewById(R.id.deleteUnit);
-
-
-        //WorkDone
-        addWorkDone = findViewById(R.id.addWorkDone);
-        workDone = findViewById(R.id.workDoneSpineer);
-        workDoneLL = findViewById(R.id.workDoneLL);
-        addWorkDoneLL = findViewById(R.id.addWorkDoneLL);
-        workDoneETAdd = findViewById(R.id.workDoneETAdd);
-        addWorkDoneBtn = findViewById(R.id.workDoneBtn);
-        viewWorkDone = findViewById(R.id.viewWorkDone);
-        deleteWorkDone = findViewById(R.id.deleteWorkDone);
-
-
         //TextView
         tv = findViewById(R.id.makePair);
 //        pairLL = findViewById(R.id.pairLL);
-
-
 
 
 //        Retrive data of added material
@@ -483,9 +149,6 @@ public class AddDetails extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         modelList.clear();
-
-
-
 
         //KG TO NO
         kgToNo = findViewById(R.id.kgToNo);
@@ -513,1333 +176,11 @@ public class AddDetails extends AppCompatActivity {
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
 
                 companyEmail = value.getString("companyEmail");
-                String cmp = companyEmail;
+                 cmp = companyEmail;
                 companyEmail = companyEmail.replace("@","");
                 companyEmail = companyEmail.replace(".","");
 
                 showData(cmp);
-
-                        //Team Name
-                        addTeamName.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                team.setVisibility(View.GONE);
-                                teamNameLL.setVisibility(View.VISIBLE);
-                            }
-                        });
-                        viewTeamName.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                team.setVisibility(View.VISIBLE);
-                                teamNameLL.setVisibility(View.GONE);
-                            }
-                        });
-                        databaseReference = FirebaseDatabase.getInstance().getReference(companyEmail+" teamName");
-                        spinnerDataList = new ArrayList<>();
-                        adapter = new ArrayAdapter<String>(AddDetails.this,R.layout.support_simple_spinner_dropdown_item,spinnerDataList);
-                        teamName.setAdapter(adapter);
-                        retrieveData();
-                        addTeamNameBtn.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                textData = teamNameETAdd.getText().toString().trim();
-
-                                if (textData.isEmpty()){
-                                    teamNameETAdd.setError("Required");
-                                    teamNameETAdd.requestFocus();
-                                }
-                                else if (SpecialCharacter(textData)){
-                                    teamNameETAdd.setError(s);
-                                    teamNameETAdd.requestFocus();
-                                }
-                                if (textData.equals(adapter.toString())){
-                                    Toast.makeText(AddDetails.this, "Already Have this", Toast.LENGTH_SHORT).show();
-                                }
-                                else {
-                                    databaseReference.child(textData).setValue(textData)
-                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    teamNameETAdd.setText(" ");
-                                                    spinnerDataList.clear();
-                                                    retrieveData();
-                                                    adapter.notifyDataSetChanged();
-                                                    Toast.makeText(getApplicationContext(), "Team name inserted", Toast.LENGTH_SHORT).show();
-                                                }
-                                            }).addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(getApplicationContext(), "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-
-                                        }
-                                    });
-                                }
-                            }
-                        });
-                        spinnerDataList.clear();
-                        deleteTeamName.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                String name = teamName.getText().toString().trim();
-                                if (name.isEmpty()){
-                                    showMessage("Empty!");
-                                }
-                                else {
-                                    String[] options = {"No", "Yes"};
-                                    builder.setTitle("Are you Sure ?");
-                                    builder.setIcon(R.drawable.ic_action_delete);
-                                    builder.setItems(options, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            if (which == 0) {
-                                                String not = "Cancel";
-                                                Toast.makeText(getApplicationContext(), not.toUpperCase(), Toast.LENGTH_SHORT).show();
-                                            } else if (name.isEmpty()) {
-                                                showMessage("Team Name is empty");
-                                            } else {
-                                                spinnerDataList.clear();
-                                                databaseReference.child(name).removeValue();
-                                                adapter.notifyDataSetChanged();
-                                                teamName.setText(" ");
-                                                showMessage(name + " is remove");
-                                            }
-                                        }
-                                    }).create().show();
-
-                                }
-
-                            }
-                        });
-                        spinnerDataList.clear();
-
-
-                        //Line
-                addLine.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                lineLL.setVisibility(View.GONE);
-                addLineLL.setVisibility(View.VISIBLE);
-            }
-        });
-                viewLine.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                lineLL.setVisibility(View.VISIBLE);
-                addLineLL.setVisibility(View.GONE);
-
-            }
-        });
-                databaseReferenceLine = FirebaseDatabase.getInstance().getReference(companyEmail+" Line");
-                spinnerLine = new ArrayList<>();
-                adapterLine = new ArrayAdapter<String>(AddDetails.this,R.layout.support_simple_spinner_dropdown_item,spinnerLine);
-                line.setAdapter(adapterLine);
-                retrieveDataLine();
-                addLineBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                lineData = lineETAdd.getText().toString().trim();
-                Matcher matcher = pattern.matcher(lineData);
-                boolean isStringContainsSpecialCharacter = matcher.find();
-                if (lineData.isEmpty()){
-                    lineETAdd.setError("Required");
-                    lineETAdd.requestFocus();
-                }
-               else if(isStringContainsSpecialCharacter){
-                    lineETAdd.setError(s);
-                    lineETAdd.requestFocus();
-                }
-                else {
-                    databaseReferenceLine.child(lineData).setValue(lineData)
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    lineETAdd.setText(" ");
-                                    spinnerLine.clear();
-                                    retrieveDataLine();
-                                    adapterLine.notifyDataSetChanged();
-                                    Toast.makeText(getApplicationContext(), "Line Inserted", Toast.LENGTH_SHORT).show();
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(getApplicationContext(), "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-
-                        }
-                    });
-                }
-
-            }
-        });
-                spinnerLine.clear();
-                deleteLine.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String name = line.getText().toString().trim();
-                        if (name.isEmpty()){
-                            showMessage("Empty!");
-                        }
-                        else {
-                            String[] options = {"No", "Yes"};
-                            builder.setTitle("Are you Sure ?");
-                            builder.setIcon(R.drawable.ic_action_delete);
-                            builder.setItems(options, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if (which == 0) {
-                                        String not = "Cancel";
-                                        Toast.makeText(getApplicationContext(), not.toUpperCase(), Toast.LENGTH_SHORT).show();
-                                    } else if (name.isEmpty()) {
-                                        showMessage("Empty");
-                                    } else {
-                                        spinnerLine.clear();
-                                        databaseReferenceLine.child(name).removeValue();
-                                        adapterLine.notifyDataSetChanged();
-                                        line.setText(" ");
-                                        showMessage(name + " is remove");
-                                    }
-                                }
-                            }).create().show();
-                        }
-                    }
-                });
-                spinnerLine.clear();
-
-
-                //Tender
-                addTender.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        tenderLL.setVisibility(View.GONE);
-                        addTenderLL.setVisibility(View.VISIBLE);
-                    }
-                });
-                viewTender.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        tenderLL.setVisibility(View.VISIBLE);
-                        addTenderLL.setVisibility(View.GONE);
-                    }
-                });
-                databaseReferenceTender = FirebaseDatabase.getInstance().getReference(companyEmail+" Tender");
-                spinnerTender = new ArrayList<>();
-                adapterTender = new ArrayAdapter<String>(AddDetails.this,R.layout.support_simple_spinner_dropdown_item,spinnerTender);
-                tender.setAdapter(adapterTender);
-                retrieveDataTender();
-                addTenderBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        tenderData = tenderETAdd.getText().toString().trim();
-                        if (tenderData.isEmpty()){
-                            tenderETAdd.setError("Required");
-                            tenderETAdd.requestFocus();
-                        }
-                        else if (SpecialCharacter(tenderData)){
-                            tenderETAdd.setError(s);
-                            tenderETAdd.requestFocus();
-                        }
-                        else {
-                            databaseReferenceTender.child(tenderData).setValue(tenderData)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            tenderETAdd.setText(" ");
-                                            spinnerTender.clear();
-                                            retrieveDataTender();
-                                            adapterTender.notifyDataSetChanged();
-                                           showMessage("Tender is inserted");
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(getApplicationContext(), "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-
-                                }
-                            });
-                        }
-                    }
-                });
-                spinnerTender.clear();
-                deleteTender.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String name = tender.getText().toString().trim();
-                        if (name.isEmpty()){
-                            showMessage("Empty!");
-                        }
-                        else {
-                            String[] options = {"No", "Yes"};
-                            builder.setTitle("Are you Sure ?");
-                            builder.setIcon(R.drawable.ic_action_delete);
-                            builder.setItems(options, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if (which == 0) {
-                                        String not = "Cancel";
-                                        Toast.makeText(getApplicationContext(), not.toUpperCase(), Toast.LENGTH_SHORT).show();
-                                    } else if (name.isEmpty()) {
-                                        showMessage("Empty");
-                                    } else {
-                                        spinnerTender.clear();
-                                        databaseReferenceTender.child(name).removeValue();
-                                        adapterTender.notifyDataSetChanged();
-                                        tender.setText(" ");
-                                        showMessage(name + " is remove");
-                                    }
-                                }
-                            }).create().show();
-                        }
-
-
-                    }
-                });
-                spinnerTender.clear();
-
-                //Driver
-                addDriver.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        driverLL.setVisibility(View.GONE);
-                        addDriverLL.setVisibility(View.VISIBLE);
-                    }
-                });
-                viewDriver.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        driverLL.setVisibility(View.VISIBLE);
-                        addDriverLL.setVisibility(View.GONE);
-                    }
-                });
-                databaseReferenceDriver = FirebaseDatabase.getInstance().getReference(companyEmail+" Driver");
-                spinnerDriver = new ArrayList<>();
-                adapterDriver = new ArrayAdapter<String>(AddDetails.this,R.layout.support_simple_spinner_dropdown_item,spinnerDriver);
-                driver.setAdapter(adapterDriver);
-                retrieveDataDriver();
-                addDriverBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        driverData = driverETAdd.getText().toString().trim();
-                        if (driverData.isEmpty()){
-                            driverETAdd.setError("Required");
-                            driverETAdd.requestFocus();
-                        }
-                        else if (SpecialCharacter(driverData)){
-                            driverETAdd.setError(s);
-                            driverETAdd.requestFocus();
-                        }
-                        else {
-                            databaseReferenceDriver.child(driverData).setValue(driverData)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            driverETAdd.setText(" ");
-                                            spinnerDriver.clear();
-                                            retrieveDataDriver();
-                                            adapterDriver.notifyDataSetChanged();
-                                            showMessage("Driver is inserted");
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(getApplicationContext(), "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-
-                                }
-                            });
-                        }
-                    }
-                });
-                spinnerDriver.clear();
-                deleteDriver.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String name = driver.getText().toString().trim();
-                        if (name.isEmpty()){
-                            showMessage("Empty!");
-                        }
-                        else {
-                            String [] options = {"No","Yes"};
-                            builder.setTitle("Are you Sure ?");
-                            builder.setIcon(R.drawable.ic_action_delete);
-                            builder.setItems(options, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if (which==0){
-                                        String not = "Cancel";
-                                        Toast.makeText(getApplicationContext(), not.toUpperCase(), Toast.LENGTH_SHORT).show();
-                                    }
-                                    else {
-                                        spinnerDriver.clear();
-                                        databaseReferenceDriver.child(name).removeValue();
-                                        adapterDriver.notifyDataSetChanged();
-                                        driver.setText(" ");
-                                        showMessage(name+" is remove");
-                                    }
-
-                                }
-                            }).create().show();
-                        }
-
-                    }
-                });
-                spinnerDriver.clear();
-
-                //Vehical
-                addVehical.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        vehicalLL.setVisibility(View.GONE);
-                        addVehicalLL.setVisibility(View.VISIBLE);
-                    }
-                });
-                viewVehical.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        vehicalLL.setVisibility(View.VISIBLE);
-                        addVehicalLL.setVisibility(View.GONE);
-                    }
-                });
-                databaseReferenceVehical = FirebaseDatabase.getInstance().getReference(companyEmail+" Vehical");
-                spinnerVehical = new ArrayList<>();
-                adapterVehical = new ArrayAdapter<String>(AddDetails.this,R.layout.support_simple_spinner_dropdown_item,spinnerVehical);
-                vehical.setAdapter(adapterVehical);
-                retrieveDataVehical();
-                addVehicalBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        vehicalData = vehicalETAdd.getText().toString().trim();
-                        if (vehicalData.isEmpty()){
-                            vehicalETAdd.setError("Required");
-                            vehicalETAdd.requestFocus();
-                        }
-                        else if (SpecialCharacter(vehicalData)){
-                            vehicalETAdd.setError(s);
-                            vehicalETAdd.requestFocus();
-                        }
-                        else {
-                            databaseReferenceVehical.child(vehicalData).setValue(vehicalData)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            vehicalETAdd.setText(" ");
-                                            spinnerVehical.clear();
-                                            retrieveDataVehical();
-                                            adapterVehical.notifyDataSetChanged();
-                                            showMessage("Vehical is inserted");
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(getApplicationContext(), "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-
-                                }
-                            });
-                        }
-                    }
-                });
-                spinnerVehical.clear();
-                deleteVehical.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String name = vehical.getText().toString().trim();
-
-                        if (name.isEmpty()){
-                            showMessage("Empty!");
-                        }
-                        else {
-                            String[] options = {"No", "Yes"};
-                            builder.setTitle("Are you Sure ?");
-                            builder.setIcon(R.drawable.ic_action_delete);
-                            builder.setItems(options, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if (which == 0) {
-                                        String not = "Cancel";
-                                        Toast.makeText(getApplicationContext(), not.toUpperCase(), Toast.LENGTH_SHORT).show();
-                                    } else if (name.isEmpty()) {
-                                        showMessage("Empty");
-                                    } else {
-                                        spinnerVehical.clear();
-                                        databaseReferenceVehical.child(name).removeValue();
-                                        adapterVehical.notifyDataSetChanged();
-                                        vehical.setText(" ");
-                                        showMessage(name + " is remove");
-                                    }
-
-                                }
-                            }).create().show();
-
-                        }
-
-                    }
-                });
-                spinnerVehical.clear();
-
-                //Receiver
-                addReceiver.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        receiverLL.setVisibility(View.GONE);
-                        addReceiverLL.setVisibility(View.VISIBLE);
-                    }
-                });
-                viewReceiver.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        receiverLL.setVisibility(View.VISIBLE);
-                        addReceiverLL.setVisibility(View.GONE);
-                    }
-                });
-                databaseReferenceReceiver = FirebaseDatabase.getInstance().getReference(companyEmail+" Receiver");
-                spinnerReceiver = new ArrayList<>();
-                adapterReceiver = new ArrayAdapter<String>(AddDetails.this,R.layout.support_simple_spinner_dropdown_item,spinnerReceiver);
-                receiver.setAdapter(adapterReceiver);
-                retrieveDataReceiver();
-                addReceiverBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        receiverData = receiverETAdd.getText().toString().trim();
-                        if (receiverData.isEmpty()){
-                            receiverETAdd.setError("Required");
-                            receiverETAdd.requestFocus();
-                        }
-                        else if (SpecialCharacter(receiverData)){
-                            receiverETAdd.setError(s);
-                            receiverETAdd.requestFocus();
-                        }
-                        else {
-                            databaseReferenceReceiver.child(receiverData.toLowerCase()).setValue(receiverData.toLowerCase())
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            receiverETAdd.setText(" ");
-                                            spinnerReceiver.clear();
-                                            retrieveDataReceiver();
-                                            adapterReceiver.notifyDataSetChanged();
-                                            showMessage("Receiver is inserted");
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(getApplicationContext(), "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-
-                                }
-                            });
-                        }
-                    }
-                });
-                spinnerReceiver.clear();
-                deleteReceiver.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String name = receiver.getText().toString().trim();
-                        if (name.isEmpty()){
-                            showMessage("Empty!");
-                        }
-                        else {
-                            String[] options = {"No", "Yes"};
-                            builder.setTitle("Are you Sure ?");
-                            builder.setIcon(R.drawable.ic_action_delete);
-                            builder.setItems(options, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if (which == 0) {
-                                        String not = "Cancel";
-                                        Toast.makeText(getApplicationContext(), not.toUpperCase(), Toast.LENGTH_SHORT).show();
-                                    } else if (name.isEmpty()) {
-                                        showMessage("Empty");
-                                    } else {
-                                        spinnerReceiver.clear();
-                                        databaseReferenceReceiver.child(name).removeValue();
-                                        adapterReceiver.notifyDataSetChanged();
-                                        receiver.setText(" ");
-                                        showMessage(name + " is remove");
-                                    }
-
-                                }
-                            }).create().show();
-                        }
-
-                    }
-                });
-                spinnerReceiver.clear();
-
-                //Material
-                addMaterial.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        materialLL.setVisibility(View.GONE);
-                        addMaterialLL.setVisibility(View.VISIBLE);
-                    }
-                });
-                viewMaterial.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        materialLL.setVisibility(View.VISIBLE);
-                        addMaterialLL.setVisibility(View.GONE);
-                    }
-                });
-                databaseReferenceMaterial = FirebaseDatabase.getInstance().getReference(companyEmail+" Material");
-                spinnerMaterial = new ArrayList<>();
-                adapterMaterial = new ArrayAdapter<String>(AddDetails.this,R.layout.support_simple_spinner_dropdown_item,spinnerMaterial);
-                material.setAdapter(adapterMaterial);
-                retrieveDataMaterial();
-                addMaterialBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        materialData = materialETAdd.getText().toString().trim();
-                        String btn = addMaterialBtn.getText().toString().trim();
-                        if (btn.equalsIgnoreCase("Add")) {
-                            if (materialData.isEmpty()) {
-                                materialETAdd.setError("Required");
-                                materialETAdd.requestFocus();
-                            } else if (SpecialCharacter(materialData)) {
-                                materialETAdd.setError(s);
-                                materialETAdd.requestFocus();
-                            } else {
-                                databaseReferenceMaterial.child(materialData).setValue(materialData)
-                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                materialETAdd.setText(" ");
-                                                spinnerMaterial.clear();
-                                                retrieveDataMaterial();
-                                                adapterMaterial.notifyDataSetChanged();
-                                                showMessage("Material is inserted");
-                                                uploadMaterial(materialData, cmp);
-                                            }
-                                        }).addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Toast.makeText(getApplicationContext(), "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-
-                                            }
-                                        });
-                            }
-                        }
-                        else if (btn.equalsIgnoreCase("UPDATE")){
-                            if (materialData.isEmpty()) {
-                                materialETAdd.setError("Required");
-                                materialETAdd.requestFocus();
-                            } else if (SpecialCharacter(materialData)) {
-                                materialETAdd.setError(s);
-                                materialETAdd.requestFocus();
-                            } else {
-                                databaseReferenceMaterial.child(materialData).setValue(materialData)
-                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                materialETAdd.setText(" ");
-                                                spinnerMaterial.clear();
-                                                retrieveDataMaterial();
-                                                adapterMaterial.notifyDataSetChanged();
-                                                showMessage("Material is inserted");
-                                                uploadMaterial(materialData, cmp);
-
-                                                spinnerMaterial.clear();
-                                                databaseReferenceMaterial.child(updateMaterialName).removeValue();
-                                                adapterMaterial.notifyDataSetChanged();
-                                                material.setText(" ");
-                                                showMessage(updateMaterialName + " is remove");
-                                                deleteData(cmp,updateMaterialName);
-
-                                                updateMaterialNameData(materialData,updateMaterialName,cmp);
-
-                                                
-                                            }
-                                        }).addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Toast.makeText(getApplicationContext(), "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
-                            }
-                        }
-                    }
-                });
-                spinnerMaterial.clear();
-                deleteMaterial.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String name = material.getText().toString().trim();
-                        if (name.isEmpty()){
-                            showMessage("Empty!");
-                        }
-                        else {
-                            String[] options = {"No", "Yes"};
-                            builder.setTitle("Are you Sure ?");
-                            builder.setIcon(R.drawable.ic_action_delete);
-                            builder.setItems(options, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if (name.isEmpty()) {
-                                        showMessage("Empty");
-                                    }
-                                    else  if (which == 0) {
-                                        String not = "Cancel";
-                                        Toast.makeText(getApplicationContext(), not.toUpperCase(), Toast.LENGTH_SHORT).show();
-                                    }
-                                    else {
-                                        spinnerMaterial.clear();
-                                        databaseReferenceMaterial.child(name).removeValue();
-                                        adapterMaterial.notifyDataSetChanged();
-                                        material.setText(" ");
-                                        showMessage(name + " is remove");
-                                        deleteData(cmp,name);
-                                    }
-                                }
-                            }).create().show();
-                        }
-                    }
-                });
-                spinnerMaterial.clear();
-
-                updateMaterial.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        updateMaterialName = material.getText().toString().trim();
-                        if (updateMaterialName.isEmpty()){
-                            showMessage("Select Material");
-                        }
-                        else{
-                            materialLL.setVisibility(View.GONE);
-                            addMaterialLL.setVisibility(View.VISIBLE);
-                            addMaterialBtn.setText("UPDATE");
-                            materialETAdd.setText(updateMaterialName);
-
-                        }
-                    }
-                });
-
-
-
-                //Center
-                addCenter.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        centerLL.setVisibility(View.GONE);
-                        addCenterLL.setVisibility(View.VISIBLE);
-                    }
-                });
-                viewCenter.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        centerLL.setVisibility(View.VISIBLE);
-                        addCenterLL.setVisibility(View.GONE);
-                    }
-                });
-                databaseReferenceCenter = FirebaseDatabase.getInstance().getReference(companyEmail+" Center");
-                spinnerCenter = new ArrayList<>();
-                adapterCenter = new ArrayAdapter<String>(AddDetails.this,R.layout.support_simple_spinner_dropdown_item,spinnerCenter);
-                center.setAdapter(adapterCenter);
-                retrieveDataCenter();
-                addCenterBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        centerData = centerETAdd.getText().toString().trim();
-                        if (centerData.isEmpty()){
-                            centerETAdd.setError("Required");
-                            centerETAdd.requestFocus();
-                        }
-                        else if (SpecialCharacter(centerData)){
-                            centerETAdd.setError(s);
-                            centerETAdd.requestFocus();
-                        }
-                        else {
-                            databaseReferenceCenter.child(centerData).setValue(centerData)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            centerETAdd.setText(" ");
-                                            spinnerCenter.clear();
-                                            retrieveDataCenter();
-                                            adapterCenter.notifyDataSetChanged();
-                                            showMessage("Center is inserted");
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(getApplicationContext(), "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-
-                                }
-                            });
-                        }
-                    }
-                });
-                spinnerCenter.clear();
-                deleteCenter.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String name = center.getText().toString().trim();
-                        if (name.isEmpty()){
-                            showMessage("Empty!");
-                        }
-                        else {
-                            String[] options = {"No", "Yes"};
-                            builder.setTitle("Are you Sure ?");
-                            builder.setIcon(R.drawable.ic_action_delete);
-                            builder.setItems(options, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if (which == 0) {
-                                        String not = "Cancel";
-                                        Toast.makeText(getApplicationContext(), not.toUpperCase(), Toast.LENGTH_SHORT).show();
-                                    } else if (name.isEmpty()) {
-                                        showMessage("Empty");
-                                    } else {
-                                        spinnerCenter.clear();
-                                        databaseReferenceCenter.child(name).removeValue();
-                                        adapterCenter.notifyDataSetChanged();
-                                        center.setText(" ");
-                                        showMessage(name + " is remove");
-                                    }
-
-                                }
-                            }).create().show();
-                        }
-
-                    }
-                });
-                spinnerCenter.clear();
-
-
-                //Village
-                addVillage.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        villageLL.setVisibility(View.GONE);
-                        addVillageLL.setVisibility(View.VISIBLE);
-                    }
-                });
-                viewVillage.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        villageLL.setVisibility(View.VISIBLE);
-                        addVillageLL.setVisibility(View.GONE);
-                    }
-                });
-                databaseReferenceVillage = FirebaseDatabase.getInstance().getReference(companyEmail+" Village");
-                spinnerVillage = new ArrayList<>();
-                adapterVillage = new ArrayAdapter<String>(AddDetails.this,R.layout.support_simple_spinner_dropdown_item,spinnerVillage);
-                village.setAdapter(adapterVillage);
-                retrieveDataVillage();
-                addVillageBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        villageData = villageETAdd.getText().toString().trim();
-                        if (villageData.isEmpty()){
-                            villageETAdd.setError("Required");
-                            villageETAdd.requestFocus();
-                        }
-                        else if (SpecialCharacter(villageData)){
-                            villageETAdd.setError(s);
-                            villageETAdd.requestFocus();
-                        }
-                        else {
-                            databaseReferenceVillage.child(villageData).setValue(villageData)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            villageETAdd.setText(" ");
-                                            spinnerVillage.clear();
-                                            retrieveDataVillage();
-                                            adapterVillage.notifyDataSetChanged();
-                                            showMessage("Village is inserted");
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(getApplicationContext(), "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-
-                                }
-                            });
-                        }
-                    }
-                });
-                spinnerVillage.clear();
-                deleteVillage.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String name = village.getText().toString().trim();
-                        if (name.isEmpty()){
-                            showMessage("Empty!");
-                        }
-                        else {
-                            String[] options = {"No", "Yes"};
-                            builder.setTitle("Are you Sure ?");
-                            builder.setIcon(R.drawable.ic_action_delete);
-                            builder.setItems(options, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if (which == 0) {
-                                        String not = "Cancel";
-                                        Toast.makeText(getApplicationContext(), not.toUpperCase(), Toast.LENGTH_SHORT).show();
-                                    } else if (name.isEmpty()) {
-                                        showMessage("Empty");
-                                    } else {
-                                        spinnerVillage.clear();
-                                        databaseReferenceVillage.child(name).removeValue();
-                                        adapterVillage.notifyDataSetChanged();
-                                        village.setText(" ");
-                                        showMessage(name + " is remove");
-                                    }
-
-                                }
-                            }).create().show();
-                        }
-
-                    }
-                });
-                spinnerVillage.clear();
-
-                //District
-                addDistrict.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        districtLL.setVisibility(View.GONE);
-                        addDistrictLL.setVisibility(View.VISIBLE);
-                    }
-                });
-                viewDistrict.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        districtLL.setVisibility(View.VISIBLE);
-                        addDistrictLL.setVisibility(View.GONE);
-                    }
-                });
-                databaseReferenceDistrict = FirebaseDatabase.getInstance().getReference(companyEmail+" District");
-                spinnerDistrict = new ArrayList<>();
-                adapterDistrict = new ArrayAdapter<String>(AddDetails.this,R.layout.support_simple_spinner_dropdown_item,spinnerDistrict);
-                district.setAdapter(adapterDistrict);
-                retrieveDataDistrict();
-                addDistrictBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        districtData = districtETAdd.getText().toString().trim();
-                        if (districtData.isEmpty()){
-                            districtETAdd.setError("Required");
-                            districtETAdd.requestFocus();
-                        }
-                        else if (SpecialCharacter(districtData)){
-                            districtETAdd.setError(s);
-                            districtETAdd.requestFocus();
-                        }
-                        else {
-                            databaseReferenceDistrict.child(districtData).setValue(districtData)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            districtETAdd.setText(" ");
-                                            spinnerDistrict.clear();
-                                            retrieveDataDistrict();
-                                            adapterDistrict.notifyDataSetChanged();
-                                            showMessage("District is inserted");
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(getApplicationContext(), "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-
-                                }
-                            });
-                        }
-                    }
-                });
-                spinnerDistrict.clear();
-                deleteDistrict.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String name = district.getText().toString().trim();
-                        if (name.isEmpty()){
-                            showMessage("Empty!");
-                        }
-                        else {
-                            String[] options = {"No", "Yes"};
-                            builder.setTitle("Are you Sure ?");
-                            builder.setIcon(R.drawable.ic_action_delete);
-                            builder.setItems(options, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if (which == 0) {
-                                        String not = "Cancel";
-                                        Toast.makeText(getApplicationContext(), not.toUpperCase(), Toast.LENGTH_SHORT).show();
-                                    } else if (name.isEmpty()) {
-                                        showMessage("Empty");
-                                    } else {
-                                        spinnerDistrict.clear();
-                                        databaseReferenceDistrict.child(name).removeValue();
-                                        adapterDistrict.notifyDataSetChanged();
-                                        district.setText(" ");
-                                        showMessage(name + " is remove");
-                                    }
-
-                                }
-                            }).create().show();
-                        }
-                    }
-                });
-                spinnerDistrict.clear();
-
-                //State
-                addState.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        stateLL.setVisibility(View.GONE);
-                        addStateLL.setVisibility(View.VISIBLE);
-                    }
-                });
-                viewState.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        stateLL.setVisibility(View.VISIBLE);
-                        addStateLL.setVisibility(View.GONE);
-                    }
-                });
-                databaseReferenceState = FirebaseDatabase.getInstance().getReference(companyEmail+" State");
-                spinnerState = new ArrayList<>();
-                adapterState = new ArrayAdapter<String>(AddDetails.this,R.layout.support_simple_spinner_dropdown_item,spinnerState);
-                state.setAdapter(adapterState);
-                retrieveDataState();
-                addStateBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        stateData = stateETAdd.getText().toString().trim();
-                        if (stateData.isEmpty()){
-                            stateETAdd.setError("Required");
-                            stateETAdd.requestFocus();
-                        }
-                        else if (SpecialCharacter(stateData)){
-                            stateETAdd.setError(s);
-                            stateETAdd.requestFocus();
-                        }
-                        else {
-                            databaseReferenceState.child(stateData).setValue(stateData)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            stateETAdd.setText(" ");
-                                            spinnerState.clear();
-                                            retrieveDataState();
-                                            adapterState.notifyDataSetChanged();
-                                            showMessage("State is inserted");
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(getApplicationContext(), "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-
-                                }
-                            });
-                        }
-                    }
-                });
-                spinnerState.clear();
-                deleteState.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String name = state.getText().toString().trim();
-                        if (name.isEmpty()){
-                            showMessage("Empty!");
-                        }
-                        else {
-                            String[] options = {"No", "Yes"};
-                            builder.setTitle("Are you Sure ?");
-                            builder.setIcon(R.drawable.ic_action_delete);
-                            builder.setItems(options, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if (which == 0) {
-                                        String not = "Cancel";
-                                        Toast.makeText(getApplicationContext(), not.toUpperCase(), Toast.LENGTH_SHORT).show();
-                                    } else if (name.isEmpty()) {
-                                        showMessage("Empty");
-                                    } else {
-                                        spinnerState.clear();
-                                        databaseReferenceState.child(name).removeValue();
-                                        adapterState.notifyDataSetChanged();
-                                        state.setText(" ");
-                                        showMessage(name + " is remove");
-                                    }
-
-
-                                }
-                            }).create().show();
-                        }
-
-                    }
-                });
-                spinnerState.clear();
-
-
-                //Taluka
-                addTaluka.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        talukaLL.setVisibility(View.GONE);
-                        addTalukaLL.setVisibility(View.VISIBLE);
-                    }
-                });
-                viewTaluka.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        talukaLL.setVisibility(View.VISIBLE);
-                        addTalukaLL.setVisibility(View.GONE);
-                    }
-                });
-                databaseReferenceTaluka = FirebaseDatabase.getInstance().getReference(companyEmail+" Taluka");
-                spinnerTaluka = new ArrayList<>();
-                adapterTaluka = new ArrayAdapter<String>(AddDetails.this,R.layout.support_simple_spinner_dropdown_item,spinnerTaluka);
-                taluka.setAdapter(adapterTaluka);
-                retrieveDataTaluka();
-                addTalukaBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        talukaData = talukaETAdd.getText().toString().trim();
-                        if (talukaData.isEmpty()){
-                            talukaETAdd.setError("Required");
-                            talukaETAdd.requestFocus();
-                        }
-                        else if (SpecialCharacter(talukaData)){
-                            talukaETAdd.setError(s);
-                            talukaETAdd.requestFocus();
-                        }
-                        else {
-                            databaseReferenceTaluka.child(talukaData).setValue(talukaData)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            talukaETAdd.setText(" ");
-                                            spinnerTaluka.clear();
-                                            retrieveDataTaluka();
-                                            adapterTaluka.notifyDataSetChanged();
-                                            showMessage("Taluka is inserted");
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(getApplicationContext(), "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-
-                                }
-                            });
-                        }
-                    }
-                });
-                spinnerTaluka.clear();
-                deleteTaluka.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String name = taluka.getText().toString().trim();
-                        if (name.isEmpty()){
-                            showMessage("Empty!");
-                        }
-                        else {
-                            String[] options = {"No", "Yes"};
-                            builder.setTitle("Are you Sure ?");
-                            builder.setIcon(R.drawable.ic_action_delete);
-                            builder.setItems(options, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if (which == 0) {
-                                        String not = "Cancel";
-                                        Toast.makeText(getApplicationContext(), not.toUpperCase(), Toast.LENGTH_SHORT).show();
-                                    } else if (name.isEmpty()) {
-                                        showMessage("Empty");
-                                    } else {
-                                        spinnerTaluka.clear();
-                                        databaseReferenceTaluka.child(name).removeValue();
-                                        adapterTaluka.notifyDataSetChanged();
-                                        taluka.setText(" ");
-                                        showMessage(name + " is remove");
-                                    }
-
-                                }
-                            }).create().show();
-                        }
-
-                    }
-                });
-                spinnerTaluka.clear();
-
-                //Unit
-                addUnit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        unitLL.setVisibility(View.GONE);
-                        addUnitLL.setVisibility(View.VISIBLE);
-                    }
-                });
-                viewUnit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        unitLL.setVisibility(View.VISIBLE);
-                        addUnitLL.setVisibility(View.GONE);
-                    }
-                });
-                databaseReferenceUnit = FirebaseDatabase.getInstance().getReference(companyEmail+" Unit");
-                spinnerUnit = new ArrayList<>();
-                adapterUnit = new ArrayAdapter<String>(AddDetails.this,R.layout.support_simple_spinner_dropdown_item,spinnerUnit);
-                unit.setAdapter(adapterUnit);
-                retrieveDataUnit();
-                addUnitBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        unitData = unitETAdd.getText().toString().trim();
-                        if (unitData.isEmpty()){
-                            unitETAdd.setError("Required");
-                            unitETAdd.requestFocus();
-                        }
-                        else if (SpecialCharacter(unitData)){
-                            unitETAdd.setError(s);
-                            unitETAdd.requestFocus();
-                        }
-                        else {
-                            databaseReferenceUnit.child(unitData).setValue(unitData)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            unitETAdd.setText(" ");
-                                            spinnerUnit.clear();
-                                            retrieveDataUnit();
-                                            adapterUnit.notifyDataSetChanged();
-                                            showMessage("Unit is inserted");
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(getApplicationContext(), "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-
-                                }
-                            });
-                        }
-                    }
-                });
-                spinnerUnit.clear();
-                deleteUnit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String name = unit.getText().toString().trim();
-                        if (name.isEmpty()){
-                            showMessage("Empty!");
-                        }
-                        else {
-                            String[] options = {"No", "Yes"};
-                            builder.setTitle("Are you Sure ?");
-                            builder.setIcon(R.drawable.ic_action_delete);
-                            builder.setItems(options, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if (which == 0) {
-                                        String not = "Cancel";
-                                        Toast.makeText(getApplicationContext(), not.toUpperCase(), Toast.LENGTH_SHORT).show();
-                                    } else if (name.isEmpty()) {
-                                        showMessage("Empty");
-                                    } else {
-                                        spinnerUnit.clear();
-                                        databaseReferenceUnit.child(name).removeValue();
-                                        adapterUnit.notifyDataSetChanged();
-                                        unit.setText(" ");
-                                        showMessage(name + " is remove");
-                                    }
-
-
-                                }
-                            }).create().show();
-                        }
-
-                    }
-                });
-                spinnerUnit.clear();
-
-
-
-                //WorkDone
-                addWorkDone.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        workDoneLL.setVisibility(View.GONE);
-                        addWorkDoneLL.setVisibility(View.VISIBLE);
-                    }
-                });
-                viewWorkDone.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        workDoneLL.setVisibility(View.VISIBLE);
-                        addWorkDoneLL.setVisibility(View.GONE);
-                    }
-                });
-                databaseReferenceWorkDone = FirebaseDatabase.getInstance().getReference(companyEmail+" WorkDone");
-                spinnerWorkDone = new ArrayList<>();
-                adapterWorkDone = new ArrayAdapter<String>(AddDetails.this,R.layout.support_simple_spinner_dropdown_item,spinnerWorkDone);
-                workDone.setAdapter(adapterWorkDone);
-                retrieveDataWorkDone();
-                addWorkDoneBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        workDoneData = workDoneETAdd.getText().toString().trim();
-                        if (workDoneData.isEmpty()){
-                            workDoneETAdd.setError("Required");
-                            workDoneETAdd.requestFocus();
-                        }
-                        else if (SpecialCharacter(workDoneData)){
-                            workDoneETAdd.setError(s);
-                            workDoneETAdd.requestFocus();
-                        }
-                        else {
-                            databaseReferenceWorkDone.child(workDoneData).setValue(workDoneData)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            workDoneETAdd.setText(" ");
-                                            spinnerWorkDone.clear();
-                                            retrieveDataWorkDone();
-                                            adapterWorkDone.notifyDataSetChanged();
-                                            showMessage("WorkDone is inserted");
-                                            uploadWorkDone(workDoneData,cmp);
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(getApplicationContext(), "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-
-                                        }
-                                    });
-                        }
-                    }
-                });
-                spinnerWorkDone.clear();
-                deleteWorkDone.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String name = workDone.getText().toString().trim();
-                        if (name.isEmpty()){
-                            showMessage("Empty!");
-                        }
-                        else {
-                            String[] options = {"No", "Yes"};
-                            builder.setTitle("Are you Sure ?");
-                            builder.setIcon(R.drawable.ic_action_delete);
-                            builder.setItems(options, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if (which == 0) {
-                                        String not = "Cancel";
-                                        Toast.makeText(getApplicationContext(), not.toUpperCase(), Toast.LENGTH_SHORT).show();
-                                    } else if (name.isEmpty()) {
-                                        showMessage("Empty");
-                                    } else {
-                                        spinnerWorkDone.clear();
-                                        databaseReferenceWorkDone.child(name).removeValue();
-                                        adapterWorkDone.notifyDataSetChanged();
-                                        workDone.setText(" ");
-                                        showMessage(name + " is remove");
-                                    }
-
-
-                                }
-                            }).create().show();
-                        }
-
-                    }
-                });
-                spinnerWorkDone.clear();
 
                 //Pair With Tender and center
                 tv.setOnClickListener(new View.OnClickListener() {
@@ -1848,9 +189,6 @@ public class AddDetails extends AppCompatActivity {
                        startActivity(new Intent(getApplicationContext(),PairTenderWithSite.class));
                     }
                 });
-
-
-
             }
         });
 
@@ -2071,8 +409,8 @@ public class AddDetails extends AppCompatActivity {
                     public void onSuccess(Void unused) {
                         updateRetrunMaterialNameOneField(materialData,cmp,material,id);
                         updateUsedMaterialNameOneField(materialData,cmp,material,id);
-                        updateActualUsedMaterialNameOneField(materialData,cmp,material,id);
-                        updateBalanceUsedMaterialNameOneField(materialData,cmp,material,id);
+//                        updateActualUsedMaterialNameOneField(materialData,cmp,material,id);
+//                        updateBalanceUsedMaterialNameOneField(materialData,cmp,material,id);
                         Toast.makeText(AddDetails.this, "Done", Toast.LENGTH_SHORT).show();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
@@ -2211,26 +549,6 @@ public class AddDetails extends AppCompatActivity {
                 });
     }
 
-    private void retrieveDataWorkDone() {
-
-        listenerWorkDone = databaseReferenceWorkDone.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot item : snapshot.getChildren()){
-                    spinnerWorkDone.add(item.getValue().toString());
-                }
-                adapterWorkDone.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-
-    }
-
     private void deleteData(String cmp, String name) {
         fStore.collection(cmp + " AddStock").document(name)
                 .delete()
@@ -2323,15 +641,251 @@ public class AddDetails extends AppCompatActivity {
             }
         });
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.update_add_details, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.update) {
+            showDilog();
 
-    public void retrieveData(){
-        listener = databaseReference.addValueEventListener(new ValueEventListener() {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    private void showDilog() {
+        dialog = new Dialog(AddDetails.this);
+        dialog.setContentView(R.layout.update_data_libary);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT);
+        dialog.getWindow().setBackgroundDrawableResource(R.drawable.back_background);
+        dialog.show();
+
+        whatDoUpdate = dialog.findViewById(R.id.whatDoUpdate);
+        whichTextDoYouReplace = dialog.findViewById(R.id.selectWhatUpadte);
+        updatedText = dialog.findViewById(R.id.updatedText);
+        updateButton = dialog.findViewById(R.id.updateButton);
+        addButton = dialog.findViewById(R.id.addButton);
+        deleteButton = dialog.findViewById(R.id.deleteButton);
+        arrayAdapterForWhatDoUpdate = new ArrayAdapter<String>(AddDetails.this,R.layout.support_simple_spinner_dropdown_item, whatDoUpdateItem);
+        whatDoUpdate.setAdapter(arrayAdapterForWhatDoUpdate);
+        whatDoUpdate.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String n = parent.getItemAtPosition(position).toString().trim();
+
+                switch (n){
+                    case "Team Name":
+                        retrivingDataForAutoCompleteTextView("teamName");
+                        break;
+                    case "Line":
+                    case "Center":
+                    case "Village":
+                    case "Driver Name":
+                    case "Vehical Name":
+                    case "Tender":
+                    case "State":
+                    case "District":
+                    case "Taluka":
+                    case "Unit":
+                        retrivingDataForAutoCompleteTextView(n);
+                        break;
+                    case "Material Receiver Name":
+                        retrivingDataForAutoCompleteTextView("Receiver");
+                        break;
+                    case "Material Name":
+                        retrivingDataForAutoCompleteTextView("Material");
+                        break;
+                    case "Work Done":
+                        retrivingDataForAutoCompleteTextView("WorkDone");
+                        break;
+                }
+
+            }
+        });
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String text = updatedText.getText().toString().trim();
+                String whichData = whichTextDoYouReplace.getText().toString().trim();
+                String taskToUpdate = whatDoUpdate.getText().toString().trim();
+
+                Matcher matcher = pattern.matcher(text);
+                boolean isStringContainsSpecialCharacter = matcher.find();
+
+                if (text.isEmpty() || whichData.isEmpty() || taskToUpdate.isEmpty()){
+                    Toast.makeText(AddDetails.this, "Fill all the information!!", Toast.LENGTH_SHORT).show();
+                } else if (isStringContainsSpecialCharacter) {
+                    updatedText.setError(WARRING_MESSAGE);
+                } else {
+                    add(text);
+                    delete(whichData);
+                    updateDate(text,whichData,taskToUpdate,cmp);
+
+
+                }
+
+            }
+        });
+
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String text = updatedText.getText().toString().trim();
+                String whichData = whichTextDoYouReplace.getText().toString().trim();
+                String taskToUpdate = whatDoUpdate.getText().toString().trim();
+
+                Matcher matcher = pattern.matcher(text);
+                boolean isStringContainsSpecialCharacter = matcher.find();
+
+                if (text.isEmpty() || whichData.isEmpty() || taskToUpdate.isEmpty()){
+                    Toast.makeText(AddDetails.this, "Fill all the information!!", Toast.LENGTH_SHORT).show();
+                }
+                else if (isStringContainsSpecialCharacter) {
+                    updatedText.setError(WARRING_MESSAGE);
+                }
+                else {
+                    add(text);
+                    if (taskToUpdate.equalsIgnoreCase("Material")){
+                        uploadMaterial(text,cmp);
+                    }
+                    else if (taskToUpdate.equalsIgnoreCase("Work Done")){
+                        uploadWorkDone(text,cmp);
+                    }
+
+                }
+
+            }
+        });
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String whichData = whichTextDoYouReplace.getText().toString().trim();
+                String taskToUpdate = whatDoUpdate.getText().toString().trim();
+
+                startActivity(new Intent(getApplicationContext(),AddDetails.class));
+                finish();
+
+                if (whichData.isEmpty() || taskToUpdate.isEmpty()){
+                    Toast.makeText(AddDetails.this, "Fill all the information!!", Toast.LENGTH_SHORT).show();
+                } else {
+                    delete(whichData);
+                }
+
+            }
+        });
+    }
+    private void updateDate(String text, String whichData, String taskToUpdate, String cmp) {
+        if (taskToUpdate.equals("Team Name")){
+            for (int i=0;i< modelList.size();i++){
+                if (modelList.get(i).getTeamName().equals(whichData)){
+                    updateMaterialNameOneField(text,cmp,taskToUpdate,modelList.get(i).getId());
+                }
+            }
+        }
+        else if (taskToUpdate.equals("Line")){
+            for (int i=0;i< modelList.size();i++){
+                if (modelList.get(i).getLine().equals(whichData)){
+                    updateMaterialNameOneField(text,cmp,taskToUpdate,modelList.get(i).getId());
+                }
+            }
+        }
+        else if (taskToUpdate.equals("Center")){
+            for (int i=0;i< modelList.size();i++){
+                if (modelList.get(i).getCenter().equals(whichData)){
+                    updateMaterialNameOneField(text,cmp,taskToUpdate,modelList.get(i).getId());
+                }
+            }
+        }
+        else if (taskToUpdate.equals("Village")){
+            for (int i=0;i< modelList.size();i++){
+                if (modelList.get(i).getVillage().equals(whichData)){
+                    updateMaterialNameOneField(text,cmp,taskToUpdate,modelList.get(i).getId());
+                }
+            }
+        }
+        else if (taskToUpdate.equals("Driver Name")){
+            for (int i=0;i< modelList.size();i++){
+                if (modelList.get(i).getDriverName().equals(whichData)){
+                    updateMaterialNameOneField(text,cmp,taskToUpdate,modelList.get(i).getId());
+                }
+            }
+        }
+        else if (taskToUpdate.equals("Vehical Name")){
+            for (int i=0;i< modelList.size();i++){
+                if (modelList.get(i).getVehicalName().equals(whichData)){
+                    updateMaterialNameOneField(text,cmp,taskToUpdate,modelList.get(i).getId());
+                }
+            }
+        }
+        else if (taskToUpdate.equals("Tender")){
+            for (int i=0;i< modelList.size();i++){
+                if (modelList.get(i).getTender().equals(whichData)){
+                    updateMaterialNameOneField(text,cmp,taskToUpdate,modelList.get(i).getId());
+                }
+            }
+        }
+        else if (taskToUpdate.equals("Material Receiver Name")){
+            for (int i=0;i< modelList.size();i++){
+                if (modelList.get(i).getMaterialReceiverName().equals(whichData)){
+                    updateMaterialNameOneField(text,cmp,taskToUpdate,modelList.get(i).getId());
+                }
+            }
+        }
+        else if (taskToUpdate.equals("Material")){
+            updateMaterialNameData(text,whichData,cmp);
+        }
+        else if (taskToUpdate.equals("Unit")){
+            updateUnitData(text,whichData,cmp);
+        }
+
+    }
+    private void delete(String text) {
+        spinnerDataListUpdate.clear();
+        databaseReferenceUpdate.child(text).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                Toast.makeText(AddDetails.this, "Deleted", Toast.LENGTH_SHORT).show();
+            }
+        });
+        adapterUpdate.notifyDataSetChanged();
+    }
+    private void add(String text) {
+        databaseReferenceUpdate.child(text).setValue(text)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        spinnerDataListUpdate.clear();
+                        retrieveDataUpdate();
+                        adapterUpdate.notifyDataSetChanged();
+                        Toast.makeText(getApplicationContext(), "inserted", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+    private void retrivingDataForAutoCompleteTextView(String s) {
+        databaseReferenceUpdate = FirebaseDatabase.getInstance().getReference(companyEmail + " "+s);
+        spinnerDataListUpdate = new ArrayList<>();
+        adapterUpdate = new ArrayAdapter<String>(AddDetails.this, R.layout.support_simple_spinner_dropdown_item, spinnerDataListUpdate);
+        whichTextDoYouReplace.setAdapter(adapterUpdate);
+        retrieveDataUpdate();
+    }
+    public void retrieveDataUpdate(){
+        pd.show();
+        listenerUpdate = databaseReferenceUpdate.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot item : snapshot.getChildren()){
-                    spinnerDataList.add(item.getValue().toString());
+                    spinnerDataListUpdate.add(item.getValue().toString());
                 }
-                adapter.notifyDataSetChanged();
+                adapterUpdate.notifyDataSetChanged();
+                pd.dismiss();
             }
 
             @Override
@@ -2340,219 +894,138 @@ public class AddDetails extends AppCompatActivity {
             }
         });
     }
+    private void updateUnitData(String materialData, String updateMaterialName, String cmp) {
+        for (int i=0;i<modelList.size();i++){
+            if (modelList.get(i).getUnit1().equalsIgnoreCase(updateMaterialName)){
+                updateMaterialNameOneField(materialData,cmp,"Unit 1",modelList.get(i).getId());
+            }
+            else  if (modelList.get(i).getUnit2().equalsIgnoreCase(updateMaterialName)){
+                updateMaterialNameOneField(materialData,cmp,"Unit 2",modelList.get(i).getId());
+            }
+            else  if (modelList.get(i).getUnit3().equalsIgnoreCase(updateMaterialName)){
+                updateMaterialNameOneField(materialData,cmp,"Unit 3",modelList.get(i).getId());
+            }
+            else  if (modelList.get(i).getUnit4().equalsIgnoreCase(updateMaterialName)){
+                updateMaterialNameOneField(materialData,cmp,"Unit 4",modelList.get(i).getId());
+            }
+            else  if (modelList.get(i).getUnit5().equalsIgnoreCase(updateMaterialName)){
+                updateMaterialNameOneField(materialData,cmp,"Unit 5",modelList.get(i).getId());
+            }
+            else  if (modelList.get(i).getUnit6().equalsIgnoreCase(updateMaterialName)){
+                updateMaterialNameOneField(materialData,cmp,"Unit 6",modelList.get(i).getId());
+            }
+            else  if (modelList.get(i).getUnit7().equalsIgnoreCase(updateMaterialName)){
+                updateMaterialNameOneField(materialData,cmp,"Unit 7",modelList.get(i).getId());
+            }
+            else  if (modelList.get(i).getUnit8().equalsIgnoreCase(updateMaterialName)){
+                updateMaterialNameOneField(materialData,cmp,"Unit 8",modelList.get(i).getId());
+            }
+            else  if (modelList.get(i).getUnit9().equalsIgnoreCase(updateMaterialName)){
+                updateMaterialNameOneField(materialData,cmp,"Unit 9",modelList.get(i).getId());
+            }
+            else  if (modelList.get(i).getUnit10().equalsIgnoreCase(updateMaterialName)){
+                updateMaterialNameOneField(materialData,cmp,"Unit 10",modelList.get(i).getId());
+            }
+            else if (modelList.get(i).getUnit11().equalsIgnoreCase(updateMaterialName)){
+                updateMaterialNameOneField(materialData,cmp,"Unit 11",modelList.get(i).getId());
 
-    public void retrieveDataLine(){
-        listenerLine = databaseReferenceLine.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot item : snapshot.getChildren()){
-                    spinnerLine.add(item.getValue().toString());
-                }
-                adapterLine.notifyDataSetChanged();
             }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            else if (modelList.get(i).getUnit12().equalsIgnoreCase(updateMaterialName)){
+                updateMaterialNameOneField(materialData,cmp,"Unit 12",modelList.get(i).getId());
 
             }
-        });
-    }
 
-    public void retrieveDataTender(){
-        listenerTender = databaseReferenceTender.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot item : snapshot.getChildren()){
-                    spinnerTender.add(item.getValue().toString());
-                }
-                adapterTender.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            else if (modelList.get(i).getUnit13().equalsIgnoreCase(updateMaterialName)){
+                updateMaterialNameOneField(materialData,cmp,"Unit 13",modelList.get(i).getId());
 
             }
-        });
-    }
 
-    public void retrieveDataDriver(){
-        listenerDriver = databaseReferenceDriver.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot item : snapshot.getChildren()){
-                    spinnerDriver.add(item.getValue().toString());
-                }
-                adapterDriver.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            else if (modelList.get(i).getUnit14().equalsIgnoreCase(updateMaterialName)){
+                updateMaterialNameOneField(materialData,cmp,"Unit 14",modelList.get(i).getId());
 
             }
-        });
-    }
 
-    public void retrieveDataVehical(){
-        listenerVehical = databaseReferenceVehical.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot item : snapshot.getChildren()){
-                    spinnerVehical.add(item.getValue().toString());
-                }
-                adapterVehical.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            else if (modelList.get(i).getUnit15().equalsIgnoreCase(updateMaterialName)){
+                updateMaterialNameOneField(materialData,cmp,"Unit 15",modelList.get(i).getId());
 
             }
-        });
-    }
 
-    public void retrieveDataReceiver(){
-        listenerReceiver = databaseReferenceReceiver.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot item : snapshot.getChildren()){
-                    spinnerReceiver.add(item.getValue().toString());
-                }
-                adapterReceiver.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            else if (modelList.get(i).getUnit16().equalsIgnoreCase(updateMaterialName)){
+                updateMaterialNameOneField(materialData,cmp,"Unit 16",modelList.get(i).getId());
 
             }
-        });
-    }
 
-    public void retrieveDataMaterial(){
-        listenerMaterial = databaseReferenceMaterial.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot item : snapshot.getChildren()){
-                    spinnerMaterial.add(item.getValue().toString());
-                }
-                adapterMaterial.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            else if (modelList.get(i).getUnit17().equalsIgnoreCase(updateMaterialName)){
+                updateMaterialNameOneField(materialData,cmp,"Unit 17",modelList.get(i).getId());
 
             }
-        });
-    }
 
-    public void retrieveDataCenter(){
-        listenerCenter = databaseReferenceCenter.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot item : snapshot.getChildren()){
-                    spinnerCenter.add(item.getValue().toString());
-                }
-                adapterCenter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            else if (modelList.get(i).getUnit18().equalsIgnoreCase(updateMaterialName)){
+                updateMaterialNameOneField(materialData,cmp,"Unit 18",modelList.get(i).getId());
 
             }
-        });
-    }
 
-    public void retrieveDataVillage(){
-        listenerVillage = databaseReferenceVillage.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot item : snapshot.getChildren()){
-                    spinnerVillage.add(item.getValue().toString());
-                }
-                adapterVillage.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            else if (modelList.get(i).getUnit19().equalsIgnoreCase(updateMaterialName)){
+                updateMaterialNameOneField(materialData,cmp,"Unit 19",modelList.get(i).getId());
 
             }
-        });
-    }
 
-    public void retrieveDataDistrict(){
-        listenerDistrict = databaseReferenceDistrict.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot item : snapshot.getChildren()){
-                    spinnerDistrict.add(item.getValue().toString());
-                }
-                adapterDistrict.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            else if (modelList.get(i).getUnit20().equalsIgnoreCase(updateMaterialName)){
+                updateMaterialNameOneField(materialData,cmp,"Unit 20",modelList.get(i).getId());
 
             }
-        });
-    }
 
-    public void retrieveDataState(){
-        listenerState = databaseReferenceState.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot item : snapshot.getChildren()){
-                    spinnerState.add(item.getValue().toString());
-                }
-                adapterState.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            else if (modelList.get(i).getUnit21().equalsIgnoreCase(updateMaterialName)){
+                updateMaterialNameOneField(materialData,cmp,"Unit 21",modelList.get(i).getId());
 
             }
-        });
-    }
 
-    public void retrieveDataTaluka(){
-        listenerTaluka = databaseReferenceTaluka.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot item : snapshot.getChildren()){
-                    spinnerTaluka.add(item.getValue().toString());
-                }
-                adapterTaluka.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            else if (modelList.get(i).getUnit22().equalsIgnoreCase(updateMaterialName)){
+                updateMaterialNameOneField(materialData,cmp,"Unit 22",modelList.get(i).getId());
 
             }
-        });
-    }
 
-    public void retrieveDataUnit(){
-        listenerUnit = databaseReferenceUnit.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot item : snapshot.getChildren()){
-                    spinnerUnit.add(item.getValue().toString());
-                }
-                adapterUnit.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            else if (modelList.get(i).getUnit23().equalsIgnoreCase(updateMaterialName)){
+                updateMaterialNameOneField(materialData,cmp,"Unit 23",modelList.get(i).getId());
 
             }
-        });
-    }
 
-    private void showMessage(String s) {
-        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
-    }
+            else if (modelList.get(i).getUnit24().equalsIgnoreCase(updateMaterialName)){
+                updateMaterialNameOneField(materialData,cmp,"Unit 24",modelList.get(i).getId());
 
-    private boolean SpecialCharacter(String name){
+            }
 
-        Matcher matcher = pattern.matcher(name);
-        return matcher.find();
+            else if (modelList.get(i).getUnit25().equalsIgnoreCase(updateMaterialName)){
+                updateMaterialNameOneField(materialData,cmp,"Unit 25",modelList.get(i).getId());
+
+            }
+
+            else if (modelList.get(i).getUnit26().equalsIgnoreCase(updateMaterialName)){
+                updateMaterialNameOneField(materialData,cmp,"Unit 26",modelList.get(i).getId());
+
+            }
+
+            else if (modelList.get(i).getUnit27().equalsIgnoreCase(updateMaterialName)){
+                updateMaterialNameOneField(materialData,cmp,"Unit 27",modelList.get(i).getId());
+
+            }
+
+            else if (modelList.get(i).getUnit28().equalsIgnoreCase(updateMaterialName)){
+                updateMaterialNameOneField(materialData,cmp,"Unit 28",modelList.get(i).getId());
+
+            }
+            else if (modelList.get(i).getUnit29().equalsIgnoreCase(updateMaterialName)){
+                updateMaterialNameOneField(materialData,cmp,"Unit 29",modelList.get(i).getId());
+
+            }
+            else if (modelList.get(i).getUnit30().equalsIgnoreCase(updateMaterialName)){
+                updateMaterialNameOneField(materialData,cmp,"Unit 30",modelList.get(i).getId());
+
+            }
+
+
+        }
     }
 
 }

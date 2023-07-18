@@ -165,7 +165,7 @@ public class RemainingMaterialCustomAdapter extends RecyclerView.Adapter<Remaini
                 String village = modelList.get(position).getVillage();
 
 
-                Intent intent = new Intent(adminViewMaterial,ViewUsedData.class);
+                Intent intent = new Intent(adminViewMaterial,ViewData.class);
                 intent.putExtra("Id",id);
                 intent.putExtra("Date",date);
                 intent.putExtra("TeamName",teamName);
@@ -299,7 +299,6 @@ public class RemainingMaterialCustomAdapter extends RecyclerView.Adapter<Remaini
                 intent.putExtra("Village",village);
 
                 adminViewMaterial.startActivity(intent);
-
 
             }
 
@@ -444,10 +443,9 @@ public class RemainingMaterialCustomAdapter extends RecyclerView.Adapter<Remaini
                         String center = modelList.get(position).getCenter();
                         String village = modelList.get(position).getVillage();
 
-
                         if (which==0){
 
-                            Intent intent = new Intent(adminViewMaterial,ViewUsedData.class);
+                            Intent intent = new Intent(adminViewMaterial,ViewData.class);
                             intent.putExtra("Id",id);
                             intent.putExtra("Date",date);
                             intent.putExtra("TeamName",teamName);
@@ -604,6 +602,7 @@ public class RemainingMaterialCustomAdapter extends RecyclerView.Adapter<Remaini
                             adminViewMaterial.startActivity(intent);
 
                         }
+
                     }
                 }).create().show();
             }

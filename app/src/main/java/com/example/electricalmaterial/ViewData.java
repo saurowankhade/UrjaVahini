@@ -498,5 +498,8 @@ public class ViewData extends AppCompatActivity {
         unit30.setText(unit30S);
         quantity30.setText(quantity30S);
 
+
+
     }
+
 }

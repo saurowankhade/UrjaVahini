@@ -39,7 +39,6 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import hotchemi.android.rate.AppRate;
 
 public class TeamLearder extends AppCompatActivity {
 
@@ -66,13 +65,6 @@ public class TeamLearder extends AppCompatActivity {
         setSupportActionBar(binding.appBarTeamLearder.toolbar);
 
 
-
-        AppRate.with(this)
-                .setInstallDays(1)
-                .setLaunchTimes(2)
-                .setRemindInterval(2)
-                .monitor();
-        AppRate.showRateDialogIfMeetsConditions(this);
 
 
         DrawerLayout drawer = binding.drawerLayout;

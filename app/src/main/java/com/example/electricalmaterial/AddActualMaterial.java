@@ -776,15 +776,6 @@ public class AddActualMaterial extends AppCompatActivity {
 
 
 
-
-
-
-
-
-
-
-
-
                 //Receiver
                 databaseReferenceReceiver = FirebaseDatabase.getInstance().getReference(companyEmail+" Receiver");
                 spinnerDataListReceiver = new ArrayList<>();
@@ -1050,7 +1041,7 @@ public class AddActualMaterial extends AppCompatActivity {
                         String villageS = village.getText().toString().trim();
 
 
-                        showTotalMaterialTaken(cmp,consumerName);
+                        showTotalMaterialTaken(cmp,consumerName,teamName.getText().toString().trim());
 
 
 
@@ -1325,8 +1316,10 @@ public class AddActualMaterial extends AppCompatActivity {
                 });
     }
 
-    private void showTotalMaterialTaken(String cmp, String consumerName) {
-        fStore.collection(cmp+" "+consumerName).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+    private void showTotalMaterialTaken(String cmp, String consumerName,String teamName) {
+        fStore.collection(cmp+" TotalMaterialTaken")
+                .document(consumerName+" "+teamName).collection("MaterialDetails")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 modelListTMT.clear();
@@ -2018,7 +2011,9 @@ public class AddActualMaterial extends AppCompatActivity {
         doc.put("Unit",unit);
         doc.put("Quantity",quantity);
 
-        fStore.collection(cmp+" "+consumerName+" AAM").document(material).set(doc).addOnCompleteListener(new OnCompleteListener<Void>() {
+        fStore.collection(cmp+" BalanceMaterialOnSite")
+                .document(id).collection("BalanceMaterialOnSite")
+                .document(material).set(doc).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 //this will be called when data is added Successfully
