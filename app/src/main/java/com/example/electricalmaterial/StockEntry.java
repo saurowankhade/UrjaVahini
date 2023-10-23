@@ -309,6 +309,7 @@ public class StockEntry extends AppCompatActivity {
                 });
 
 
+//                return false;
             }
 
         });
@@ -766,10 +767,7 @@ public class StockEntry extends AppCompatActivity {
                 });
 
 
-
-
-
-
+//                return false;
             }
         });
 

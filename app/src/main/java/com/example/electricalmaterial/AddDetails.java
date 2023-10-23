@@ -189,6 +189,7 @@ public class AddDetails extends AppCompatActivity {
                        startActivity(new Intent(getApplicationContext(),PairTenderWithSite.class));
                     }
                 });
+
             }
         });
 
@@ -669,7 +670,7 @@ public class AddDetails extends AppCompatActivity {
         updateButton = dialog.findViewById(R.id.updateButton);
         addButton = dialog.findViewById(R.id.addButton);
         deleteButton = dialog.findViewById(R.id.deleteButton);
-        arrayAdapterForWhatDoUpdate = new ArrayAdapter<String>(AddDetails.this,R.layout.support_simple_spinner_dropdown_item, whatDoUpdateItem);
+        arrayAdapterForWhatDoUpdate = new ArrayAdapter<String>(AddDetails.this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, whatDoUpdateItem);
         whatDoUpdate.setAdapter(arrayAdapterForWhatDoUpdate);
         whatDoUpdate.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -872,7 +873,7 @@ public class AddDetails extends AppCompatActivity {
     private void retrivingDataForAutoCompleteTextView(String s) {
         databaseReferenceUpdate = FirebaseDatabase.getInstance().getReference(companyEmail + " "+s);
         spinnerDataListUpdate = new ArrayList<>();
-        adapterUpdate = new ArrayAdapter<String>(AddDetails.this, R.layout.support_simple_spinner_dropdown_item, spinnerDataListUpdate);
+        adapterUpdate = new ArrayAdapter<String>(AddDetails.this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, spinnerDataListUpdate);
         whichTextDoYouReplace.setAdapter(adapterUpdate);
         retrieveDataUpdate();
     }

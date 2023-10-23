@@ -456,11 +456,8 @@ public class Survey extends AppCompatActivity {
 
                     }
                 });
-                
-                
-                
-                
-                
+
+
 
             }
 
@@ -1221,6 +1218,7 @@ public class Survey extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
+
 
             }
         });

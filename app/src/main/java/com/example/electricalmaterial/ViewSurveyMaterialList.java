@@ -178,6 +178,7 @@ public class ViewSurveyMaterialList extends AppCompatActivity {
                 }
 
 
+//                return false;
             }
 
         });
@@ -660,6 +661,7 @@ public class ViewSurveyMaterialList extends AppCompatActivity {
 
                 }
 
+//                return false;
             }
         });
 

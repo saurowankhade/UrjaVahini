@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.electricalmaterial.material.updation.AdminViewMaterial;
+
 import java.util.List;
 
 public class AdminViewDeleteStockAdapter extends RecyclerView.Adapter<AddStockViewHolder> {

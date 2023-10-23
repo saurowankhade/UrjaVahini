@@ -1,7 +1,10 @@
 package com.example.electricalmaterial;
 
 public class AddTotalMaterialTakenModel {
-    String id,material,unit,quantity;
+   private String id;
+   private String material;
+   private String unit;
+   private String quantity;
 
     public AddTotalMaterialTakenModel(String id, String material, String unit, String quantity) {
         this.id = id;

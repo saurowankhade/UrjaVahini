@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -22,9 +21,7 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.example.electricalmaterial.AddDetails;
-import com.example.electricalmaterial.AddMaterial;
 import com.example.electricalmaterial.AddStock;
-import com.example.electricalmaterial.AdminViewMaterial;
 import com.example.electricalmaterial.CalculaterInApp;
 import com.example.electricalmaterial.R;
 import com.example.electricalmaterial.RemainingMaterial;
@@ -33,8 +30,11 @@ import com.example.electricalmaterial.Survey;
 import com.example.electricalmaterial.ViewActualMaterial;
 import com.example.electricalmaterial.ViewBalanceMaterial;
 import com.example.electricalmaterial.ViewReturnMaterial;
+import com.example.electricalmaterial.ViewTotalMaterialTaken;
 import com.example.electricalmaterial.ViewWorkDone;
+import com.example.electricalmaterial.add_material.AddMaterial;
 import com.example.electricalmaterial.databinding.FragmentAdminHomeBinding;
+import com.example.electricalmaterial.material.updation.AdminViewMaterial;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -46,7 +46,10 @@ public class AdminHomeFragment extends Fragment {
 
     private  FragmentAdminHomeBinding binding;
 
-    CardView addData,viewData,returnData,usedData,companyDetails,addStock,stockEntry,survey,calculator,workDone,actualMaterial,balanceMaterial;
+    CardView addData,viewData,returnData,usedData,companyDetails,addStock,stockEntry,survey,calculator
+            ,workDone,actualMaterial,balanceMaterial;
+
+    CardView totalMaterial;
 
     Dialog dialog;
 
@@ -54,8 +57,7 @@ public class AdminHomeFragment extends Fragment {
     FirebaseFirestore fStore;
 
 
-    TextView popularTask,paymentTask;
-    LinearLayout popularTaskLL,paymentTaskLL;
+    TextView popularTask;
 
 
 
@@ -73,6 +75,7 @@ public class AdminHomeFragment extends Fragment {
 
 
         addData = binding.addData;
+        totalMaterial = binding.totalMaterial;
         viewData = binding.viewData;
         returnData = binding.returnData;
         usedData = binding.usedData;
@@ -86,13 +89,6 @@ public class AdminHomeFragment extends Fragment {
         balanceMaterial = binding.balanceMaterial;
 
         popularTask = binding.popularTask;
-        popularTaskLL = binding.popularTaskLL;
-        paymentTask = binding.paymentTask;
-        paymentTaskLL = binding.paymentTaskLL;
-
-
-
-
 
 
         PackageManager pm = getContext().getPackageManager();
@@ -148,6 +144,14 @@ public class AdminHomeFragment extends Fragment {
             }
         });
 
+
+        totalMaterial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), ViewTotalMaterialTaken.class));
+            }
+        });
+
         survey.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -165,6 +169,7 @@ public class AdminHomeFragment extends Fragment {
             public void onClick(View v) {
 
                 startActivity(new Intent(getActivity(), AddMaterial.class));
+                requireActivity().finish();
             }
         });
         viewData.setOnClickListener(new View.OnClickListener() {
@@ -231,27 +236,7 @@ public class AdminHomeFragment extends Fragment {
             }
         });
 
-        popularTask.setBackgroundResource(R.drawable.admin_home_tab_background);
 
-        popularTask.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                paymentTaskLL.setVisibility(View.GONE);
-                popularTaskLL.setVisibility(View.VISIBLE);
-                popularTask.setBackgroundResource(R.drawable.admin_home_tab_background);
-                paymentTask.setBackground(null);
-            }
-        });
-
-        paymentTask.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                paymentTaskLL.setVisibility(View.VISIBLE);
-                popularTaskLL.setVisibility(View.GONE);
-                paymentTask.setBackgroundResource(R.drawable.admin_home_tab_background);
-                popularTask.setBackground(null);
-            }
-        });
 
         return root;
     }

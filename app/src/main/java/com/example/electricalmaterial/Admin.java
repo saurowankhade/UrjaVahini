@@ -121,6 +121,7 @@ public class Admin extends AppCompatActivity {
 
                 updateNavHeader(uEmail,uName);
 
+//
             }
 
         });
@@ -194,24 +195,18 @@ public class Admin extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(),ViewAllProfile.class));
                 return  true;
             case R.id.logOut:
-                AlertDialog.Builder builder = new AlertDialog.Builder(Admin.this);
-                String[] options = {"Yes", "No"};
-                builder.setTitle("Are you sure to Logout ?");
-                builder.setItems(options, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
 
-                        if (which == 0) {
-                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                            finish();
-                            FirebaseAuth.getInstance().signOut();
-                            Toast.makeText(getApplicationContext(), "Logout", Toast.LENGTH_SHORT).show();
-
-                        } else {
-                            Toast.makeText(getApplicationContext(), "Cancel", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }).create().show();
+                androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
+                builder.setTitle("Are you sure to Logout ?")
+                        .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                                finish();
+                                FirebaseAuth.getInstance().signOut();
+                                Toast.makeText(getApplicationContext(), "Logout", Toast.LENGTH_SHORT).show();
+                            }
+                        }).create().show();
                 return  true;
             default:
         }

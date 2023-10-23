@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.electricalmaterial.add_material.AddMaterial;
+
 import java.util.List;
 
 public class AdminKgToNoAdapter extends RecyclerView.Adapter<KgToNoViewHolder> {

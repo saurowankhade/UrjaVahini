@@ -7,10 +7,10 @@ android {
     compileSdk 33
     defaultConfig {
         applicationId "com.example.electricalmaterial"
-        minSdk 24
+        minSdk 26
         targetSdk 32
         versionCode 1
-        versionName "1.8"
+        versionName "1.8.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -81,8 +81,8 @@ dependencies {
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.25'
 
     //EXCEL sheet
-    implementation 'org.apache.poi:poi:4.0.0'
-    implementation 'org.apache.poi:poi-ooxml:4.0.0'
+    implementation 'org.apache.poi:poi:4.1.2'
+    implementation 'org.apache.poi:poi-ooxml:4.1.2'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation 'com.squareup.picasso:picasso:2.71828'
@@ -90,10 +90,17 @@ dependencies {
     implementation  'com.google.android.gms:play-services-vision:20.1.3'
 
     //For Ratting
-   // implementation  'com.github.hotchemi:android-rate:1.0.1'
+//    implementation  'com.github.hotchemi:android-rate:1.0.1'
 
     //for pdf viewer
     implementation 'com.github.barteksc:android-pdf-viewer:3.2.0-beta.1'
 
+
+    // Reading Excel sheet
+    implementation 'net.sourceforge.jexcelapi:jxl:2.6.12'
+
+
+    // lottie animation
+    implementation "com.airbnb.android:lottie:3.4.0"
 
 }

@@ -1,5 +1,6 @@
 package com.example.electricalmaterial;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +12,10 @@ import java.util.List;
 
 public class MaterialCustomAdapter extends RecyclerView.Adapter<MaterialViewHolder>{
 
-    AdminViewMaterial adminViewMaterial;
+    Context adminViewMaterial;
     List<MaterialModel> modelList;
 
-    public MaterialCustomAdapter(AdminViewMaterial adminViewMaterial, List<MaterialModel> modelList) {
+    public MaterialCustomAdapter(Context adminViewMaterial, List<MaterialModel> modelList) {
         this.adminViewMaterial = adminViewMaterial;
         this.modelList = modelList;
     }

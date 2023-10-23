@@ -13,12 +13,20 @@
         android:layout_margin="8sp"
         app:iconifiedByDefault="false"
         app:queryHint="Search Here ..." />
-
     <Button
         android:id="@+id/excelSheet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:text="excel"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerMaterial"
+        android:background="#FFFFFF"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="wrap_content" />
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/refresh"
         android:layout_width="match_parent"
@@ -29,9 +37,19 @@
             android:id="@+id/recycler_view"
             android:background="#FFFFFF"
             android:layout_width="match_parent"
+            android:visibility="visible"
             android:layout_height="wrap_content"
             android:layout_marginTop="100sp" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:background="#FFFFFF"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100sp" />
+
 
 </LinearLayout>

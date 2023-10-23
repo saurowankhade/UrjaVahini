@@ -233,6 +233,7 @@ public class CalculaterInApp extends AppCompatActivity {
                         }
                     }
                 });
+//                return false;
             }
         });
 
@@ -805,6 +806,7 @@ public class CalculaterInApp extends AppCompatActivity {
                     quantity29.setText("");
                     quantity30.setText("");
                 }
+//                return false;
             }
         });
 

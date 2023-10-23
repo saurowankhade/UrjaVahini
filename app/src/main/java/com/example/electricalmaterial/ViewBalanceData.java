@@ -48,6 +48,9 @@ public class ViewBalanceData extends AppCompatActivity {
     ViewBalanceTotalMaterialTakenAdapter adapterStockTMT;
 
 
+    String showData;
+
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +76,7 @@ public class ViewBalanceData extends AppCompatActivity {
         village = findViewById(R.id.villageTV);
 
 
-        //Stock Material
+        //Total Material taken
         recyclerViewTMT = findViewById(R.id.recyclerATMT);
         recyclerViewTMT.setHasFixedSize(true);
         layoutManagerTMT = new LinearLayoutManager(ViewBalanceData.this);
@@ -99,6 +102,8 @@ public class ViewBalanceData extends AppCompatActivity {
             centerS = bundle.getString("Center");
             villageS = bundle.getString("Village");
 
+            showData = bundle.getString("ViewData");
+
         }
 
         date.setText(dateS);
@@ -122,23 +127,58 @@ public class ViewBalanceData extends AppCompatActivity {
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
 
 
-                companyEmail = value.getString("companyEmail");
-                cmp = companyEmail;
-                companyEmail = companyEmail.replace("@", "");
-                companyEmail = companyEmail.replace(".", "");
+                cmp = value.getString("companyEmail");
 
-                showTotalMaterialTaken(cmp);
+                switch (showData){
+                    case "showAddData" : showMainAddData(cmp); break;
+                    case "showReturnData" : showMainReturnData(cmp); break;
+                    case "showTotalMaterialData" : showTotalMaterialTaken(cmp); break;
+                    case "showBalanceData" : showBalanceMaterial(cmp); break;
+                    case "showActualMaterialData" : showActualMaterialData(cmp); break;
+                    default:
+                        Toast.makeText(ViewBalanceData.this, "Error loading material!", Toast.LENGTH_SHORT).show();
+                }
             }
 
         });
 
+    }
 
+    private void showBalanceMaterial(String cmp) {
+        fStore.collection(cmp+" BalanceMaterialData")
+                .document(consumerNameS+" "+teamNameS)
+
+                .collection("MaterialList")
+                .orderBy("Material", Query.Direction.ASCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        modelListTMT.clear();
+                        for (DocumentSnapshot doc : task.getResult()){
+                            AddTotalMaterialTakenModel model = new AddTotalMaterialTakenModel(
+                                    doc.getString("Id"),
+                                    doc.getString("Material"),
+                                    doc.getString("Unit"),
+                                    doc.getString("Quantity")
+                            );
+                            modelListTMT.add(model);
+                        }
+                        adapterStockTMT = new ViewBalanceTotalMaterialTakenAdapter(ViewBalanceData.this,modelListTMT);
+                        recyclerViewTMT.setAdapter(adapterStockTMT);
+                    }}).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(ViewBalanceData.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void showTotalMaterialTaken(String cmp) {
-        fStore.collection(cmp+" BalanceMaterialOnSite")
-                .document(id).collection("BalanceMaterialOnSite")
-                .orderBy("Material", Query.Direction.ASCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        fStore.collection(cmp+" TotalMaterialData")
+                .document(consumerNameS+" "+teamNameS)
+
+                .collection("MaterialList")
+                .orderBy("Material", Query.Direction.ASCENDING)
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 modelListTMT.clear();
@@ -159,7 +199,92 @@ public class ViewBalanceData extends AppCompatActivity {
                 Toast.makeText(ViewBalanceData.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
 
+    private void showMainAddData(String cmp) {
+        fStore.collection(cmp+" MainAddData")
+                .document(id)
 
+                .collection("MaterialList")
+                .orderBy("Material", Query.Direction.ASCENDING)
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        modelListTMT.clear();
+                        for (DocumentSnapshot doc : task.getResult()){
+                            AddTotalMaterialTakenModel model = new AddTotalMaterialTakenModel(
+                                    doc.getString("Id"),
+                                    doc.getString("Material"),
+                                    doc.getString("Unit"),
+                                    doc.getString("Quantity")
+                            );
+                            modelListTMT.add(model);
+                        }
+                        adapterStockTMT = new ViewBalanceTotalMaterialTakenAdapter(ViewBalanceData.this,modelListTMT);
+                        recyclerViewTMT.setAdapter(adapterStockTMT);
+                    }}).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(ViewBalanceData.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void showMainReturnData(String cmp) {
+        fStore.collection(cmp+" MainReturnData")
+                .document(consumerNameS+" "+teamNameS)
+
+                .collection("MaterialList")
+                .orderBy("Material", Query.Direction.ASCENDING)
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        modelListTMT.clear();
+                        for (DocumentSnapshot doc : task.getResult()){
+                            AddTotalMaterialTakenModel model = new AddTotalMaterialTakenModel(
+                                    doc.getString("Id"),
+                                    doc.getString("Material"),
+                                    doc.getString("Unit"),
+                                    doc.getString("Quantity")
+                            );
+                            modelListTMT.add(model);
+                        }
+                        adapterStockTMT = new ViewBalanceTotalMaterialTakenAdapter(ViewBalanceData.this,modelListTMT);
+                        recyclerViewTMT.setAdapter(adapterStockTMT);
+                    }}).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(ViewBalanceData.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void showActualMaterialData(String cmp) {
+        fStore.collection(cmp+" ActualMaterialData")
+                .document(consumerNameS+" "+teamNameS)
+
+                .collection("MaterialList")
+                .orderBy("Material", Query.Direction.ASCENDING)
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        modelListTMT.clear();
+                        for (DocumentSnapshot doc : task.getResult()){
+                            AddTotalMaterialTakenModel model = new AddTotalMaterialTakenModel(
+                                    doc.getString("Id"),
+                                    doc.getString("Material"),
+                                    doc.getString("Unit"),
+                                    doc.getString("Quantity")
+                            );
+                            modelListTMT.add(model);
+                        }
+                        adapterStockTMT = new ViewBalanceTotalMaterialTakenAdapter(ViewBalanceData.this,modelListTMT);
+                        recyclerViewTMT.setAdapter(adapterStockTMT);
+                    }}).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(ViewBalanceData.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }

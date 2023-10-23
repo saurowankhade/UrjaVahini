@@ -36,6 +36,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
@@ -65,6 +66,24 @@ public class ViewBalanceMaterial extends AppCompatActivity {
     Button excelSheet;
 
     SwipeRefreshLayout refreshLayout;
+
+
+
+    //Material
+    List<MaterialModel> list = new ArrayList<>();
+    RecyclerView recycler;
+    RecyclerView.LayoutManager layout;
+    MaterialCustomAdapter materialCustomAdapter;
+
+
+    //Total Material Taken
+    List<AddTotalMaterialTakenModel> modelListTMT = new ArrayList<>();
+    RecyclerView recyclerViewTMT;
+    RecyclerView.LayoutManager layoutManagerTMT;
+    ViewBalanceTotalMaterialTakenAdapter adapterStockTMT;
+
+    String [] arr;
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -97,6 +116,30 @@ public class ViewBalanceMaterial extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         modelList.clear();
+
+
+
+        //Stock Material
+        recyclerViewTMT = findViewById(R.id.recyclerMaterial);
+        recyclerViewTMT.setHasFixedSize(true);
+        layoutManagerTMT = new LinearLayoutManager(this);
+        recyclerViewTMT.setLayoutManager(layoutManagerTMT);
+        modelListTMT.clear();
+
+
+
+
+
+        recycler = findViewById(R.id.recycler);
+        recycler.setHasFixedSize(true);
+        layout = new LinearLayoutManager(this);
+        recycler.setLayoutManager(layout);
+        list.clear();
+        showMaterial();
+
+
+
+
 
 
         searchView = findViewById(R.id.searchView);
@@ -142,19 +185,7 @@ public class ViewBalanceMaterial extends AppCompatActivity {
        // excelSheet
 
         excelSheet = findViewById(R.id.excelSheet);
-        excelSheet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
-                        checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-                }
-                else {
-                    //your cod
-                    createXlFile();
-                }
-            }
-        });
+
 
 
 
@@ -178,16 +209,36 @@ public class ViewBalanceMaterial extends AppCompatActivity {
                     }
                 });
 
+                excelSheet.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+                                checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                        }
+                        else {
+                            createXlFile();
+                            showTotalMaterialTaken(cmp);
+
+
+
+
+                        }
+                    }
+                });
+
 
                 showData(cmp);
 
+
+//                return false;
             }
         });
 
     }
 
     private void showData(String cmp) {
-        fStore.collection(cmp+" BalanceMaterialOnSite").orderBy("Date", Query.Direction.DESCENDING).get()
+        fStore.collection(cmp+" BalanceMaterial").orderBy("Date", Query.Direction.DESCENDING).get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -224,6 +275,82 @@ public class ViewBalanceMaterial extends AppCompatActivity {
                 });
     }
 
+    private void showTotalMaterialTaken(String cmp) {
+
+        for (int i=0;i<modelList.size();i++){
+
+            fStore.collection(cmp+" BalanceMaterialOnSite")
+                    .document(modelList.get(i).getId()).collection("BalanceMaterialOnSite")
+                    .orderBy("Material", Query.Direction.ASCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            modelListTMT.clear();
+                            for (DocumentSnapshot doc : task.getResult()){
+                                AddTotalMaterialTakenModel model = new AddTotalMaterialTakenModel(
+                                        doc.getString("Id"),
+                                        doc.getString("Material"),
+                                        doc.getString("Unit"),
+                                        doc.getString("Quantity")
+                                );
+                                modelListTMT.add(model);
+                            }
+                            adapterStockTMT = new ViewBalanceTotalMaterialTakenAdapter(ViewBalanceMaterial.this,modelListTMT);
+                            recyclerViewTMT.setAdapter(adapterStockTMT);
+                        }})
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(ViewBalanceMaterial.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+
+
+    }
+
+    private void showMaterial() {
+
+        DocumentReference documentReference = fStore.collection("Users")
+                .document(userId);
+        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+
+                companyEmail = value.getString("companyEmail");
+                String cmp = companyEmail;
+
+
+                fStore.collection(cmp + " Material").get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                list.clear();
+                                pd.dismiss();
+                                for (DocumentSnapshot doc : task.getResult()) {
+                                    MaterialModel model = new MaterialModel(
+                                            doc.getString("id"),
+                                            doc.getString("Material")
+                                    );
+                                    list.add(model);
+                                }
+                                materialCustomAdapter = new MaterialCustomAdapter(ViewBalanceMaterial.this, list);
+                                recycler.setAdapter(materialCustomAdapter);
+
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                pd.dismiss();
+                                Toast.makeText(getApplicationContext(), "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+//                return false;
+            }
+
+        });
+    }
+
     public void deleteData(int position) {
         pd1.setTitle("Deleting Data...");
         pd1.show();
@@ -256,6 +383,7 @@ public class ViewBalanceMaterial extends AppCompatActivity {
                             }
                         });
 
+//                return false;
             }
         });
 
@@ -269,10 +397,10 @@ public class ViewBalanceMaterial extends AppCompatActivity {
         Sheet sheet;
         sheet = wb.createSheet("Balance Material List");
 
-//        excel();
-//        excel1(cell, sheet);
+        excel();
+        excel1(cell, sheet);
 //
-//        excel2(wb, cell, sheet);
+        excel2(wb, cell, sheet);
 
         String folderName = "UrjaVahini";
         String fileName = "Balance Material List" + System.currentTimeMillis() + ".xls";
@@ -304,6 +432,129 @@ public class ViewBalanceMaterial extends AppCompatActivity {
         }
     }
 
+    private void excel(){
+
+        arr = new String[list.size()];
+
+        for (int i=0;i<list.size();i++){
+            arr[i] = list.get(i).getMaterial();
+        }
+
+    }
+    private void excel1(Cell cell,Sheet sheet) {
+
+
+        //Now column and row
+        Row row = sheet.createRow(0);
+
+        cell = row.createCell(0);
+        cell.setCellValue("Date");
+
+        cell = row.createCell(1);
+        cell.setCellValue("Team Name");
+
+        cell = row.createCell(2);
+        cell.setCellValue("Line");
+
+        cell = row.createCell(3);
+        cell.setCellValue("Tender Name");
+
+        cell = row.createCell(4);
+        cell.setCellValue("Driver Name");
+
+        cell = row.createCell(5);
+        cell.setCellValue("Vehical Name");
+
+        cell = row.createCell(6);
+        cell.setCellValue("Consumer Name");
+
+        cell = row.createCell(7);
+        cell.setCellValue("Site Name");
+
+        cell = row.createCell(8);
+        cell.setCellValue("Material Receiver Name");
+
+        cell = row.createCell(9);
+        cell.setCellValue("Center");
+
+        cell = row.createCell(10);
+        cell.setCellValue("Village");
+
+        for (int i=0;i<arr.length;i++){
+            int j = 11+i;
+            int n = j<256 ? j : 0;
+            cell = row.createCell(n);
+           cell.setCellValue(arr[i]);
+        }
+
+        for (int i=0;i<arr.length+10;i++){
+            sheet.setColumnWidth(i, (30 * 200));
+        }
+
+
+    }
+
+
+    private void excel2(Workbook wb, Cell cell, Sheet sheet) {
+        for (int i = 0; i < modelList.size(); i++) {
+
+            Row row1 = sheet.createRow(i + 1);
+
+            cell = row1.createCell(0);
+            cell.setCellValue(modelList.get(i).getDate());
+
+            cell = row1.createCell(1);
+            cell.setCellValue((modelList.get(i).getTeamName()));
+
+            // cell.setCellStyle(cellStyle);
+
+            cell = row1.createCell(2);
+            cell.setCellValue(modelList.get(i).getLine());
+
+            cell = row1.createCell(3);
+            cell.setCellValue(modelList.get(i).getTender());
+
+            cell = row1.createCell(4);
+            cell.setCellValue(modelList.get(i).getDriverName());
+
+            cell = row1.createCell(5);
+            cell.setCellValue(modelList.get(i).getVehicalName());
+
+            cell = row1.createCell(6);
+            cell.setCellValue(modelList.get(i).getConsumerName());
+
+            cell = row1.createCell(7);
+            cell.setCellValue(modelList.get(i).getSite());
+
+            cell = row1.createCell(8);
+            cell.setCellValue(modelList.get(i).getMaterialReceiverName());
+
+            cell = row1.createCell(9);
+            cell.setCellValue(modelList.get(i).getCenter());
+
+            cell = row1.createCell(10);
+            cell.setCellValue(modelList.get(i).getVillage());
+
+
+            for (int j = 0; j < arr.length; j++) {
+
+                int k = 11 + j;
+
+                for (int a = 0; a < modelListTMT.size(); a++) {
+                    if (arr[j].equals(modelListTMT.get(a).getMaterial())) {
+                        cell = row1.createCell(k);
+                        cell.setCellValue((modelListTMT.get(a).getQuantity()));
+                    }
+                }
+
+                for (int b = 0; b < arr.length + 10; b++) {
+                    sheet.setColumnWidth(i, (20 * 200));
+                }
+
+            }
+        }
+
+    }
 
 
 

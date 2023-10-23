@@ -122,6 +122,7 @@ public class ViewUsedData extends AppCompatActivity {
                 companyEmail = companyEmail.replace(".", "");
 
                 showTotalMaterialTaken( cmp, consumerNameS);
+//                return false;
             }
         });
     }

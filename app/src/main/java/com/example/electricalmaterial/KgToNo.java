@@ -143,6 +143,7 @@ public class KgToNo extends AppCompatActivity {
                     }
                 });
 
+//                return false;
             }
         });
     }

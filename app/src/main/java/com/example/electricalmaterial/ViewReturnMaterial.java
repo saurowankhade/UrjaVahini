@@ -522,6 +522,7 @@ public class ViewReturnMaterial extends AppCompatActivity {
                 });
 
 
+//                return false;
             }
 
 
@@ -1239,17 +1240,7 @@ public class ViewReturnMaterial extends AppCompatActivity {
                         });
 
 
-
-
-
-
-
-
-
-
-
-
-
+//                return false;
             }
 
 
@@ -1396,6 +1387,7 @@ public class ViewReturnMaterial extends AppCompatActivity {
                         });
 
 
+//                return false;
             }
         });
 

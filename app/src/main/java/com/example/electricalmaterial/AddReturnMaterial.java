@@ -1703,6 +1703,7 @@ public class AddReturnMaterial extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Password does not Match!!", Toast.LENGTH_SHORT).show();
 
                 }
+
             }
         });
 
@@ -2199,6 +2200,7 @@ public class AddReturnMaterial extends AppCompatActivity {
                         progressBar.setVisibility(View.GONE);
                     }
                 });
+
 
 
             }
@@ -4040,6 +4042,7 @@ public class AddReturnMaterial extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Total Material Added", Toast.LENGTH_SHORT).show();
                 animation.setVisibility(View.VISIBLE);
                 mediaPlayer.start();
+                addBalanceMaterialSpecific(material,cmp,consumerName,teamName,quantity,unit);
 
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -4053,7 +4056,36 @@ public class AddReturnMaterial extends AppCompatActivity {
 
     }
 
+    private void addBalanceMaterialSpecific(String material, String cmp, String consumerName, String teamName, String quantity,String unit) {
+        Map<String, Object> doc = new HashMap<>();
+        doc.put("Id",material);
+        doc.put("Material",material);
+        doc.put("Unit",unit);
+        doc.put("Quantity",quantity);
 
+        fStore.collection(cmp+" BalanceMaterial")
+                .document(consumerName+" "+teamName)
+                .collection("MaterialDetails")
+                .document(material+" ")
+                .set(doc).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        //this will be called when data is added Successfully
+                        Toast.makeText(getApplicationContext(), "Total Material Added", Toast.LENGTH_SHORT).show();
+                        animation.setVisibility(View.VISIBLE);
+                        mediaPlayer.start();
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //this will be called when data is added Failed
+                        Toast.makeText(getApplicationContext(), "Failed to add data "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        animation.setVisibility(View.GONE);
+                    }
+                });
+
+    }
 
     private void sendMail(String cmp, String material) {
         String message = "You have less material quantity of " + material;

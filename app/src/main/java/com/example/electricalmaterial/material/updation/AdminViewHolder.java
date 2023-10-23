@@ -1,4 +1,4 @@
-package com.example.electricalmaterial;
+package com.example.electricalmaterial.material.updation;
 
 import android.view.View;
 import android.widget.TextView;
@@ -7,12 +7,19 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.electricalmaterial.R;
+
 public class AdminViewHolder extends RecyclerView.ViewHolder {
 
-    CardView cardView;
+    public CardView cardView;
 
-    TextView mDate,mTeamName,mTender,mConsumerName,mSiteName,mCenter;
-    View mView;
+    public TextView mDate;
+    public TextView mTeamName;
+    public TextView mTender;
+    public TextView mConsumerName;
+    public TextView mSiteName;
+    public TextView mCenter;
+    private View mView;
 
     public AdminViewHolder(@NonNull View itemView) {
         super(itemView);

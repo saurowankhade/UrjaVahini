@@ -108,6 +108,7 @@ public class TeamLearder extends AppCompatActivity {
 
                 updateNavHeader(uEmail,uName);
 
+//                return false;
             }
 
         });

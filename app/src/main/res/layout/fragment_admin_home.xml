@@ -72,15 +72,6 @@
                     android:textSize="20sp"
                     android:layout_marginStart="10sp"
                     android:text="Popular Task"/>
-                <TextView
-                    android:id="@+id/paymentTask"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="normal"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:layout_marginStart="20sp"
-                    android:text="Payment Task"/>
             </LinearLayout>
 
             <!--popularTask-->
@@ -342,6 +333,57 @@
 
                 </LinearLayout>
 
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|center_horizontal|center_vertical"
+                    android:gravity="center"
+                    android:background="#EBF2F6"
+                    android:orientation="horizontal">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/totalMaterial"
+                        android:layout_width="130sp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="fill"
+                        android:layout_marginTop="30sp"
+                        android:background="@color/white"
+                        app:cardCornerRadius="15sp"
+                        app:cardElevation="20sp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:gravity="center"
+                            android:background="@color/white"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="80sp"
+                                android:layout_height="100sp"
+                                android:background="@color/white"
+                                android:src="@raw/usedmaterial" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="10sp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:background="@color/white"
+                                android:textColor="@color/black"
+                                android:text="Total Material \nTaken" />
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+
+                </LinearLayout>
+
+
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -594,105 +636,6 @@
 
 
             </LinearLayout>
-
-            <!--payment task-->
-            <LinearLayout
-                android:id="@+id/paymentTaskLL"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#EBF2F6"
-                android:visibility="gone"
-                android:layout_marginTop="20sp"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center|center_horizontal|center_vertical"
-                    android:gravity="center"
-                    android:background="#EBF2F6"
-                    android:orientation="horizontal">
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/paymentLibrary"
-                        android:layout_width="130sp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="fill"
-                        android:layout_marginTop="30sp"
-                        android:background="@color/white"
-                        app:cardCornerRadius="15sp"
-                        app:cardElevation="20sp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical|center_horizontal"
-                            android:gravity="center"
-                            android:background="@color/white"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="80sp"
-                                android:layout_height="100sp"
-                                android:background="@color/white"
-                                android:src="@raw/datalibary"
-                                android:contentDescription="@string/todo" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/black"
-                                android:layout_marginBottom="10sp"
-                                android:background="@color/white"
-                                android:text="Library" />
-                        </LinearLayout>
-
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="130sp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="fill"
-                        android:layout_marginTop="30sp"
-                        android:background="@color/white"
-                        android:layout_marginStart="20sp"
-                        app:cardCornerRadius="15sp"
-                        app:cardElevation="20sp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical|center_horizontal"
-                            android:gravity="center"
-                            android:background="@color/white"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="80sp"
-                                android:layout_height="100sp"
-                                android:background="@color/white"
-                                android:src="@raw/calculator"
-                                android:contentDescription="@string/todo" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/black"
-                                android:layout_marginBottom="10sp"
-                                android:background="@color/white"
-                                android:text="Calculator" />
-                        </LinearLayout>
-
-                    </androidx.cardview.widget.CardView>
-
-
-
-                </LinearLayout>
-
-
-
-            </LinearLayout>
-
 
         </LinearLayout>
 

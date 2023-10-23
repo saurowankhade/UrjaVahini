@@ -61,6 +61,7 @@ public class BalanceMaterialCustomAdapter extends RecyclerView.Adapter<Remaining
 
                 intent.putExtra("Center",center);
                 intent.putExtra("Village",village);
+                intent.putExtra("ViewData","BM");
 
                 adminViewMaterial.startActivity(intent);
 
@@ -108,6 +109,7 @@ public class BalanceMaterialCustomAdapter extends RecyclerView.Adapter<Remaining
                             intent.putExtra("Center",center);
                             intent.putExtra("Village",village);
 
+                            intent.putExtra("ViewData","BM");
                             adminViewMaterial.startActivity(intent);
 
                         }

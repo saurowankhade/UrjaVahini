@@ -328,6 +328,7 @@
                 android:textColor="@color/teal_700"
                 android:textSize="20sp"
                 android:text="MATERIAL LIST"
+                android:id="@+id/ml"
                 android:layout_marginTop="20sp"
                 android:layout_gravity="center"/>
 
@@ -397,7 +398,7 @@
                                 android:id="@+id/recyclerATMT"
                                 android:layout_width="match_parent"
                                 android:visibility="visible"
-                                android:layout_height="wrap_content"
+                                android:layout_height="300sp"
                                 android:background="#FFFFFF" />
 
 

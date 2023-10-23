@@ -1590,6 +1590,7 @@ public class SupervisorAddReturnMaterial extends AppCompatActivity {
                 });
 
 
+//                return false;
             }
         });
 
@@ -1623,6 +1624,7 @@ public class SupervisorAddReturnMaterial extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Password does not Match!!", Toast.LENGTH_SHORT).show();
 
                 }
+//                return false;
             }
         });
 
@@ -2303,6 +2305,7 @@ public class SupervisorAddReturnMaterial extends AppCompatActivity {
                 });
 
 
+//                return false;
             }
         });
     }

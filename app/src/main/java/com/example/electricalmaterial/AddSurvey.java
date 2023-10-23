@@ -1331,6 +1331,7 @@ public class AddSurvey extends AppCompatActivity {
                 });
 
 
+
             }
         });
 
@@ -1645,6 +1646,7 @@ public class AddSurvey extends AppCompatActivity {
                 district.setText(value.getString("District"));
                 taluka.setText(value.getString("Taluka"));
                 center.setText(value.getString("Center"));
+
             }
         });
     }

@@ -922,6 +922,7 @@ public class Stock extends AppCompatActivity {
                     }
                 });
 
+//                return false;
             }});
     }
 
@@ -950,6 +951,7 @@ public class Stock extends AppCompatActivity {
                     pass.requestFocus();
                 }
 
+//                return false;
             }
 
         });

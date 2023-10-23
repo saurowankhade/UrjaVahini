@@ -7,7 +7,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class RemainingMaterialViewHolder extends RecyclerView.ViewHolder {
-    TextView mDate,mTeamName,mTender,mConsumerName,mSiteName,mCenter;
+    public TextView mDate;
+    public TextView mTeamName;
+    public TextView mTender;
+    public TextView mConsumerName;
+    public TextView mSiteName;
+    public TextView mCenter;
     View mView;
 
     public RemainingMaterialViewHolder(@NonNull View itemView) {

@@ -146,6 +146,7 @@ public class StockDataLibary extends AppCompatActivity {
                 });
                 spinnerDataList.clear();
 
+//                return false;
             }
         });
 

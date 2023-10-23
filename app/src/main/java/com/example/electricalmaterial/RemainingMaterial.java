@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,7 +36,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -62,7 +62,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 public class RemainingMaterial extends AppCompatActivity {
 
@@ -143,9 +146,11 @@ public class RemainingMaterial extends AppCompatActivity {
 
     String [] arr;
 
-    MaterialButton con;
+    Button b1,b2,b3,b4,b5,b6,b7,b8,b9,b10;
+    Button per_data,consumer_data;
+    Button b11,b12,b13,b14,b15,b16,b17,b18,b19,b20;
+    Button b21,b22,b23,b24,b25,b26,b27,b28,b29,b30;
 
-    String []a;
 
     @SuppressLint({"SourceLockedOrientationActivity", "MissingInflatedId"})
     @Override
@@ -166,8 +171,6 @@ public class RemainingMaterial extends AppCompatActivity {
         pd1 = ProgressDialog.show(this,"Loading...","Please Wait",false,false);
         pd1.dismiss();
 
-        con = findViewById(R.id.con);
-
 
         ActionBar bar = getSupportActionBar();
         assert bar != null;
@@ -182,9 +185,6 @@ public class RemainingMaterial extends AppCompatActivity {
         mAddBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-
                 arr = new String[list.size()];
                 AlertDialog.Builder builder = new AlertDialog.Builder(RemainingMaterial.this);
                 String [] options = {"Export to Excel"};
@@ -201,7 +201,6 @@ public class RemainingMaterial extends AppCompatActivity {
                             }
                             else
                             {
-
                                 //your code
                                 createXlFile();
                             }
@@ -213,6 +212,8 @@ public class RemainingMaterial extends AppCompatActivity {
 
             }
         });
+
+
 
 
 
@@ -248,6 +249,43 @@ public class RemainingMaterial extends AppCompatActivity {
         village = findViewById(R.id.village);
 
 
+
+
+
+        per_data = findViewById(R.id.per_data);
+        consumer_data = findViewById(R.id.consumer_data);
+        b1 = findViewById(R.id.b1);
+        b2 = findViewById(R.id.b2);
+        b3 = findViewById(R.id.b3);
+        b4 = findViewById(R.id.b4);
+        b5 = findViewById(R.id.b5);
+        b6 = findViewById(R.id.b6);
+        b7 = findViewById(R.id.b7);
+        b8 = findViewById(R.id.b8);
+        b9 = findViewById(R.id.b9);
+        b10 = findViewById(R.id.b10);
+        b11 = findViewById(R.id.b11);
+        b12 = findViewById(R.id.b12);
+        b13 = findViewById(R.id.b13);
+        b14 = findViewById(R.id.b14);
+        b15 = findViewById(R.id.b15);
+        b16 = findViewById(R.id.b16);
+        b17 = findViewById(R.id.b17);
+        b18 = findViewById(R.id.b18);
+        b19 = findViewById(R.id.b19);
+        b20 = findViewById(R.id.b20);
+        b21 = findViewById(R.id.b21);
+        b22 = findViewById(R.id.b22);
+        b23 = findViewById(R.id.b23);
+        b24 = findViewById(R.id.b24);
+        b25 = findViewById(R.id.b25);
+        b26 = findViewById(R.id.b26);
+        b27 = findViewById(R.id.b27);
+        b28 = findViewById(R.id.b28);
+        b29 = findViewById(R.id.b29);
+        b30 = findViewById(R.id.b30);
+
+
         //Search
         searchButton = findViewById(R.id.searchButton);
 
@@ -261,21 +299,6 @@ public class RemainingMaterial extends AppCompatActivity {
                 cmp = companyEmail;
                 companyEmail = companyEmail.replace("@", "");
                 companyEmail = companyEmail.replace(".", "");
-
-
-                con.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        for (int i=0;i<modelList.size();i++){
-                            addDataConsumer(modelList.get(i).getConsumerName());
-                        }
-                    }
-                });
-
-
-
-
-
 
                 //Date
                 mDateFormate = findViewById(R.id.date);
@@ -529,25 +552,1581 @@ public class RemainingMaterial extends AppCompatActivity {
                     }
                 });
 
+                per_data.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        addMaterialData(cmp);
+                    }
+                });
 
+                consumer_data.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+//                        addConsumerName(cmp);
+
+                    }
+                });
+
+                b1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        addTotalMaterialTaken1(cmp);
+                    }
+                });
+
+                b2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        addTotalMaterialTaken2(cmp);
+                    }
+                });
+
+                b3.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        addTotalMaterialTaken3(cmp);
+                    }
+                });
+
+                b4.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        addTotalMaterialTaken4(cmp);
+                    }
+                });
+
+                b5.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        addTotalMaterialTaken5(cmp);
+                    }
+                });
+
+                b6.setOnClickListener(v -> addTotalMaterialTaken6(cmp) );
+
+                b7.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        addTotalMaterialTaken7(cmp);
+                    }
+                });
+
+                b8.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        addTotalMaterialTaken8(cmp);
+                    }
+                });
+
+                b9.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        addTotalMaterialTaken9(cmp);
+                    }
+                });
+
+                b10.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        addTotalMaterialTaken10(cmp);
+                    }
+                });
+
+                b11.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        addTotalMaterialTaken11(cmp);
+                    }
+                });
+
+                b12.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        addTotalMaterialTaken12(cmp);
+                    }
+                });
+
+                b13.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        addTotalMaterialTaken13(cmp);
+                    }
+                });
+
+                b14.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        addTotalMaterialTaken14(cmp);
+                    }
+                });
+
+                b15.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        addTotalMaterialTaken15(cmp);
+                    }
+                });
+
+                b16.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        addTotalMaterialTaken16(cmp);
+                    }
+                });
+
+                b17.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        addTotalMaterialTaken17(cmp);
+                    }
+                });
+
+                b18.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        addTotalMaterialTaken18(cmp);
+                    }
+                });
+
+                b19.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        addTotalMaterialTaken19(cmp);
+                    }
+                });
+
+                b20.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        addTotalMaterialTaken20(cmp);
+                    }
+                });
+
+                b21.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        addTotalMaterialTaken21(cmp);
+                    }
+                });
+
+                b22.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        addTotalMaterialTaken22(cmp);
+                    }
+                });
+
+                b23.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        addTotalMaterialTaken23(cmp);
+                    }
+                });
+
+                b24.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        addTotalMaterialTaken24(cmp);
+                    }
+                });
+
+                b25.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        addTotalMaterialTaken25(cmp);
+                    }
+                });
+
+                b26.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        addTotalMaterialTaken26(cmp);
+                    }
+                });
+
+                b27.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        addTotalMaterialTaken27(cmp);
+                    }
+                });
+
+                b28.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        addTotalMaterialTaken28(cmp);
+                    }
+                });
+
+                b29.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        addTotalMaterialTaken29(cmp);
+                    }
+                });
+
+                b30.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        addTotalMaterialTaken30(cmp);
+                    }
+                });
+
+
+//                return false;
             }
-
-
 
         });
 
 
-        
+    }
+
+    private void addConsumerName(String cmp) {
+        for (int i=0;i<modelList.size();i++){
+            String consumerName = modelList.get(i).getConsumerName();
+            String consumerId = removeSpecialSymbols(consumerName);
+
+            addAllConsumerSpineer(cmp,consumerId,consumerName);
+
+        }
+    }
+
+    private void addAllConsumerSpineer(String cmp, String consumerId, String consumerName) {
+
+    }
+
+    private  String removeSpecialSymbols(String string) {
+        Pattern pattern = Pattern.compile("[\\W_]+");
+        return pattern.matcher(string).replaceAll("");
+    }
+
+    private void addTotalMaterialTaken1(String cmp) {
+
+        int a = 0;
+
+        for (int i = 0; i < modelList.size(); i++) {
+
+            for (int j = 0; j < modelList.size(); j++) {
+                if (modelList.get(i).getConsumerName().equals(modelList.get(j).getConsumerName()) &&
+                    modelList.get(i).getTeamName().equals(modelList.get(j).getTeamName()) &&
+                    !modelList.get(i).getDate().equals(modelList.get(j).getDate())){
+                    a = 0;
+                        if (modelList.get(i).getMaterial1().equals(modelList.get(j).getMaterial1())&&
+                                modelList.get(i).getUnit1().equals(modelList.get(j).getUnit1())
+                            && ! modelList.get(i).getMaterial1().isEmpty()){
+                            String q = addTwoString(modelList.get(i).getQuantity1(),modelList.get(j).getQuantity1());
+
+                            addTotalMaterialTakenSpecific(modelList.get(i).getMaterial1(),cmp,modelList.get(i).getConsumerName(),
+                                    modelList.get(i).getTeamName(),q,modelList.get(i).getUnit1());
+
+                        } else if (! modelList.get(i).getMaterial1().isEmpty() && !modelList.get(j).getMaterial1().isEmpty()){
+                            addTotalMaterialTakenSpecific(modelList.get(i).getMaterial1(),cmp,modelList.get(i).getConsumerName(),
+                                    modelList.get(i).getTeamName(),modelList.get(i).getQuantity1(),modelList.get(i).getUnit1());
+                        }
+
+                }
+                else {
+                    a = 1;
+                }
+            }
+
+            if (a ==1  && !modelList.get(i).getMaterial1().isEmpty()) {
+                addTotalMaterialTakenSpecific(modelList.get(i).getMaterial1(),cmp,modelList.get(i).getConsumerName(),
+                        modelList.get(i).getTeamName(),modelList.get(i).getQuantity1(),modelList.get(i).getUnit1());
+            }
+
+        }
+
+
+    }
+
+    private void addTotalMaterialTaken2(String cmp) {
+
+        int a = 0;
+
+        for (int i = 0; i < modelList.size(); i++) {
+            for (int j = 0; j < modelList.size(); j++) {
+                if (modelList.get(i).getConsumerName().equals(modelList.get(j).getConsumerName()) &&
+                        modelList.get(i).getTeamName().equals(modelList.get(j).getTeamName()) &&
+                        !modelList.get(i).getDate().equals(modelList.get(j).getDate())){
+                    a = 0;
+                    if (modelList.get(i).getMaterial2().equals(modelList.get(j).getMaterial2())&&
+                            modelList.get(i).getQuantity2().equals(modelList.get(j).getQuantity2())
+                            && ! modelList.get(i).getMaterial2().isEmpty()){
+                        String q = addTwoString(modelList.get(i).getUnit2(),modelList.get(j).getUnit2());
+
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial2(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),q,modelList.get(i).getQuantity2());
+
+                    } else if (! modelList.get(i).getMaterial2().isEmpty() && !modelList.get(j).getMaterial2().isEmpty()){
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial2(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),modelList.get(i).getUnit2(),modelList.get(i).getQuantity2());
+                    }
+
+                }
+                else {
+                    a = 1;
+                }
+            }
+
+            if (a == 1&& !modelList.get(i).getMaterial2().isEmpty()) {
+                addTotalMaterialTakenSpecific(modelList.get(i).getMaterial2(),cmp,modelList.get(i).getConsumerName(),
+                        modelList.get(i).getTeamName(),modelList.get(i).getUnit2(),modelList.get(i).getQuantity2());
+            }
+
+        }
+
+
+    }
+
+    private void addTotalMaterialTaken3(String cmp) {
+
+        int a = 0;
+
+        for (int i = 0; i < modelList.size(); i++) {
+            for (int j = 0; j < modelList.size(); j++) {
+                if (modelList.get(i).getConsumerName().equals(modelList.get(j).getConsumerName()) &&
+                        modelList.get(i).getTeamName().equals(modelList.get(j).getTeamName()) &&
+                        !modelList.get(i).getDate().equals(modelList.get(j).getDate())){
+                    a = 0;
+                    if (modelList.get(i).getMaterial3().equals(modelList.get(j).getMaterial3())&&
+                            modelList.get(i).getUnit3().equals(modelList.get(j).getUnit3())
+                            && ! modelList.get(i).getMaterial3().isEmpty()){
+                        String q = addTwoString(modelList.get(i).getQuantity3(),modelList.get(j).getQuantity3());
+
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial3(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),q,modelList.get(i).getUnit3());
+
+                    } else if (! modelList.get(i).getMaterial3().isEmpty() && !modelList.get(j).getMaterial3().isEmpty()){
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial3(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),modelList.get(i).getQuantity3(),modelList.get(i).getUnit3());
+                    }
+
+                }
+                else {
+                    a = 1;
+                }
+            }
+
+            if (a == 1&& !modelList.get(i).getMaterial3().isEmpty()) {
+                addTotalMaterialTakenSpecific(modelList.get(i).getMaterial3(),cmp,modelList.get(i).getConsumerName(),
+                        modelList.get(i).getTeamName(),modelList.get(i).getQuantity3(),modelList.get(i).getUnit3());
+            }
+
+        }
+
+
+    }
+
+    private void addTotalMaterialTaken4(String cmp) {
+
+        int a = 0;
+
+        for (int i = 0; i < modelList.size(); i++) {
+            for (int j = 0; j < modelList.size(); j++) {
+                if (modelList.get(i).getConsumerName().equals(modelList.get(j).getConsumerName()) &&
+                        modelList.get(i).getTeamName().equals(modelList.get(j).getTeamName()) &&
+                        !modelList.get(i).getDate().equals(modelList.get(j).getDate())){
+                    a = 0;
+                    if (modelList.get(i).getMaterial4().equals(modelList.get(j).getMaterial4())&&
+                            modelList.get(i).getUnit4().equals(modelList.get(j).getUnit4())
+                            && ! modelList.get(i).getMaterial4().isEmpty()){
+                        String q = addTwoString(modelList.get(i).getQuantity4(),modelList.get(j).getQuantity4());
+
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial4(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),q,modelList.get(i).getUnit4());
+
+                    } else if (! modelList.get(i).getMaterial4().isEmpty() && !modelList.get(j).getMaterial4().isEmpty()){
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial4(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),modelList.get(i).getQuantity4(),modelList.get(i).getUnit4());
+                    }
+
+                }
+                else {
+                    a = 1;
+                }
+            }
+
+            if (a == 1 && !modelList.get(i).getMaterial4().isEmpty()) {
+                addTotalMaterialTakenSpecific(modelList.get(i).getMaterial4(),cmp,modelList.get(i).getConsumerName(),
+                        modelList.get(i).getTeamName(),modelList.get(i).getQuantity4(),modelList.get(i).getUnit4());
+            }
+
+        }
+
+
+    }
+
+    private void addTotalMaterialTaken5(String cmp) {
+
+        int a = 0;
+
+        for (int i = 0; i < modelList.size(); i++) {
+            for (int j = 0; j < modelList.size(); j++) {
+                if (modelList.get(i).getConsumerName().equals(modelList.get(j).getConsumerName()) &&
+                        modelList.get(i).getTeamName().equals(modelList.get(j).getTeamName()) &&
+                        !modelList.get(i).getDate().equals(modelList.get(j).getDate())){
+                    a = 0;
+                    if (modelList.get(i).getMaterial5().equals(modelList.get(j).getMaterial5())&&
+                            modelList.get(i).getUnit5().equals(modelList.get(j).getUnit5())
+                            && ! modelList.get(i).getMaterial5().isEmpty()){
+                        String q = addTwoString(modelList.get(i).getQuantity5(),modelList.get(j).getQuantity5());
+
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial5(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),q,modelList.get(i).getUnit5());
+
+                    } else if (! modelList.get(i).getMaterial5().isEmpty() && !modelList.get(j).getMaterial5().isEmpty()){
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial5(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),modelList.get(i).getQuantity5(),modelList.get(i).getUnit5());
+                    }
+
+                }
+                else {
+                    a = 1;
+                }
+            }
+
+            if (a == 1 && !modelList.get(i).getMaterial5().isEmpty()) {
+                addTotalMaterialTakenSpecific(modelList.get(i).getMaterial5(),cmp,modelList.get(i).getConsumerName(),
+                        modelList.get(i).getTeamName(),modelList.get(i).getQuantity5(),modelList.get(i).getUnit5());
+            }
+
+            //
+
+        }
+
+
+    }
+
+    private void addTotalMaterialTaken6(String cmp) {
+
+        int a = 0;
+
+        for (int i = 0; i < modelList.size(); i++) {
+
+            for (int j = 0; j < modelList.size(); j++) {
+                if (modelList.get(i).getConsumerName().equals(modelList.get(j).getConsumerName()) &&
+                        modelList.get(i).getTeamName().equals(modelList.get(j).getTeamName()) &&
+                        !modelList.get(i).getDate().equals(modelList.get(j).getDate())){
+                    a = 0;
+                    if (modelList.get(i).getMaterial6().equals(modelList.get(j).getMaterial6())&&
+                            modelList.get(i).getUnit6().equals(modelList.get(j).getUnit6())
+                            && ! modelList.get(i).getMaterial6().isEmpty()){
+                        String q = addTwoString(modelList.get(i).getQuantity6(),modelList.get(j).getQuantity6());
+
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial6(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),q,modelList.get(i).getUnit6());
+
+                    } else if (! modelList.get(i).getMaterial6().isEmpty() && !modelList.get(j).getMaterial6().isEmpty()){
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial6(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),modelList.get(i).getQuantity6(),modelList.get(i).getUnit6());
+                    }
+
+                }
+                else {
+                    a = 1;
+                }
+            }
+
+            if (a == 1 && !modelList.get(i).getMaterial6().isEmpty()) {
+                addTotalMaterialTakenSpecific(modelList.get(i).getMaterial6(),cmp,modelList.get(i).getConsumerName(),
+                        modelList.get(i).getTeamName(),modelList.get(i).getQuantity6(),modelList.get(i).getUnit6());
+            }
+
+        }
+
+
+    }
+
+    private void addTotalMaterialTaken7(String cmp) {
+
+        int a = 0;
+
+        for (int i = 0; i < modelList.size(); i++) {
+            for (int j = 0; j < modelList.size(); j++) {
+                if (modelList.get(i).getConsumerName().equals(modelList.get(j).getConsumerName()) &&
+                        modelList.get(i).getTeamName().equals(modelList.get(j).getTeamName()) &&
+                        !modelList.get(i).getDate().equals(modelList.get(j).getDate())){
+                    a = 0;
+                    if (modelList.get(i).getMaterial7().equals(modelList.get(j).getMaterial7())&&
+                            modelList.get(i).getUnit7().equals(modelList.get(j).getUnit7())
+                            && ! modelList.get(i).getMaterial7().isEmpty()){
+                        String q = addTwoString(modelList.get(i).getQuantity7(),modelList.get(j).getQuantity7());
+
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial7(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),q,modelList.get(i).getUnit7());
+
+                    } else if (! modelList.get(i).getMaterial7().isEmpty() && !modelList.get(j).getMaterial7().isEmpty()){
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial7(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),modelList.get(i).getQuantity7(),modelList.get(i).getUnit7());
+                    }
+
+                }
+                else {
+                    a = 1;
+                }
+            }
+
+            if (a == 1 && !modelList.get(i).getMaterial7().isEmpty()) {
+                addTotalMaterialTakenSpecific(modelList.get(i).getMaterial7(),cmp,modelList.get(i).getConsumerName(),
+                        modelList.get(i).getTeamName(),modelList.get(i).getQuantity7(),modelList.get(i).getUnit7());
+            }
+
+        }
+
+
+    }
+
+    private void addTotalMaterialTaken8(String cmp) {
+
+        int a = 0;
+
+        for (int i = 0; i < modelList.size(); i++) {
+            for (int j = 0; j < modelList.size(); j++) {
+                if (modelList.get(i).getConsumerName().equals(modelList.get(j).getConsumerName()) &&
+                        modelList.get(i).getTeamName().equals(modelList.get(j).getTeamName()) &&
+                        !modelList.get(i).getDate().equals(modelList.get(j).getDate())){
+                    a = 0;
+                    if (modelList.get(i).getMaterial8().equals(modelList.get(j).getMaterial8())&&
+                            modelList.get(i).getUnit8().equals(modelList.get(j).getUnit8())
+                            && ! modelList.get(i).getMaterial8().isEmpty()){
+                        String q = addTwoString(modelList.get(i).getQuantity8(),modelList.get(j).getQuantity8());
+
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial8(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),q,modelList.get(i).getUnit8());
+
+                    } else if (! modelList.get(i).getMaterial8().isEmpty() && !modelList.get(j).getMaterial8().isEmpty()){
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial8(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),modelList.get(i).getQuantity8(),modelList.get(i).getUnit8());
+                    }
+
+                }
+                else {
+                    a = 1;
+                }
+            }
+
+            if (a == 1&& !modelList.get(i).getMaterial8().isEmpty()) {
+                addTotalMaterialTakenSpecific(modelList.get(i).getMaterial8(),cmp,modelList.get(i).getConsumerName(),
+                        modelList.get(i).getTeamName(),modelList.get(i).getQuantity8(),modelList.get(i).getUnit8());
+            }
+
+        }
+
+
+    }
+
+    private void addTotalMaterialTaken9(String cmp) {
+
+        int a = 0;
+
+        for (int i = 0; i < modelList.size(); i++) {
+            for (int j = 0; j < modelList.size(); j++) {
+                if (modelList.get(i).getConsumerName().equals(modelList.get(j).getConsumerName()) &&
+                        modelList.get(i).getTeamName().equals(modelList.get(j).getTeamName()) &&
+                        !modelList.get(i).getDate().equals(modelList.get(j).getDate())){
+                    a = 0;
+                    if (modelList.get(i).getMaterial9().equals(modelList.get(j).getMaterial9())&&
+                            modelList.get(i).getUnit9().equals(modelList.get(j).getUnit9())
+                            && ! modelList.get(i).getMaterial9().isEmpty()){
+                        String q = addTwoString(modelList.get(i).getQuantity9(),modelList.get(j).getQuantity9());
+
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial9(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),q,modelList.get(i).getUnit9());
+
+                    } else if (! modelList.get(i).getMaterial9().isEmpty() && !modelList.get(j).getMaterial9().isEmpty()){
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial9(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),modelList.get(i).getQuantity9(),modelList.get(i).getUnit9());
+                    }
+
+                }
+                else {
+                    a = 1;
+                }
+            }
+
+            if (a == 1 && !modelList.get(i).getMaterial9().isEmpty()) {
+                addTotalMaterialTakenSpecific(modelList.get(i).getMaterial9(),cmp,modelList.get(i).getConsumerName(),
+                        modelList.get(i).getTeamName(),modelList.get(i).getQuantity9(),modelList.get(i).getUnit9());
+            }
+
+        }
+
+
+    }
+
+    private void addTotalMaterialTaken10(String cmp) {
+
+        int a = 0;
+
+        for (int i = 0; i < modelList.size(); i++) {
+            for (int j = 0; j < modelList.size(); j++) {
+                if (modelList.get(i).getConsumerName().equals(modelList.get(j).getConsumerName()) &&
+                        modelList.get(i).getTeamName().equals(modelList.get(j).getTeamName()) &&
+                        !modelList.get(i).getDate().equals(modelList.get(j).getDate())){
+                    a = 0;
+                    if (modelList.get(i).getMaterial10().equals(modelList.get(j).getMaterial10())&&
+                            modelList.get(i).getUnit10().equals(modelList.get(j).getUnit10())
+                            && ! modelList.get(i).getMaterial10().isEmpty()){
+                        String q = addTwoString(modelList.get(i).getQuantity10(),modelList.get(j).getQuantity10());
+
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial10(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),q,modelList.get(i).getUnit10());
+
+                    } else if (! modelList.get(i).getMaterial10().isEmpty() && !modelList.get(j).getMaterial10().isEmpty()){
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial10(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),modelList.get(i).getQuantity10(),modelList.get(i).getUnit10());
+                    }
+
+                }
+                else {
+                    a = 1;
+                }
+            }
+
+            if (a == 1 && !modelList.get(i).getMaterial10().isEmpty()) {
+                addTotalMaterialTakenSpecific(modelList.get(i).getMaterial10(),cmp,modelList.get(i).getConsumerName(),
+                        modelList.get(i).getTeamName(),modelList.get(i).getQuantity10(),modelList.get(i).getUnit10());
+            }
+
+            // 1
+
+        }
+
+
     }
 
 
-    private void addDataConsumer(String consumerName) {
+    private void addTotalMaterialTaken11(String cmp) {
+
+        int a = 0;
+
+        for (int i = 0; i < modelList.size(); i++) {
+            for (int j = 0; j < modelList.size(); j++) {
+                if (modelList.get(i).getConsumerName().equals(modelList.get(j).getConsumerName()) &&
+                        modelList.get(i).getTeamName().equals(modelList.get(j).getTeamName()) &&
+                        !modelList.get(i).getDate().equals(modelList.get(j).getDate())){
+                    a = 0;
+                    if (modelList.get(i).getMaterial11().equals(modelList.get(j).getMaterial11())&&
+                            modelList.get(i).getUnit11().equals(modelList.get(j).getUnit11())
+                            && ! modelList.get(i).getMaterial11().isEmpty()){
+                        String q = addTwoString(modelList.get(i).getQuantity11(),modelList.get(j).getQuantity11());
+
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial11(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),q,modelList.get(i).getUnit11());
+
+                    } else if (! modelList.get(i).getMaterial11().isEmpty() && !modelList.get(j).getMaterial11().isEmpty()){
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial11(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),modelList.get(i).getQuantity11(),modelList.get(i).getUnit11());
+                    }
+
+                }
+                else {
+                    a = 1;
+                }
+            }
+
+            if (a == 1 && !modelList.get(i).getMaterial11().isEmpty()) {
+                addTotalMaterialTakenSpecific(modelList.get(i).getMaterial11(),cmp,modelList.get(i).getConsumerName(),
+                        modelList.get(i).getTeamName(),modelList.get(i).getQuantity11(),modelList.get(i).getUnit11());
+            }
+
+            // 1
+
+        }
+
 
     }
+
+    private void addTotalMaterialTaken12(String cmp) {
+
+        int a = 0;
+
+        for (int i = 0; i < modelList.size(); i++) {
+            for (int j = 0; j < modelList.size(); j++) {
+                if (modelList.get(i).getConsumerName().equals(modelList.get(j).getConsumerName()) &&
+                        modelList.get(i).getTeamName().equals(modelList.get(j).getTeamName()) &&
+                        !modelList.get(i).getDate().equals(modelList.get(j).getDate())){
+                    a = 0;
+                    if (modelList.get(i).getMaterial12().equals(modelList.get(j).getMaterial12())&&
+                            modelList.get(i).getUnit12().equals(modelList.get(j).getUnit12())
+                            && ! modelList.get(i).getMaterial12().isEmpty()){
+                        String q = addTwoString(modelList.get(i).getQuantity12(),modelList.get(j).getQuantity12());
+
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial12(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),q,modelList.get(i).getUnit12());
+
+                    } else if (! modelList.get(i).getMaterial12().isEmpty() && !modelList.get(j).getMaterial12().isEmpty()){
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial12(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),modelList.get(i).getQuantity12(),modelList.get(i).getUnit12());
+                    }
+
+                }
+                else {
+                    a = 1;
+                }
+            }
+
+            if (a == 1 && !modelList.get(i).getMaterial12().isEmpty()) {
+                addTotalMaterialTakenSpecific(modelList.get(i).getMaterial12(),cmp,modelList.get(i).getConsumerName(),
+                        modelList.get(i).getTeamName(),modelList.get(i).getQuantity12(),modelList.get(i).getUnit12());
+            }
+
+            // 1
+
+        }
+
+
+    }
+
+    private void addTotalMaterialTaken13(String cmp) {
+
+        int a = 0;
+
+        for (int i = 0; i < modelList.size(); i++) {
+            for (int j = 0; j < modelList.size(); j++) {
+                if (modelList.get(i).getConsumerName().equals(modelList.get(j).getConsumerName()) &&
+                        modelList.get(i).getTeamName().equals(modelList.get(j).getTeamName()) &&
+                        !modelList.get(i).getDate().equals(modelList.get(j).getDate())){
+                    a = 0;
+                    if (modelList.get(i).getMaterial13().equals(modelList.get(j).getMaterial13())&&
+                            modelList.get(i).getUnit13().equals(modelList.get(j).getUnit13())
+                            && ! modelList.get(i).getMaterial13().isEmpty()){
+                        String q = addTwoString(modelList.get(i).getQuantity13(),modelList.get(j).getQuantity13());
+
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial13(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),q,modelList.get(i).getUnit13());
+
+                    } else if (! modelList.get(i).getMaterial13().isEmpty() && !modelList.get(j).getMaterial13().isEmpty()){
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial13(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),modelList.get(i).getQuantity13(),modelList.get(i).getUnit13());
+                    }
+
+                }
+                else {
+                    a = 1;
+                }
+            }
+
+            if (a == 1 && !modelList.get(i).getMaterial13().isEmpty()) {
+                addTotalMaterialTakenSpecific(modelList.get(i).getMaterial13(),cmp,modelList.get(i).getConsumerName(),
+                        modelList.get(i).getTeamName(),modelList.get(i).getQuantity13(),modelList.get(i).getUnit13());
+            }
+
+            // 1
+
+        }
+
+
+    }
+
+    private void addTotalMaterialTaken14(String cmp) {
+
+        int a = 0;
+
+        for (int i = 0; i < modelList.size(); i++) {
+            for (int j = 0; j < modelList.size(); j++) {
+                if (modelList.get(i).getConsumerName().equals(modelList.get(j).getConsumerName()) &&
+                        modelList.get(i).getTeamName().equals(modelList.get(j).getTeamName()) &&
+                        !modelList.get(i).getDate().equals(modelList.get(j).getDate())){
+                    a = 0;
+                    if (modelList.get(i).getMaterial14().equals(modelList.get(j).getMaterial14())&&
+                            modelList.get(i).getUnit14().equals(modelList.get(j).getUnit14())
+                            && ! modelList.get(i).getMaterial14().isEmpty()){
+                        String q = addTwoString(modelList.get(i).getQuantity14(),modelList.get(j).getQuantity14());
+
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial14(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),q,modelList.get(i).getUnit14());
+
+                    } else if (! modelList.get(i).getMaterial14().isEmpty() && !modelList.get(j).getMaterial14().isEmpty()){
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial14(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),modelList.get(i).getQuantity14(),modelList.get(i).getUnit14());
+                    }
+
+                }
+                else {
+                    a = 1;
+                }
+            }
+
+            if (a == 1 && !modelList.get(i).getMaterial14().isEmpty()) {
+                addTotalMaterialTakenSpecific(modelList.get(i).getMaterial14(),cmp,modelList.get(i).getConsumerName(),
+                        modelList.get(i).getTeamName(),modelList.get(i).getQuantity14(),modelList.get(i).getUnit14());
+            }
+
+            // 1
+
+        }
+
+
+    }
+
+    private void addTotalMaterialTaken15(String cmp) {
+
+        int a = 0;
+
+        for (int i = 0; i < modelList.size(); i++) {
+            for (int j = 0; j < modelList.size(); j++) {
+                if (modelList.get(i).getConsumerName().equals(modelList.get(j).getConsumerName()) &&
+                        modelList.get(i).getTeamName().equals(modelList.get(j).getTeamName()) &&
+                        !modelList.get(i).getDate().equals(modelList.get(j).getDate())){
+                    a = 0;
+                    if (modelList.get(i).getMaterial15().equals(modelList.get(j).getMaterial15())&&
+                            modelList.get(i).getUnit15().equals(modelList.get(j).getUnit15())
+                            && ! modelList.get(i).getMaterial15().isEmpty()){
+                        String q = addTwoString(modelList.get(i).getQuantity15(),modelList.get(j).getQuantity15());
+
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial15(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),q,modelList.get(i).getUnit15());
+
+                    } else if (! modelList.get(i).getMaterial15().isEmpty() && !modelList.get(j).getMaterial15().isEmpty()){
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial15(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),modelList.get(i).getQuantity15(),modelList.get(i).getUnit15());
+                    }
+
+                }
+                else {
+                    a = 1;
+                }
+            }
+
+            if (a == 1 && !modelList.get(i).getMaterial15().isEmpty()) {
+                addTotalMaterialTakenSpecific(modelList.get(i).getMaterial15(),cmp,modelList.get(i).getConsumerName(),
+                        modelList.get(i).getTeamName(),modelList.get(i).getQuantity15(),modelList.get(i).getUnit15());
+            }
+
+            // 1
+
+        }
+
+
+    }
+
+    private void addTotalMaterialTaken16(String cmp) {
+
+        int a = 0;
+
+        for (int i = 0; i < modelList.size(); i++) {
+            for (int j = 0; j < modelList.size(); j++) {
+                if (modelList.get(i).getConsumerName().equals(modelList.get(j).getConsumerName()) &&
+                        modelList.get(i).getTeamName().equals(modelList.get(j).getTeamName()) &&
+                        !modelList.get(i).getDate().equals(modelList.get(j).getDate())){
+                    a = 0;
+                    if (modelList.get(i).getMaterial16().equals(modelList.get(j).getMaterial16())&&
+                            modelList.get(i).getUnit16().equals(modelList.get(j).getUnit16())
+                            && ! modelList.get(i).getMaterial16().isEmpty()){
+                        String q = addTwoString(modelList.get(i).getQuantity16(),modelList.get(j).getQuantity16());
+
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial16(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),q,modelList.get(i).getUnit16());
+
+                    } else if (! modelList.get(i).getMaterial16().isEmpty() && !modelList.get(j).getMaterial16().isEmpty()){
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial16(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),modelList.get(i).getQuantity16(),modelList.get(i).getUnit16());
+                    }
+
+                }
+                else {
+                    a = 1;
+                }
+            }
+
+            if (a == 1 && !modelList.get(i).getMaterial16().isEmpty()) {
+                addTotalMaterialTakenSpecific(modelList.get(i).getMaterial16(),cmp,modelList.get(i).getConsumerName(),
+                        modelList.get(i).getTeamName(),modelList.get(i).getQuantity16(),modelList.get(i).getUnit16());
+            }
+
+            // 1
+
+        }
+
+
+    }
+
+    private void addTotalMaterialTaken17(String cmp) {
+
+        int a = 0;
+
+        for (int i = 0; i < modelList.size(); i++) {
+            for (int j = 0; j < modelList.size(); j++) {
+                if (modelList.get(i).getConsumerName().equals(modelList.get(j).getConsumerName()) &&
+                        modelList.get(i).getTeamName().equals(modelList.get(j).getTeamName()) &&
+                        !modelList.get(i).getDate().equals(modelList.get(j).getDate())){
+                    a = 0;
+                    if (modelList.get(i).getMaterial17().equals(modelList.get(j).getMaterial17())&&
+                            modelList.get(i).getUnit17().equals(modelList.get(j).getUnit17())
+                            && ! modelList.get(i).getMaterial17().isEmpty()){
+                        String q = addTwoString(modelList.get(i).getQuantity17(),modelList.get(j).getQuantity17());
+
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial17(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),q,modelList.get(i).getUnit17());
+
+                    } else if (! modelList.get(i).getMaterial17().isEmpty() && !modelList.get(j).getMaterial17().isEmpty()){
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial17(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),modelList.get(i).getQuantity17(),modelList.get(i).getUnit17());
+                    }
+
+                }
+                else {
+                    a = 1;
+                }
+            }
+
+            if (a == 1 && !modelList.get(i).getMaterial17().isEmpty()) {
+                addTotalMaterialTakenSpecific(modelList.get(i).getMaterial17(),cmp,modelList.get(i).getConsumerName(),
+                        modelList.get(i).getTeamName(),modelList.get(i).getQuantity17(),modelList.get(i).getUnit17());
+            }
+
+            // 1
+
+        }
+
+
+    }
+
+    private void addTotalMaterialTaken18(String cmp) {
+
+        int a = 0;
+
+        for (int i = 0; i < modelList.size(); i++) {
+            for (int j = 0; j < modelList.size(); j++) {
+                if (modelList.get(i).getConsumerName().equals(modelList.get(j).getConsumerName()) &&
+                        modelList.get(i).getTeamName().equals(modelList.get(j).getTeamName()) &&
+                        !modelList.get(i).getDate().equals(modelList.get(j).getDate())){
+                    a = 0;
+                    if (modelList.get(i).getMaterial18().equals(modelList.get(j).getMaterial18())&&
+                            modelList.get(i).getUnit18().equals(modelList.get(j).getUnit18())
+                            && ! modelList.get(i).getMaterial18().isEmpty()){
+                        String q = addTwoString(modelList.get(i).getQuantity18(),modelList.get(j).getQuantity18());
+
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial18(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),q,modelList.get(i).getUnit18());
+
+                    } else if (! modelList.get(i).getMaterial18().isEmpty() && !modelList.get(j).getMaterial18().isEmpty()){
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial18(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),modelList.get(i).getQuantity18(),modelList.get(i).getUnit18());
+                    }
+
+                }
+                else {
+                    a = 1;
+                }
+            }
+
+            if (a == 1 && !modelList.get(i).getMaterial18().isEmpty()) {
+                addTotalMaterialTakenSpecific(modelList.get(i).getMaterial18(),cmp,modelList.get(i).getConsumerName(),
+                        modelList.get(i).getTeamName(),modelList.get(i).getQuantity18(),modelList.get(i).getUnit18());
+            }
+
+            // 1
+
+        }
+
+
+    }
+
+    private void addTotalMaterialTaken19(String cmp) {
+
+        int a = 0;
+
+        for (int i = 0; i < modelList.size(); i++) {
+            for (int j = 0; j < modelList.size(); j++) {
+                if (modelList.get(i).getConsumerName().equals(modelList.get(j).getConsumerName()) &&
+                        modelList.get(i).getTeamName().equals(modelList.get(j).getTeamName()) &&
+                        !modelList.get(i).getDate().equals(modelList.get(j).getDate())){
+                    a = 0;
+                    if (modelList.get(i).getMaterial19().equals(modelList.get(j).getMaterial19())&&
+                            modelList.get(i).getUnit19().equals(modelList.get(j).getUnit19())
+                            && ! modelList.get(i).getMaterial19().isEmpty()){
+                        String q = addTwoString(modelList.get(i).getQuantity19(),modelList.get(j).getQuantity19());
+
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial19(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),q,modelList.get(i).getUnit19());
+
+                    } else if (! modelList.get(i).getMaterial19().isEmpty() && !modelList.get(j).getMaterial19().isEmpty()){
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial19(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),modelList.get(i).getQuantity19(),modelList.get(i).getUnit19());
+                    }
+
+                }
+                else {
+                    a = 1;
+                }
+            }
+
+            if (a == 1 && !modelList.get(i).getMaterial19().isEmpty()) {
+                addTotalMaterialTakenSpecific(modelList.get(i).getMaterial19(),cmp,modelList.get(i).getConsumerName(),
+                        modelList.get(i).getTeamName(),modelList.get(i).getQuantity19(),modelList.get(i).getUnit19());
+            }
+
+            // 1
+
+        }
+
+
+    }
+
+    private void addTotalMaterialTaken20(String cmp) {
+
+        int a = 0;
+
+        for (int i = 0; i < modelList.size(); i++) {
+            for (int j = 0; j < modelList.size(); j++) {
+                if (modelList.get(i).getConsumerName().equals(modelList.get(j).getConsumerName()) &&
+                        modelList.get(i).getTeamName().equals(modelList.get(j).getTeamName()) &&
+                        !modelList.get(i).getDate().equals(modelList.get(j).getDate())){
+                    a = 0;
+                    if (modelList.get(i).getMaterial20().equals(modelList.get(j).getMaterial20())&&
+                            modelList.get(i).getUnit20().equals(modelList.get(j).getUnit20())
+                            && ! modelList.get(i).getMaterial20().isEmpty()){
+                        String q = addTwoString(modelList.get(i).getQuantity20(),modelList.get(j).getQuantity20());
+
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial20(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),q,modelList.get(i).getUnit20());
+
+                    } else if (! modelList.get(i).getMaterial20().isEmpty() && !modelList.get(j).getMaterial20().isEmpty()){
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial20(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),modelList.get(i).getQuantity20(),modelList.get(i).getUnit20());
+                    }
+
+                }
+                else {
+                    a = 1;
+                }
+            }
+
+            if (a == 1 && !modelList.get(i).getMaterial20().isEmpty()) {
+                addTotalMaterialTakenSpecific(modelList.get(i).getMaterial20(),cmp,modelList.get(i).getConsumerName(),
+                        modelList.get(i).getTeamName(),modelList.get(i).getQuantity20(),modelList.get(i).getUnit20());
+            }
+
+            // 1
+
+        }
+
+
+    }
+
+    private void addTotalMaterialTaken21(String cmp) {
+
+        int a = 0;
+
+        for (int i = 0; i < modelList.size(); i++) {
+            for (int j = 0; j < modelList.size(); j++) {
+                if (modelList.get(i).getConsumerName().equals(modelList.get(j).getConsumerName()) &&
+                        modelList.get(i).getTeamName().equals(modelList.get(j).getTeamName()) &&
+                        !modelList.get(i).getDate().equals(modelList.get(j).getDate())){
+                    a = 0;
+                    if (modelList.get(i).getMaterial21().equals(modelList.get(j).getMaterial21())&&
+                            modelList.get(i).getUnit21().equals(modelList.get(j).getUnit21())
+                            && ! modelList.get(i).getMaterial21().isEmpty()){
+                        String q = addTwoString(modelList.get(i).getQuantity21(),modelList.get(j).getQuantity21());
+
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial21(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),q,modelList.get(i).getUnit21());
+
+                    } else if (! modelList.get(i).getMaterial21().isEmpty() && !modelList.get(j).getMaterial21().isEmpty()){
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial21(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),modelList.get(i).getQuantity21(),modelList.get(i).getUnit21());
+                    }
+
+                }
+                else {
+                    a = 1;
+                }
+            }
+
+            if (a == 1 && !modelList.get(i).getMaterial21().isEmpty()) {
+                addTotalMaterialTakenSpecific(modelList.get(i).getMaterial21(),cmp,modelList.get(i).getConsumerName(),
+                        modelList.get(i).getTeamName(),modelList.get(i).getQuantity21(),modelList.get(i).getUnit21());
+            }
+
+            // 1
+
+        }
+
+
+    }
+
+    private void addTotalMaterialTaken22(String cmp) {
+
+        int a = 0;
+
+        for (int i = 0; i < modelList.size(); i++) {
+            for (int j = 0; j < modelList.size(); j++) {
+                if (modelList.get(i).getConsumerName().equals(modelList.get(j).getConsumerName()) &&
+                        modelList.get(i).getTeamName().equals(modelList.get(j).getTeamName()) &&
+                        !modelList.get(i).getDate().equals(modelList.get(j).getDate())){
+                    a = 0;
+                    if (modelList.get(i).getMaterial22().equals(modelList.get(j).getMaterial22())&&
+                            modelList.get(i).getUnit22().equals(modelList.get(j).getUnit22())
+                            && ! modelList.get(i).getMaterial22().isEmpty()){
+                        String q = addTwoString(modelList.get(i).getQuantity22(),modelList.get(j).getQuantity22());
+
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial22(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),q,modelList.get(i).getUnit22());
+
+                    } else if (! modelList.get(i).getMaterial22().isEmpty() && !modelList.get(j).getMaterial22().isEmpty()){
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial22(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),modelList.get(i).getQuantity22(),modelList.get(i).getUnit22());
+                    }
+
+                }
+                else {
+                    a = 1;
+                }
+            }
+
+            if (a == 1 && !modelList.get(i).getMaterial22().isEmpty()) {
+                addTotalMaterialTakenSpecific(modelList.get(i).getMaterial22(),cmp,modelList.get(i).getConsumerName(),
+                        modelList.get(i).getTeamName(),modelList.get(i).getQuantity22(),modelList.get(i).getUnit22());
+            }
+
+            // 1
+
+        }
+
+
+    }
+
+    private void addTotalMaterialTaken23(String cmp) {
+
+        int a = 0;
+
+        for (int i = 0; i < modelList.size(); i++) {
+            for (int j = 0; j < modelList.size(); j++) {
+                if (modelList.get(i).getConsumerName().equals(modelList.get(j).getConsumerName()) &&
+                        modelList.get(i).getTeamName().equals(modelList.get(j).getTeamName()) &&
+                        !modelList.get(i).getDate().equals(modelList.get(j).getDate())){
+                    a = 0;
+                    if (modelList.get(i).getMaterial23().equals(modelList.get(j).getMaterial23())&&
+                            modelList.get(i).getUnit23().equals(modelList.get(j).getUnit23())
+                            && ! modelList.get(i).getMaterial23().isEmpty()){
+                        String q = addTwoString(modelList.get(i).getQuantity23(),modelList.get(j).getQuantity23());
+
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial23(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),q,modelList.get(i).getUnit23());
+
+                    } else if (! modelList.get(i).getMaterial23().isEmpty() && !modelList.get(j).getMaterial23().isEmpty()){
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial23(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),modelList.get(i).getQuantity23(),modelList.get(i).getUnit23());
+                    }
+
+                }
+                else {
+                    a = 1;
+                }
+            }
+
+            if (a == 1 && !modelList.get(i).getMaterial23().isEmpty()) {
+                addTotalMaterialTakenSpecific(modelList.get(i).getMaterial23(),cmp,modelList.get(i).getConsumerName(),
+                        modelList.get(i).getTeamName(),modelList.get(i).getQuantity23(),modelList.get(i).getUnit23());
+            }
+
+            // 1
+
+        }
+
+
+    }
+
+    private void addTotalMaterialTaken24(String cmp) {
+
+        int a = 0;
+
+        for (int i = 0; i < modelList.size(); i++) {
+            for (int j = 0; j < modelList.size(); j++) {
+                if (modelList.get(i).getConsumerName().equals(modelList.get(j).getConsumerName()) &&
+                        modelList.get(i).getTeamName().equals(modelList.get(j).getTeamName()) &&
+                        !modelList.get(i).getDate().equals(modelList.get(j).getDate())){
+                    a = 0;
+                    if (modelList.get(i).getMaterial24().equals(modelList.get(j).getMaterial24())&&
+                            modelList.get(i).getUnit24().equals(modelList.get(j).getUnit24())
+                            && ! modelList.get(i).getMaterial24().isEmpty()){
+                        String q = addTwoString(modelList.get(i).getQuantity24(),modelList.get(j).getQuantity24());
+
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial24(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),q,modelList.get(i).getUnit24());
+
+                    } else if (! modelList.get(i).getMaterial24().isEmpty() && !modelList.get(j).getMaterial24().isEmpty()){
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial24(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),modelList.get(i).getQuantity24(),modelList.get(i).getUnit24());
+                    }
+
+                }
+                else {
+                    a = 1;
+                }
+            }
+
+            if (a == 1 && !modelList.get(i).getMaterial24().isEmpty()) {
+                addTotalMaterialTakenSpecific(modelList.get(i).getMaterial24(),cmp,modelList.get(i).getConsumerName(),
+                        modelList.get(i).getTeamName(),modelList.get(i).getQuantity24(),modelList.get(i).getUnit24());
+            }
+
+            // 1
+
+        }
+
+
+    }
+
+    private void addTotalMaterialTaken25(String cmp) {
+
+        int a = 0;
+
+        for (int i = 0; i < modelList.size(); i++) {
+            for (int j = 0; j < modelList.size(); j++) {
+                if (modelList.get(i).getConsumerName().equals(modelList.get(j).getConsumerName()) &&
+                        modelList.get(i).getTeamName().equals(modelList.get(j).getTeamName()) &&
+                        !modelList.get(i).getDate().equals(modelList.get(j).getDate())){
+                    a = 0;
+                    if (modelList.get(i).getMaterial25().equals(modelList.get(j).getMaterial25())&&
+                            modelList.get(i).getUnit25().equals(modelList.get(j).getUnit25())
+                            && ! modelList.get(i).getMaterial25().isEmpty()){
+                        String q = addTwoString(modelList.get(i).getQuantity25(),modelList.get(j).getQuantity25());
+
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial25(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),q,modelList.get(i).getUnit25());
+
+                    } else if (! modelList.get(i).getMaterial25().isEmpty() && !modelList.get(j).getMaterial25().isEmpty()){
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial25(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),modelList.get(i).getQuantity25(),modelList.get(i).getUnit25());
+                    }
+
+                }
+                else {
+                    a = 1;
+                }
+            }
+
+            if (a == 1 && !modelList.get(i).getMaterial25().isEmpty()) {
+                addTotalMaterialTakenSpecific(modelList.get(i).getMaterial25(),cmp,modelList.get(i).getConsumerName(),
+                        modelList.get(i).getTeamName(),modelList.get(i).getQuantity25(),modelList.get(i).getUnit25());
+            }
+
+            // 1
+
+        }
+
+
+    }
+
+    private void addTotalMaterialTaken26(String cmp) {
+
+        int a = 0;
+
+        for (int i = 0; i < modelList.size(); i++) {
+            for (int j = 0; j < modelList.size(); j++) {
+                if (modelList.get(i).getConsumerName().equals(modelList.get(j).getConsumerName()) &&
+                        modelList.get(i).getTeamName().equals(modelList.get(j).getTeamName()) &&
+                        !modelList.get(i).getDate().equals(modelList.get(j).getDate())){
+                    a = 0;
+                    if (modelList.get(i).getMaterial26().equals(modelList.get(j).getMaterial26())&&
+                            modelList.get(i).getUnit26().equals(modelList.get(j).getUnit26())
+                            && ! modelList.get(i).getMaterial26().isEmpty()){
+                        String q = addTwoString(modelList.get(i).getQuantity26(),modelList.get(j).getQuantity26());
+
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial26(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),q,modelList.get(i).getUnit26());
+
+                    } else if (! modelList.get(i).getMaterial26().isEmpty() && !modelList.get(j).getMaterial26().isEmpty()){
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial26(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),modelList.get(i).getQuantity26(),modelList.get(i).getUnit26());
+                    }
+
+                }
+                else {
+                    a = 1;
+                }
+            }
+
+            if (a == 1 && !modelList.get(i).getMaterial26().isEmpty()) {
+                addTotalMaterialTakenSpecific(modelList.get(i).getMaterial26(),cmp,modelList.get(i).getConsumerName(),
+                        modelList.get(i).getTeamName(),modelList.get(i).getQuantity26(),modelList.get(i).getUnit26());
+            }
+
+            // 1
+
+        }
+
+
+    }
+
+    private void addTotalMaterialTaken27(String cmp) {
+
+        int a = 0;
+
+        for (int i = 0; i < modelList.size(); i++) {
+            for (int j = 0; j < modelList.size(); j++) {
+                if (modelList.get(i).getConsumerName().equals(modelList.get(j).getConsumerName()) &&
+                        modelList.get(i).getTeamName().equals(modelList.get(j).getTeamName()) &&
+                        !modelList.get(i).getDate().equals(modelList.get(j).getDate())){
+                    a = 0;
+                    if (modelList.get(i).getMaterial27().equals(modelList.get(j).getMaterial27())&&
+                            modelList.get(i).getUnit27().equals(modelList.get(j).getUnit27())
+                            && ! modelList.get(i).getMaterial27().isEmpty()){
+                        String q = addTwoString(modelList.get(i).getQuantity27(),modelList.get(j).getQuantity27());
+
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial27(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),q,modelList.get(i).getUnit27());
+
+                    } else if (! modelList.get(i).getMaterial27().isEmpty() && !modelList.get(j).getMaterial27().isEmpty()){
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial27(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),modelList.get(i).getQuantity27(),modelList.get(i).getUnit27());
+                    }
+
+                }
+                else {
+                    a = 1;
+                }
+            }
+
+            if (a == 1 && !modelList.get(i).getMaterial27().isEmpty()) {
+                addTotalMaterialTakenSpecific(modelList.get(i).getMaterial27(),cmp,modelList.get(i).getConsumerName(),
+                        modelList.get(i).getTeamName(),modelList.get(i).getQuantity27(),modelList.get(i).getUnit27());
+            }
+
+            // 1
+
+        }
+
+
+    }
+
+    private void addTotalMaterialTaken28(String cmp) {
+
+        int a = 0;
+
+        for (int i = 0; i < modelList.size(); i++) {
+            for (int j = 0; j < modelList.size(); j++) {
+                if (modelList.get(i).getConsumerName().equals(modelList.get(j).getConsumerName()) &&
+                        modelList.get(i).getTeamName().equals(modelList.get(j).getTeamName()) &&
+                        !modelList.get(i).getDate().equals(modelList.get(j).getDate())){
+                    a = 0;
+                    if (modelList.get(i).getMaterial28().equals(modelList.get(j).getMaterial28())&&
+                            modelList.get(i).getUnit28().equals(modelList.get(j).getUnit28())
+                            && ! modelList.get(i).getMaterial28().isEmpty()){
+                        String q = addTwoString(modelList.get(i).getQuantity28(),modelList.get(j).getQuantity28());
+
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial28(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),q,modelList.get(i).getUnit28());
+
+                    } else if (! modelList.get(i).getMaterial28().isEmpty() && !modelList.get(j).getMaterial28().isEmpty()){
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial28(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),modelList.get(i).getQuantity28(),modelList.get(i).getUnit28());
+                    }
+
+                }
+                else {
+                    a = 1;
+                }
+            }
+
+            if (a == 1 && !modelList.get(i).getMaterial28().isEmpty()) {
+                addTotalMaterialTakenSpecific(modelList.get(i).getMaterial28(),cmp,modelList.get(i).getConsumerName(),
+                        modelList.get(i).getTeamName(),modelList.get(i).getQuantity28(),modelList.get(i).getUnit28());
+            }
+
+            // 1
+
+        }
+
+
+    }
+
+    private void addTotalMaterialTaken29(String cmp) {
+
+        int a = 0;
+
+        for (int i = 0; i < modelList.size(); i++) {
+            for (int j = 0; j < modelList.size(); j++) {
+                if (modelList.get(i).getConsumerName().equals(modelList.get(j).getConsumerName()) &&
+                        modelList.get(i).getTeamName().equals(modelList.get(j).getTeamName()) &&
+                        !modelList.get(i).getDate().equals(modelList.get(j).getDate())){
+                    a = 0;
+                    if (modelList.get(i).getMaterial29().equals(modelList.get(j).getMaterial29())&&
+                            modelList.get(i).getUnit29().equals(modelList.get(j).getUnit29())
+                            && ! modelList.get(i).getMaterial29().isEmpty()){
+                        String q = addTwoString(modelList.get(i).getQuantity29(),modelList.get(j).getQuantity29());
+
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial29(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),q,modelList.get(i).getUnit29());
+
+                    } else if (! modelList.get(i).getMaterial29().isEmpty() && !modelList.get(j).getMaterial29().isEmpty()){
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial29(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),modelList.get(i).getQuantity29(),modelList.get(i).getUnit29());
+                    }
+
+                }
+                else {
+                    a = 1;
+                }
+            }
+
+            if (a == 1 && !modelList.get(i).getMaterial29().isEmpty()) {
+                addTotalMaterialTakenSpecific(modelList.get(i).getMaterial29(),cmp,modelList.get(i).getConsumerName(),
+                        modelList.get(i).getTeamName(),modelList.get(i).getQuantity29(),modelList.get(i).getUnit29());
+            }
+
+            // 1
+
+        }
+
+
+    }
+
+    private void addTotalMaterialTaken30(String cmp) {
+
+        int a = 0;
+
+        for (int i = 0; i < modelList.size(); i++) {
+            for (int j = 0; j < modelList.size(); j++) {
+                if (modelList.get(i).getConsumerName().equals(modelList.get(j).getConsumerName()) &&
+                        modelList.get(i).getTeamName().equals(modelList.get(j).getTeamName()) &&
+                        !modelList.get(i).getDate().equals(modelList.get(j).getDate())){
+                    a = 0;
+                    if (modelList.get(i).getMaterial30().equals(modelList.get(j).getMaterial30())&&
+                            modelList.get(i).getUnit30().equals(modelList.get(j).getUnit30())
+                            && ! modelList.get(i).getMaterial30().isEmpty()){
+                        String q = addTwoString(modelList.get(i).getQuantity30(),modelList.get(j).getQuantity30());
+
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial30(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),q,modelList.get(i).getUnit30());
+
+                    } else if (! modelList.get(i).getMaterial30().isEmpty() && !modelList.get(j).getMaterial30().isEmpty()){
+                        addTotalMaterialTakenSpecific(modelList.get(i).getMaterial30(),cmp,modelList.get(i).getConsumerName(),
+                                modelList.get(i).getTeamName(),modelList.get(i).getQuantity30(),modelList.get(i).getUnit30());
+                    }
+
+                }
+                else {
+                    a = 1;
+                }
+            }
+
+            if (a == 1 && !modelList.get(i).getMaterial30().isEmpty()) {
+                addTotalMaterialTakenSpecific(modelList.get(i).getMaterial30(),cmp,modelList.get(i).getConsumerName(),
+                        modelList.get(i).getTeamName(),modelList.get(i).getQuantity30(),modelList.get(i).getUnit30());
+            }
+
+            // 1
+
+        }
+
+
+    }
+
+
+    private String addTwoString(String a,String b){
+
+        float f1 = a.isEmpty() ? 0.0f : Float.parseFloat(a);
+        float f2 = b.isEmpty() ? 0.0f : Float.parseFloat(b);
+        return f1+f2==0.0f ? String.valueOf(0) : String.valueOf(f1+f2);
+    }
+
+
+    private  void addMaterialData(String cmp){
+        for (int i=0;i<modelList.size();i++){
+            addTotalMaterialTakenByUser(cmp,
+                    modelList.get(i).getDate(),
+                    modelList.get(i).getTeamName(),
+                    modelList.get(i).getLine(),
+                    modelList.get(i).getTender(),
+                    modelList.get(i).getDriverName(),
+                    modelList.get(i).getVehicalName(),
+                    modelList.get(i).getConsumerName(),
+                    modelList.get(i).getSite(),
+                    modelList.get(i).getMaterialReceiverName(),
+                    modelList.get(i).getCenter(),
+                    modelList.get(i).getVillage()
+            );
+        }
+    }
+
+
+    private void addTotalMaterialTakenByUser( String cmp, String uDate, String uTeamName, String uLine, String uTender, String uDriverName,
+                                              String uVehicalName, String uConsumerName, String uSite, String materialReceiver,
+                                              String centerS, String villageS) {
+        Map<String, Object> doc = new HashMap<>();
+        doc.put("Id",uConsumerName+" "+uTeamName);
+
+        doc.put("Date",uDate);
+        doc.put("Team Name",uTeamName);
+        doc.put("Line",uLine);
+        doc.put("Tender",uTender);
+        doc.put("Driver Name",uDriverName);
+        doc.put("Vehical Name",uVehicalName);
+        doc.put("Consumer Name",uConsumerName);
+        doc.put("Site Name",uSite);
+
+        doc.put("Material Receiver Name",materialReceiver);
+        doc.put("Center",centerS);
+        doc.put("Village",villageS);
+
+        pd1.show();
+
+        fStore.collection(cmp+" BalanceMaterial")
+                .document(uConsumerName+" "+uTeamName)
+                .set(doc).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        //this will be called when data is added Successfully
+                        Toast.makeText(getApplicationContext(), "Total Material Added", Toast.LENGTH_SHORT).show();
+                        pd1.dismiss();
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //this will be called when data is added Failed
+                        Toast.makeText(getApplicationContext(), "Failed to add data "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        pd1.dismiss();
+                    }
+                });
+
+
+    }
+
+    private void addTotalMaterialTakenSpecific(String material, String cmp, String consumerName, String teamName, String quantity,String unit) {
+        Map<String, Object> doc = new HashMap<>();
+        doc.put("Id",material);
+        doc.put("Material",material);
+        doc.put("Unit",unit);
+        doc.put("Quantity",quantity);
+
+        pd1.show();
+
+        fStore.collection(cmp+" BalanceMaterial")
+                .document(consumerName+" "+teamName)
+
+                .collection("MaterialDetails")
+                .document(material+" ")
+                .set(doc).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        //this will be called when data is added Successfully
+                        Toast.makeText(getApplicationContext(), "Total Material Added", Toast.LENGTH_SHORT).show();
+                        pd1.dismiss();
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //this will be called when data is added Failed
+                        Toast.makeText(getApplicationContext(), "Failed to add data "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        pd1.dismiss();
+                    }
+                });
+
+    }
+
+
 
     private void searchCenter(String cmp, String center) {
         pd.setTitle("Searching...");
         pd.show();
+
         fStore.collection(cmp+" RemainingMaterial").whereEqualTo("Center",center)
                 .orderBy("Date", Query.Direction.DESCENDING)
                 .get()
@@ -1082,7 +2661,9 @@ public class RemainingMaterial extends AppCompatActivity {
 
         pd.setTitle("Searching...");
         pd.show();
-        fStore.collection(cmp+" RemainingMaterial").orderBy("Date", Query.Direction.DESCENDING).startAt(date1).endAt(date)
+        fStore.collection(cmp+" RemainingMaterial")
+                .orderBy("Date", Query.Direction.DESCENDING)
+                .startAt(date1).endAt(date)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -1253,9 +2834,8 @@ public class RemainingMaterial extends AppCompatActivity {
                             }
                         });
 
+//                return false;
             }
-
-
 
         });
     }
@@ -1273,7 +2853,9 @@ public class RemainingMaterial extends AppCompatActivity {
                 companyEmail = value.getString("companyEmail");
                 String cmp = companyEmail;
 
-                fStore.collection(cmp+" RemainingMaterial").orderBy("Date", Query.Direction.DESCENDING).get()
+                fStore.collection(cmp+" RemainingMaterial")
+                        .limitToLast(384).orderBy("Date", Query.Direction.DESCENDING)
+                        .get()
                         .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                             @Override
                             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -1397,6 +2979,7 @@ public class RemainingMaterial extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
+//                return false;
             }
         });
 
@@ -1433,6 +3016,7 @@ public class RemainingMaterial extends AppCompatActivity {
                     }
                 });
 
+//                return false;
             }
         });
 

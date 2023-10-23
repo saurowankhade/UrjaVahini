@@ -95,7 +95,7 @@ public class ViewAllProfile extends AppCompatActivity  {
                 });
 
 
-
+//                return false;
             }
 
         });
@@ -151,9 +151,7 @@ public class ViewAllProfile extends AppCompatActivity  {
                 delete(cmp,position);
 
 
-
-
-
+//                return false;
             }
 
         });

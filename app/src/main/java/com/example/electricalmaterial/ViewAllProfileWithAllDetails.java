@@ -143,7 +143,7 @@ public class ViewAllProfileWithAllDetails extends AppCompatActivity {
                 });
 
 
-
+//                return false;
             }
 
         });

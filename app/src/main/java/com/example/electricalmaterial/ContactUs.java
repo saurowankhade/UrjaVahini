@@ -111,6 +111,7 @@ public class ContactUs extends AppCompatActivity {
                     }
                 });
 
+//                return false;
             }});
 
         Animation animation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.shakeanimation);

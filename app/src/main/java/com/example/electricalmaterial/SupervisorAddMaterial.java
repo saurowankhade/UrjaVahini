@@ -1431,6 +1431,7 @@ public class SupervisorAddMaterial extends AppCompatActivity {
                 });
 
 
+//                return false;
             }
         });
 
@@ -1594,6 +1595,7 @@ public class SupervisorAddMaterial extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Password does not Match!!", Toast.LENGTH_SHORT).show();
 
                 }
+//                return false;
             }
         });
 
@@ -1921,6 +1923,7 @@ public class SupervisorAddMaterial extends AppCompatActivity {
                 district.setText(value.getString("District"));
                 taluka.setText(value.getString("Taluka"));
                 center.setText(value.getString("Center"));
+//                return false;
             }
         });
     }

@@ -120,6 +120,7 @@ public class ProfileActivity extends AppCompatActivity {
                 uCEmail.setText(companyEmail);
 
 
+//                return false;
             }
         });
 

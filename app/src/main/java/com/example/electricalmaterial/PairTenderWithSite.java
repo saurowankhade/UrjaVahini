@@ -174,6 +174,7 @@ public class PairTenderWithSite extends AppCompatActivity {
                     }
                 });
 
+//                return false;
             }
         });
 

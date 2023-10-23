@@ -373,6 +373,7 @@ public class SupervisorViewMaterial extends AppCompatActivity {
                 });
 
 
+//                return false;
             }
 
 
@@ -1193,6 +1194,7 @@ public class SupervisorViewMaterial extends AppCompatActivity {
                         });
 
 
+//                return false;
             }
         });
 

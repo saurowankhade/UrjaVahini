@@ -514,8 +514,9 @@ public class ViewWorkDone extends AppCompatActivity {
 
                     }
                 });
-                
 
+
+                //return false;
             }
 
         });
@@ -1306,6 +1307,7 @@ public class ViewWorkDone extends AppCompatActivity {
                             }
                         });
 
+//                return false;
             }
         });
 

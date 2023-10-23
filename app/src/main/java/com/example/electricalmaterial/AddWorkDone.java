@@ -1363,7 +1363,7 @@ public class AddWorkDone extends AppCompatActivity {
                 },1500);
 
 
-
+               // return false;
             }
         });
         
@@ -1668,6 +1668,7 @@ public class AddWorkDone extends AppCompatActivity {
                 district.setText(value.getString("District"));
                 taluka.setText(value.getString("Taluka"));
                 center.setText(value.getString("Center"));
+               // return false;
             }
         });
     }

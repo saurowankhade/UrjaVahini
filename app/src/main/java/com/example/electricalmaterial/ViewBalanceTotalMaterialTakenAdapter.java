@@ -1,6 +1,7 @@
 package com.example.electricalmaterial;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +13,10 @@ import java.util.List;
 
 public class ViewBalanceTotalMaterialTakenAdapter extends RecyclerView.Adapter<ViewBalanceMaterialDataViewHolder> {
 
-    ViewBalanceData addStock;
+    Context addStock;
     List<AddTotalMaterialTakenModel> modelList;
 
-    public ViewBalanceTotalMaterialTakenAdapter(ViewBalanceData addStock, List<AddTotalMaterialTakenModel> modelList) {
+    public ViewBalanceTotalMaterialTakenAdapter(Context addStock, List<AddTotalMaterialTakenModel> modelList) {
         this.addStock = addStock;
         this.modelList = modelList;
     }

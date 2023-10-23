@@ -1,4 +1,4 @@
-package com.example.electricalmaterial;
+package com.example.electricalmaterial.material.updation;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -10,6 +10,12 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.electricalmaterial.ActualMaterialModel;
+import com.example.electricalmaterial.R;
+import com.example.electricalmaterial.RemainingMaterialViewHolder;
+import com.example.electricalmaterial.ViewActualMaterial;
+import com.example.electricalmaterial.ViewData;
 
 import java.util.List;
 
@@ -173,7 +179,7 @@ public class ActualCustomAdapter extends RecyclerView.Adapter<RemainingMaterialV
                 String village = modelList.get(position).getVillage();
 
 
-                Intent intent = new Intent(adminViewMaterial,ViewData.class);
+                Intent intent = new Intent(adminViewMaterial, ViewData.class);
                 intent.putExtra("Id",id);
                 intent.putExtra("Date",date);
                 intent.putExtra("TeamName",teamName);

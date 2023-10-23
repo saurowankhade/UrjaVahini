@@ -107,6 +107,7 @@ public class Supervisor extends AppCompatActivity {
 
                 updateNavHeader(uEmail,uName);
 
+//                return false;
             }
 
         });

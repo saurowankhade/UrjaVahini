@@ -173,6 +173,7 @@ public class ChangePin extends AppCompatActivity {
                 });
 
 
+//                return false;
             }
         });
 
@@ -216,6 +217,7 @@ public class ChangePin extends AppCompatActivity {
                     Toast.makeText(ChangePin.this, "Not Match!", Toast.LENGTH_SHORT).show();
                 }
 
+//                return false;
             }
 
         });

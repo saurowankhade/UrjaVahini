@@ -569,6 +569,7 @@ public class ViewSurvey extends AppCompatActivity {
                 }
 
 
+//                return false;
             }
 
         });
@@ -1010,6 +1011,7 @@ public class ViewSurvey extends AppCompatActivity {
 
 
                 }
+//                return false;
             }
         });
     }
