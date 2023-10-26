@@ -107,8 +107,6 @@ public class AddMaterial extends AppCompatActivity {
     // End Infromation
     private String upNote;
     private String upMaterialReceiverName;
-
-    private String forWhat;
     public static boolean isUpdate;
 
 
@@ -153,7 +151,6 @@ public class AddMaterial extends AppCompatActivity {
                 if (bundle != null) {
                     isUpdate = true;
                     id = bundle.getString("Id");
-                    forWhat= bundle.getString("forWhat");
                     upDate = bundle.getString("Date");
                     upTeamName = bundle.getString("TeamName");
                     upLine = bundle.getString("Line");
@@ -393,16 +390,12 @@ public class AddMaterial extends AppCompatActivity {
         this.sMaterialGiverName = materialGiverName;
         viewPager.setCurrentItem(4, true);
 
-        if (forWhat.contains("Return Material")){
-            addDataToFireBase("MainReturnData");
-        } else {
             addDataToFireBase("MainAddData");
             addDataToFireBaseForTotalMaterial();
 
             addTotalMaterial();
             addBalanceMaterial();
-        }
-        addMaterial();
+            addMaterial();
 
 
     }
@@ -485,19 +478,6 @@ public class AddMaterial extends AppCompatActivity {
 
     private void addMaterial() {
 
-        if (forWhat.contains("Return material")){
-            for (int i = 0; i < materialTakenModelArrayList.size(); i++) {
-                addMaterialList(
-                        materialTakenModelArrayList.get(i).getMaterial(),
-                        materialTakenModelArrayList.get(i).getUnit(),
-                        materialTakenModelArrayList.get(i).getQuantity(),
-                        "MainReturnData"
-                );
-                if (i == materialTakenModelArrayList.size() - 1) {
-                    Toast.makeText(getApplicationContext(), "Data Added ", Toast.LENGTH_SHORT).show();
-                }
-            }
-        } else {
             for (int i = 0; i < materialTakenModelArrayList.size(); i++) {
                 addMaterialList(
                         materialTakenModelArrayList.get(i).getMaterial(),
@@ -509,18 +489,15 @@ public class AddMaterial extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Data Added ", Toast.LENGTH_SHORT).show();
                 }
             }
-        }
+
 
     }
 
     private void addTotalMaterial() {
 
-        if (forWhat.contains("Return material")){
-
-        }
 
 
-        if (forWhat.contains("Update")) {
+        if (isUpdate) {
             // chanage
             // formula will be -> TMT -(newQuantity - PreQuantity )
             // TMT -> total material taken material list , newQuantity -> new added materialList, preQuantity -> pre quantity list which is present in addMainData
@@ -641,7 +618,7 @@ public class AddMaterial extends AppCompatActivity {
 
     private void addBalanceMaterial() {
         // update pre data
-        if (forWhat.contains("Update")) {
+        if (isUpdate) {
             // chanage
 
             // formula will be -> TMT -(newQuantity - PreQuantity )
