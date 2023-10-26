@@ -109,6 +109,7 @@ public class AddMaterial extends AppCompatActivity {
     private String upMaterialReceiverName;
 
     private String forWhat;
+    public static boolean isUpdate;
 
 
     @SuppressLint("SourceLockedOrientationActivity")
@@ -150,10 +151,9 @@ public class AddMaterial extends AppCompatActivity {
                 // when we want update
                 Bundle bundle = getIntent().getExtras();
                 if (bundle != null) {
-
+                    isUpdate = true;
                     id = bundle.getString("Id");
                     forWhat= bundle.getString("forWhat");
-                    id = bundle.getString("Id");
                     upDate = bundle.getString("Date");
                     upTeamName = bundle.getString("TeamName");
                     upLine = bundle.getString("Line");
